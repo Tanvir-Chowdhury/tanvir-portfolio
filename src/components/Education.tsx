@@ -7,25 +7,25 @@ const Education = () => {
     {
       degree: "BSc in Computer Science & Engineering",
       institution: "North South University",
-      duration: "2021 - Present",
+      duration: "August 2022 - Present",
       status: "Current",
-      gpa: "3.44",
-      description: "Focusing on software engineering, algorithms, data structures, and modern web technologies. Active in programming competitions and tech communities.",
+      gpa: "3.43",
+      description: "Focusing on software engineering, algorithms, data structures, AI/ML and modern web technologies. Active in programming competitions and tech communities.",
       icon: <GraduationCap className="w-6 h-6" />
     },
     {
       degree: "Higher Secondary School Certificate",
       institution: "Dhaka Residential Model College",
-      duration: "2018 - 2020",
+      duration: "2020 - 2021",
       status: "Completed",
       gpa: "5.00",
-      description: "Science Group with focus on Mathematics, Physics, and Chemistry. Participated in various science olympiads and competitions.",
+      description: "Science Group with focus on Mathematics, Physics and Chemistry. Participated in various science olympiads, competitions and Math club.",
       icon: <Award className="w-6 h-6" />
     },
     {
       degree: "Secondary School Certificate",
       institution: "Dhaka Residential Model College",
-      duration: "2016 - 2018",
+      duration: "2018 - 2019",
       status: "Completed",
       gpa: "5.00",
       description: "Science background with excellent performance in Mathematics and Science subjects. Active in extracurricular activities.",

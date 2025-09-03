@@ -5,83 +5,94 @@ import { Briefcase, Calendar, MapPin, TrendingUp } from 'lucide-react';
 const WorkExperience = () => {
   const workData = [
     {
-      position: "Founder & CEO",
-      company: "Ask for Branding",
-      location: "Dhaka, Bangladesh",
-      duration: "2022 - Present",
-      type: "Full-time",
-      description: "Founded and leading a branding agency that helps businesses grow through creative marketing strategies. Successfully managed 20+ client projects and achieved organic reach of 500K+ people.",
-      achievements: [
-        "Built agency from ground up",
-        "500K+ organic reach campaign",
-        "20+ satisfied clients"
-      ]
-    },
-    {
-      position: "Freelance Full Stack Developer",
-      company: "Various Clients",
-      location: "Remote",
-      duration: "2021 - Present",
-      type: "Freelance",
-      description: "Developing custom web applications using React.js, Node.js, and Python. Created 10+ WordPress websites and various full-stack solutions for diverse clients.",
-      achievements: [
-        "10+ WordPress websites",
-        "Custom web applications",
-        "99% client satisfaction"
-      ]
-    },
-    {
-      position: "Digital Marketing Specialist",
-      company: "Tech Startup",
-      location: "Dhaka, Bangladesh",
-      duration: "2021 - 2022",
-      type: "Part-time",
-      description: "Led digital marketing campaigns, social media management, and content creation. Increased brand awareness by 300% and generated qualified leads through strategic campaigns.",
-      achievements: [
-        "300% brand awareness increase",
-        "Qualified lead generation",
-        "Social media growth"
-      ]
-    },
-    {
-      position: "Web Development Intern",
-      company: "Software Company",
-      location: "Dhaka, Bangladesh",
-      duration: "2021 - 2021",
-      type: "Internship",
-      description: "Worked on front-end development projects using React.js and modern JavaScript. Gained hands-on experience in version control, agile development, and team collaboration.",
-      achievements: [
-        "React.js proficiency",
-        "Agile methodology",
-        "Team collaboration"
-      ]
-    },
-    {
-      position: "Programming Tutor",
-      company: "Private Tutoring",
-      location: "Dhaka, Bangladesh",
-      duration: "2020 - 2022",
-      type: "Part-time",
-      description: "Taught programming fundamentals including C, Python, and basic algorithms to university students. Helped 15+ students improve their coding skills and academic performance.",
-      achievements: [
-        "15+ students mentored",
-        "Improved academic performance",
-        "Programming fundamentals"
-      ]
-    },
-    {
-      position: "Content Creator",
-      company: "Tech Blog",
-      location: "Remote",
-      duration: "2020 - 2021",
-      type: "Freelance",
-      description: "Created technical content about programming, web development, and digital marketing. Published 50+ articles that received significant engagement from the tech community.",
-      achievements: [
-        "50+ published articles",
-        "High community engagement",
-        "Technical writing expertise"
-      ]
-    }
+  position: "Junior Executive, PR & Marketing",
+  company: "Phoenix Education",
+  location: "Dhaka, Bangladesh",
+  duration: "Dec 2024 - Present",
+  type: "Part-time",
+  description: "Redesigned the official website from scratch to make it more user-friendly. Created 150+ engaging Facebook posts and designed 50+ poster contents. Increased page followers by over 25% and boosted overall reach to millions.",
+  achievements: [
+    "Website redesigned for user-friendliness",
+    "150+ Facebook contents & 50+ posters",
+    "25%+ growth in followers",
+    "Millions in page reach"
+  ]
+},
+{
+  position: "Founder & CEO",
+  company: "Ask for Branding",
+  location: "Remote",
+  duration: "Sep 2024 - Present",
+  type: "Freelance",
+  description: "Founded and managing a freelance branding initiative. Worked with 20+ companies and clients, successfully completing diverse projects and achieving organic reach exceeding 500K+.",
+  achievements: [
+    "20+ client projects completed",
+    "500K+ organic reach",
+    "Freelance branding success"
+  ]
+},
+{
+  position: "Founder",
+  company: "Your Gadgets",
+  location: "Remote",
+  duration: "May 2023 - Feb 2024",
+  type: "Full-time",
+  description: "Founded and operated an e-commerce business applying self-taught digital marketing skills. Achieved a 3x return on investment through effective campaigns and strategies.",
+  achievements: [
+    "Self-taught digital marketing applied",
+    "3x ROI achieved"
+  ]
+},
+{
+  position: "Web Developer",
+  company: "Phoenix Admission Care",
+  location: "Remote",
+  duration: "Aug 2023 - Dec 2023",
+  type: "Part-time",
+  description: "Collaborated with the content writing and graphics teams to meet organizational goals. Developed a dynamic website using WordPress and custom CSS, ensuring a visually appealing and functional platform.",
+  achievements: [
+    "Dynamic website built with WordPress + CSS",
+    "Cross-team collaboration"
+  ]
+},
+{
+  position: "Typist",
+  company: "ROOTs Edu",
+  location: "Remote",
+  duration: "Mar 2022 - Apr 2022",
+  type: "Part-time",
+  description: "Converted slides into structured, formatted chapters for a book project. Accurately typed text, math equations, and figures to produce clean, professional chapters.",
+  achievements: [
+    "Slides converted to book chapters",
+    "Math equations & figures accurately typed"
+  ]
+},
+{
+  position: "Official Campus Ambassador Intern",
+  company: "International MUN",
+  location: "Remote",
+  duration: "Aug 2021 - Oct 2021",
+  type: "Part-time",
+  description: "Collaborated with the marketing team to influence peers and drive participation in IMUN. Actively promoted IMUN and participated in online conferences.",
+  achievements: [
+    "Promoted IMUN initiatives",
+    "Participated in online conferences"
+  ]
+},
+{
+  position: "WordPress Theme Customizer",
+  company: "Fiverr",
+  location: "Remote",
+  duration: "Apr 2019 - May 2024",
+  type: "Freelance",
+  description: "Customized and delivered WordPress themes for clients with excellence. Successfully completed 5 projects including 2 Telegram bot developments and 3 WordPress projects, all earning 5-star reviews.",
+  achievements: [
+    "5 successful projects delivered",
+    "2 Telegram bots & 3 WordPress projects",
+    "5-star client reviews"
+  ]
+}
+
   ];
 
   return (
