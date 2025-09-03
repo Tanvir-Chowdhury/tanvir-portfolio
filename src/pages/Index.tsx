@@ -1,12 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import Header from '@/components/Header';
+import LongBio from '@/components/LongBio';
+import Education from '@/components/Education';
+import WorkExperience from '@/components/WorkExperience';
+import Volunteering from '@/components/Volunteering';
+import Certificates from '@/components/Certificates';
+import Awards from '@/components/Awards';
+import Projects from '@/components/Projects';
+import Skills from '@/components/Skills';
+import Hobbies from '@/components/Hobbies';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <LongBio />
+      <Education />
+      <WorkExperience />
+      <Volunteering />
+      <Certificates />
+      <Awards />
+      <Projects />
+      <Skills />
+      <Hobbies />
+      <Contact />
+      <Footer />
     </div>
   );
 };
