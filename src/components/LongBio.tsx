@@ -3,24 +3,8 @@ import bioImage from '@/assets/tanvir-bio.jpg';
 
 const LongBio = () => {
   return (
-    <section className="py-20 px-4 bg-secondary/30">
+    <section id='about_me' className="py-20 px-4 bg-secondary/30">
       <div className="container max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Bio Image */}
-          <div className="order-2 lg:order-1">
-            <div className="relative">
-              <div className="relative w-full max-w-md mx-auto lg:mx-0">
-                <div className="absolute inset-0 bg-gradient-primary rounded-2xl blur-xl opacity-30"></div>
-                <Card className="relative overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm">
-                  <img
-                    src={bioImage}
-                    alt="Tanvir working"
-                    className="w-full h-80 object-cover"
-                  />
-                </Card>
-              </div>
-            </div>
-          </div>
 
           {/* Bio Content */}
           <div className="order-1 lg:order-2 space-y-6">
@@ -57,7 +41,7 @@ const LongBio = () => {
               </p>
             </div>
           </div>
-        </div>
+        
       </div>
     </section>
   );

@@ -142,7 +142,7 @@ const Certificates = () => {
   const categories = [...new Set(certificates.map(cert => cert.category))];
 
   return (
-    <section className="py-20 px-4 bg-secondary/30">
+    <section id='certificates' className="py-20 px-4 bg-secondary/30">
       <div className="container max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold">

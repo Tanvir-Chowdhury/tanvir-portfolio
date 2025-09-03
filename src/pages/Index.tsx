@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import Navbar from '@/components/Navbar';
 import LongBio from '@/components/LongBio';
 import Education from '@/components/Education';
 import WorkExperience from '@/components/WorkExperience';
@@ -13,7 +14,8 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-16">
+      <Navbar />
       <Header />
       <LongBio />
       <Education />
