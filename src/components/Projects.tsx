@@ -9,8 +9,8 @@ import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, S
 const Projects = () => {
   const projectCategories = {
     wordpress: {
-      title: "WordPress Websites",
-      icon: <Globe className="w-5 h-5" />,
+      title: "WordPress",
+      icon: <Globe className="w-4 h-4" />,
       projects: [
         {
           title: "E-commerce Fashion Store",
@@ -39,8 +39,8 @@ const Projects = () => {
       ]
     },
     fullstack: {
-      title: "Full Stack Development",
-      icon: <Code className="w-5 h-5" />,
+      title: "Full Stack",
+      icon: <Code className="w-4 h-4" />,
       projects: [
         {
           title: "Task Management App",
@@ -61,8 +61,8 @@ const Projects = () => {
       ]
     },
     marketing: {
-      title: "Digital Marketing",
-      icon: <BarChart3 className="w-5 h-5" />,
+      title: "Marketing",
+      icon: <BarChart3 className="w-4 h-4" />,
       projects: [
         {
           title: "500K Organic Reach Campaign",
@@ -84,7 +84,7 @@ const Projects = () => {
     },
     dataanalytics: {
       title: "Data Analytics",
-      icon: <Database className="w-5 h-5" />,
+      icon: <Database className="w-4 h-4" />,
       projects: [
         {
           title: "Sales Analytics Dashboard",
@@ -104,9 +104,9 @@ const Projects = () => {
         }
       ]
     },
-    programming: {
-      title: "Programming Projects",
-      icon: <Smartphone className="w-5 h-5" />,
+    mobile: {
+      title: "Mobile",
+      icon: <Smartphone className="w-4 h-4" />,
       projects: [
         {
           title: "AI Chatbot System",
@@ -121,6 +121,20 @@ const Projects = () => {
           description: "C-based enterprise solution",
           technologies: ["C", "SQLite", "GTK", "Data Structures"],
           details: "Developed a robust inventory management system using C programming with efficient data structures and algorithms. Features include real-time tracking, automated alerts, and reporting.",
+          demo: "#",
+          github: "#"
+        }
+      ]
+    },
+    design: {
+      title: "Design",
+      icon: <Palette className="w-4 h-4" />,
+      projects: [
+        {
+          title: "UI/UX Design Portfolio",
+          description: "Modern interface designs for various clients",
+          technologies: ["Figma", "Adobe XD", "Sketch", "Prototyping"],
+          details: "Created comprehensive UI/UX designs for mobile and web applications. Focused on user experience, accessibility, and modern design principles with interactive prototypes.",
           demo: "#",
           github: "#"
         }
@@ -142,15 +156,15 @@ const Projects = () => {
         </div>
 
         <Tabs defaultValue="wordpress" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8 bg-card/30 backdrop-blur-sm border border-border/30 p-2 rounded-xl">
+          <TabsList className="flex flex-wrap justify-center gap-2 mb-12 bg-transparent p-0">
             {Object.entries(projectCategories).map(([key, category]) => (
               <TabsTrigger 
                 key={key} 
                 value={key} 
-                className="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-300 data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 hover:bg-muted/50"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-card/30 backdrop-blur-sm border border-border/30 data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 hover:bg-muted/50 hover:scale-105"
               >
                 {category.icon}
-                <span className="hidden sm:inline font-medium">{category.title}</span>
+                <span className="hidden sm:inline">{category.title}</span>
               </TabsTrigger>
             ))}
           </TabsList>
