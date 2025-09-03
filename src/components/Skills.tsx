@@ -127,7 +127,7 @@ const Skills = () => {
           {skillCategories.map((category, categoryIndex) => (
             <Card 
               key={categoryIndex} 
-              className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group ice-crystal"
+              className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-300 group hover:scale-105"
               style={{ animationDelay: `${categoryIndex * 0.1}s` }}
             >
               <div className="space-y-6">
@@ -154,7 +154,7 @@ const Skills = () => {
                       
                       <div className="w-full bg-muted/30 rounded-full h-2">
                         <div 
-                          className="h-2 rounded-full bg-gradient-primary transition-all duration-1000 group-hover:animate-pulse"
+                          className="h-2 rounded-full bg-gradient-primary transition-all duration-700 hover:shadow-lg hover:shadow-primary/30"
                           style={{ 
                             width: `${skill.level}%`,
                             animationDelay: `${skillIndex * 0.1}s`

@@ -25,8 +25,9 @@ const Header = () => {
     <header className="min-h-screen flex items-center justify-center px-4 py-20 bg-gradient-hero relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl float" style={{ animationDelay: '0s' }}></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-primary-glow/5 rounded-full blur-3xl float" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
@@ -36,28 +37,35 @@ const Header = () => {
             <div className="relative transform-3d">
               <div className="relative w-80 h-80 lg:w-96 lg:h-96">
                 {/* Animated background rings */}
-                <div className="absolute inset-0 rounded-full bg-gradient-primary p-1 float">
+                <div className="absolute inset-0 rounded-full bg-gradient-primary p-1 float hover:scale-110 transition-transform duration-500">
                   <div className="w-full h-full rounded-full bg-background/20 backdrop-blur-sm"></div>
                 </div>
                 
                 {/* Main profile image */}
-                <div className="absolute inset-4 rounded-full overflow-hidden glow-primary">
+                <div className="absolute inset-4 rounded-full overflow-hidden glow-primary hover:glow-accent transition-all duration-500 group">
                   <img
                     src={profileImage}
                     alt="Tanvir Chowdhury"
-                    className={`w-full h-full object-cover transition-all duration-1000 ${
+                    className={`w-full h-full object-cover transition-all duration-1000 float hover:scale-110 hover:rotate-3 ${
                       imageLoaded ? 'scale-100 opacity-100' : 'scale-110 opacity-0'
                     }`}
                     onLoad={() => setImageLoaded(true)}
+                    style={{ animationDelay: '1s' }}
                   />
                 </div>
 
                 {/* Floating elements */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float">
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float hover:scale-125 hover:bg-primary/40 transition-all duration-300 cursor-pointer">
                   <Github className="w-8 h-8 text-primary" />
                 </div>
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float" style={{ animationDelay: '1s' }}>
+                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 hover:bg-accent/40 transition-all duration-300 cursor-pointer" style={{ animationDelay: '1s' }}>
                   <Mail className="w-8 h-8 text-accent" />
+                </div>
+                <div className="absolute top-1/2 -left-8 w-12 h-12 bg-primary-glow/20 rounded-full backdrop-blur-sm border border-primary-glow/30 flex items-center justify-center float hover:scale-125 transition-all duration-300 cursor-pointer" style={{ animationDelay: '2s' }}>
+                  <div className="w-3 h-3 bg-primary-glow rounded-full"></div>
+                </div>
+                <div className="absolute top-1/4 -right-8 w-10 h-10 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 transition-all duration-300 cursor-pointer" style={{ animationDelay: '3s' }}>
+                  <div className="w-2 h-2 bg-accent rounded-full"></div>
                 </div>
               </div>
             </div>

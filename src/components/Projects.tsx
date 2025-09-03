@@ -142,53 +142,67 @@ const Projects = () => {
         </div>
 
         <Tabs defaultValue="wordpress" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8 bg-card/50">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 mb-8 bg-card/30 backdrop-blur-sm border border-border/30 p-2 rounded-xl">
             {Object.entries(projectCategories).map(([key, category]) => (
               <TabsTrigger 
                 key={key} 
                 value={key} 
-                className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-300 data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 hover:bg-muted/50"
               >
                 {category.icon}
-                <span className="hidden sm:inline">{category.title}</span>
+                <span className="hidden sm:inline font-medium">{category.title}</span>
               </TabsTrigger>
             ))}
           </TabsList>
 
           {Object.entries(projectCategories).map(([key, category]) => (
             <TabsContent key={key} value={key}>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {category.projects.map((project, index) => (
                   <Card 
                     key={index} 
-                    className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group hover:scale-105"
+                    className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-card/40 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2"
                   >
-                    <div className="space-y-4">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div className="relative p-6 space-y-6">
                       <div className="space-y-3">
-                        <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {project.title}
-                        </h3>
-                        <p className="text-muted-foreground">
+                        <div className="flex items-start justify-between">
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-gradient transition-all duration-300">
+                            {project.title}
+                          </h3>
+                          <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        </div>
+                        <p className="text-muted-foreground leading-relaxed">
                           {project.description}
                         </p>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, techIndex) => (
+                        {project.technologies.slice(0, 3).map((tech, techIndex) => (
                           <Badge 
                             key={techIndex} 
                             variant="secondary" 
-                            className="text-xs bg-muted/30"
+                            className="text-xs bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
                           >
                             {tech}
                           </Badge>
                         ))}
+                        {project.technologies.length > 3 && (
+                          <Badge variant="outline" className="text-xs">
+                            +{project.technologies.length - 3} more
+                          </Badge>
+                        )}
                       </div>
 
                       <div className="flex gap-3 pt-2">
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button variant="outline" size="sm" className="flex-1">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="flex-1 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
+                            >
                               <Eye className="w-4 h-4 mr-2" />
                               View Details
                             </Button>
