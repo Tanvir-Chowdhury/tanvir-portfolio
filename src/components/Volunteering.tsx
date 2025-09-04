@@ -5,41 +5,42 @@ import { Heart, Users, Globe, Award } from 'lucide-react';
 const Volunteering = () => {
   const volunteeringData = [
     {
-      role: "Tech Mentor",
-      organization: "Local Programming Community",
-      duration: "2022 - Present",
-      description: "Mentoring aspiring programmers and helping them build their first projects. Conducted workshops on web development and competitive programming.",
-      icon: <Users className="w-6 h-6" />,
-      color: "bg-blue-500/10 text-blue-500",
-      impact: "Mentored 25+ students"
-    },
-    {
-      role: "Content Contributor",
-      organization: "Open Source Projects",
-      duration: "2021 - Present",
-      description: "Contributing to open-source projects and creating educational content for the developer community. Focus on React.js and JavaScript libraries.",
-      icon: <Globe className="w-6 h-6" />,
-      color: "bg-green-500/10 text-green-500",
-      impact: "5+ project contributions"
-    },
-    {
-      role: "Workshop Facilitator",
-      organization: "University Tech Club",
-      duration: "2021 - 2023",
-      description: "Organized and facilitated workshops on digital marketing, branding strategies, and web development for university students.",
-      icon: <Award className="w-6 h-6" />,
-      color: "bg-purple-500/10 text-purple-500",
-      impact: "200+ students reached"
-    },
-    {
-      role: "Community Organizer",
-      organization: "Local Tech Meetups",
-      duration: "2020 - 2022",
-      description: "Helped organize tech meetups and networking events for developers and entrepreneurs in Dhaka. Built connections within the tech community.",
-      icon: <Heart className="w-6 h-6" />,
-      color: "bg-red-500/10 text-red-500",
-      impact: "10+ events organized"
-    }
+  role: "Team Lead",
+  organization: "Graphics Team, IEEE WIE",
+  duration: "Feb 2024 - Present",
+  description: "Leading the graphics design team by creating 100+ professional designs including posters, banners, and certificates. Coordinated with event organizers to successfully support 20+ events while mentoring and managing 6 volunteers.",
+  icon: <Users className="w-6 h-6" />,
+  color: "bg-purple-500/10 text-purple-500",
+  impact: "100+ designs created, 20+ events supported, leading 6 volunteers"
+},
+{
+  role: "Co-ordinator",
+  organization: "Tesla Lab",
+  duration: "May 2020",
+  description: "Successfully coordinated and managed a large-scale online national event, ensuring smooth execution and engagement from participants across the country.",
+  icon: <Users className="w-6 h-6" />,
+  color: "bg-green-500/10 text-green-500",
+  impact: "Managed and executed a national-level online event"
+},
+{
+  role: "Assistant IT Manager",
+  organization: "Ongko.org",
+  duration: "Jan 2020 - Jan 2021",
+  description: "Managed a graphics design team of 10+ members and supervised a messenger group of 100+ participants. Actively contributed to the IT team’s goals by helping volunteers and members solve technical issues and supporting the development of the organization’s website.",
+  icon: <Users className="w-6 h-6" />,
+  color: "bg-orange-500/10 text-orange-500",
+  impact: "10+ designers managed, 100+ members supported, contributed to IT team & website"
+},
+{
+  role: "Graphics Designing Executive",
+  organization: "DRMC Math Club",
+  duration: "Mar 2019 - Dec 2021",
+  description: "Led a graphics team of 8 designers to create 100+ posters, banners, ID cards, and certificates for various events. Collaborated with 60+ volunteers to launch 20+ successful online and offline sessions, including Olympiads and workshops.",
+  icon: <Users className="w-6 h-6" />,
+  color: "bg-blue-500/10 text-blue-500",
+  impact: "100+ designs delivered, 60+ volunteers managed, 20+ sessions and Olympiads launched"
+}
+
   ];
 
   return (
@@ -84,9 +85,6 @@ const Volunteering = () => {
                   <Badge variant="outline" className="border-primary/20 bg-primary/5">
                     {volunteer.impact}
                   </Badge>
-                  <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                    Volunteer
-                  </div>
                 </div>
               </div>
             </Card>
