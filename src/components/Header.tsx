@@ -136,7 +136,7 @@ const Header = () => {
             {/* Programming Profiles */}
             <div className="space-y-3 slide-up" style={{ animationDelay: '0.8s' }}>
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Programming Profiles
+                Competitive Coding Profiles
               </h3>
               <div className="flex flex-wrap gap-3">
                 {programmingProfiles.map((profile, index) => (

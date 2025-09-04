@@ -5,7 +5,7 @@ const Hobbies = () => {
   const hobbies = [
     {
       title: "Reading",
-      description: "Love reading books on business, technology, and personal development. Currently exploring 'Building a Story Brand' by Donald Miller.",
+      description: "Love reading books on business, technology and personal development. Currently exploring 'Building a Story Brand' by Donald Miller.",
       icon: <BookOpen className="w-6 h-6" />,
       color: "bg-blue-500/10 text-blue-500"
     },

@@ -7,29 +7,29 @@ const Contact = () => {
     {
       icon: <Mail className="w-6 h-6" />,
       label: "Email",
-      value: "tanvir@askforbranding.com",
-      href: "mailto:tanvir@askforbranding.com",
+      value: "tanvir.chowdhury.us@gmail.com",
+      href: "mailto:tanvir.chowdhury.us@gmail.com",
       color: "bg-red-500/10 text-red-500"
     },
     {
       icon: <Phone className="w-6 h-6" />,
       label: "Phone",
-      value: "+880 123 456 789",
-      href: "tel:+880123456789",
+      value: "+8801644916069",
+      href: "tel:+8801644916069",
       color: "bg-green-500/10 text-green-500"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       label: "Location",
-      value: "Dhaka, Bangladesh",
+      value: "Bashundhara R/A, Dhaka, Bangladesh",
       href: "#",
       color: "bg-blue-500/10 text-blue-500"
     },
     {
       icon: <Linkedin className="w-6 h-6" />,
       label: "LinkedIn",
-      value: "linkedin.com/in/tanvir-chowdhury",
-      href: "https://linkedin.com/in/tanvir-chowdhury",
+      value: "linkedin.com/in/tanvir11744",
+      href: "https://www.linkedin.com/in/tanvir11744/",
       color: "bg-blue-600/10 text-blue-600"
     }
   ];
@@ -38,32 +38,32 @@ const Contact = () => {
     {
       icon: <Facebook className="w-5 h-5" />,
       label: "Facebook",
-      href: "#",
-      color: "hover:text-blue-500"
+      href: "https://www.facebook.com/tanvir.11744",
+      color: "hover:text-white"
     },
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-      href: "#",
-      color: "hover:text-blue-400"
+      href: "https://www.linkedin.com/in/tanvir11744/",
+      color: "hover:text-white"
     },
     {
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
-      href: "#",
-      color: "hover:text-gray-300"
+      href: "https://github.com/Tanvir-Chowdhury",
+      color: "hover:text-white"
     },
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      href: "mailto:tanvir@askforbranding.com",
-      color: "hover:text-red-400"
+      href: "mailto:tanvir.chowdhury.us@gmail.com",
+      color: "hover:text-white"
     },
     {
       icon: <MessageCircle className="w-5 h-5" />,
-      label: "Discord",
-      href: "#",
-      color: "hover:text-indigo-400"
+      label: "WhatsApp",
+      href: "https://wa.me/+8801644916069",
+      color: "hover:text-white"
     }
   ];
 
@@ -118,7 +118,7 @@ const Contact = () => {
                   Ready to Start a Project?
                 </h4>
                 <p className="text-muted-foreground leading-relaxed">
-                  Whether you need web development, digital marketing, or branding solutions, 
+                  Whether you need web development, digital marketing or branding solutions, 
                   I'm here to help turn your vision into reality. Let's discuss your project 
                   and explore how we can achieve your goals together.
                 </p>

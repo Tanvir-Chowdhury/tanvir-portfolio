@@ -52,7 +52,7 @@ const Volunteering = () => {
           </h2>
           <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Giving back to the community through mentorship, education, and tech initiatives
+            Giving back to the community through mentorship, education and tech initiatives
           </p>
         </div>
 
