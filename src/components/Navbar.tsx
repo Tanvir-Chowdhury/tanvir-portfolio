@@ -9,8 +9,17 @@ import { Menu, X } from 'lucide-react';
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setOpen(false);
+  };
+
   return (
-    <nav className="fixed top-0 left-20 right-20 z-50 backdrop-blur-md bg-card/60 border-b border-border/50">
+    <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-card/60 border-b border-border/50">
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <a href="#" className="flex items-center gap-2">
@@ -20,14 +29,14 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-            <a href="#about_me" className="text-sm hover:underline">About Me</a>
-            <a href="#education" className="text-sm hover:underline">Education</a>
-            <a href="#experience" className="text-sm hover:underline">Experiences</a>
-            <a href="#certificates" className="text-sm hover:underline">Certificates</a>
-            <a href="#awards" className="text-sm hover:underline">Awards</a>
-          <a href="#projects" className="text-sm hover:underline">Projects</a>
-          <a href="#skills" className="text-sm hover:underline">Skills</a>
-          <a href="#contact" className="text-sm hover:underline">Contact</a>
+          <a href="#about_me" onClick={(e) => handleScroll(e, 'about_me')} className="text-sm hover:underline">About Me</a>
+          <a href="#education" onClick={(e) => handleScroll(e, 'education')} className="text-sm hover:underline">Education</a>
+          <a href="#experience" onClick={(e) => handleScroll(e, 'experience')} className="text-sm hover:underline">Experiences</a>
+          <a href="#certificates" onClick={(e) => handleScroll(e, 'certificates')} className="text-sm hover:underline">Certificates</a>
+          <a href="#awards" onClick={(e) => handleScroll(e, 'awards')} className="text-sm hover:underline">Awards</a>
+          <a href="#projects" onClick={(e) => handleScroll(e, 'projects')} className="text-sm hover:underline">Projects</a>
+          <a href="#skills" onClick={(e) => handleScroll(e, 'skills')} className="text-sm hover:underline">Skills</a>
+          <a href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="text-sm hover:underline">Contact</a>
           <a href="mailto:tanvir.chowdhury.us@gmail.com"><Button size="sm" className="ml-2 bg-gradient-to-br from-primary to-accent hover:bg-gradient-to-tl">Hire me</Button></a>
         </div>
 
@@ -42,10 +51,12 @@ const Navbar = () => {
       {open && (
         <div className="md:hidden border-t border-border/40 bg-card/70 backdrop-blur-md">
           <div className="container mx-auto px-4 py-3 flex flex-col gap-3">
-            <a href="#projects" className="text-sm">Projects</a>
-            <a href="#skills" className="text-sm">Skills</a>
-            <a href="#contact" className="text-sm">Contact</a>
-            <Button size="sm">Hire me</Button>
+            <a href="#projects" onClick={(e) => handleScroll(e, 'projects')} className="text-sm">Projects</a>
+            <a href="#skills" onClick={(e) => handleScroll(e, 'skills')} className="text-sm">Skills</a>
+            <a href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="text-sm">Contact</a>
+            <Button size="sm" asChild>
+              <a href="mailto:tanvir.chowdhury.us@gmail.com">Hire me</a>
+            </Button>
           </div>
         </div>
       )}
