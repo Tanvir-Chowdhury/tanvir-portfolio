@@ -6,28 +6,31 @@
 
 @layer base {
   :root {
-    /* Dark theme colors */
-    --background: 220 26% 6%;
-    --foreground: 210 40% 98%;
+  /* Dark theme colors */
+  /* Background remains dark but slightly lighter for better contrast with cards */
+  --background: 220 26% 4%;
+  --foreground: 210 40% 98%;
     
     /* Accent colors for portfolio */
     --primary: 268 83% 58%;
     --primary-foreground: 210 40% 98%;
     --primary-glow: 270 100% 70%;
     
-    --secondary: 220 26% 12%;
+  --secondary: 220 26% 14%;
     --secondary-foreground: 210 40% 98%;
     
     --accent: 196 75% 52%;
     --accent-foreground: 210 40% 98%;
     
-    --muted: 220 26% 10%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --card: 220 26% 8%;
-    --card-foreground: 210 40% 98%;
-    
-    --border: 220 26% 14%;
+  --muted: 220 26% 16%;
+  --muted-foreground: 215 18% 74%;
+
+  /* Make cards slightly lighter than background so they stand out */
+  --card: 220 26% 16%;
+  --card-foreground: 210 40% 98%;
+
+  /* Softer border for better contrast without being too stark */
+  --border: 220 26% 20%;
     --input: 220 26% 14%;
     --ring: 268 83% 58%;
     
