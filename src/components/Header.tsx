@@ -26,8 +26,9 @@ const Header = () => {
     <header className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-hero relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        {/* Decorative glows - hidden on very small screens to avoid overflow */}
+        <div className="absolute top-1/4 left-1/4 hidden sm:block w-64 sm:w-72 md:w-96 h-64 sm:h-72 md:h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 hidden sm:block w-64 sm:w-72 md:w-96 h-64 sm:h-72 md:h-96 bg-accent/10 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
@@ -54,15 +55,16 @@ const Header = () => {
                 </div>
 
                 {/* Floating elements */}
-                <a href="https://github.com/Tanvir-Chowdhury">
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float hover:scale-125 hover:bg-primary/40 transition-all duration-700 cursor-pointer">
-                  <Github className="w-8 h-8 text-primary" />
-                </div>
+                {/* Floating action icons - hide on small screens to avoid off-screen overflow */}
+                <a href="https://github.com/Tanvir-Chowdhury" className="hidden sm:block">
+                  <div className="absolute lg:-top-4 lg:-right-4 -top-2 -right-2 w-12 h-12 sm:w-16 sm:h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float hover:scale-125 hover:bg-primary/40 transition-all duration-700 cursor-pointer">
+                    <Github className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                  </div>
                 </a>
-                <a href="mailto:tanvir.chowdhury.us@gmail.com">
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 hover:bg-accent/40 transition-all duration-700 cursor-pointer" style={{ animationDelay: '1s' }}>
-                  <Mail className="w-8 h-8 text-accent" />
-                </div>
+                <a href="mailto:tanvir.chowdhury.us@gmail.com" className="hidden sm:block">
+                  <div className="absolute lg:-bottom-4 lg:-left-4 -bottom-2 -left-2 w-12 h-12 sm:w-16 sm:h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 hover:bg-accent/40 transition-all duration-700 cursor-pointer" style={{ animationDelay: '1s' }}>
+                    <Mail className="w-7 h-7 sm:w-8 sm:h-8 text-accent" />
+                  </div>
                 </a>
               </div>
             </div>
