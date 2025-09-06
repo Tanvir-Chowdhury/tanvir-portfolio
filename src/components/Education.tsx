@@ -122,7 +122,7 @@ const Education = () => {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => toggleExpanded(index)}
-                                className="p-0 h-auto font-medium text-primary hover:text-primary/80"
+                                className="p-0 h-auto font-medium text-primary hover:text-primary/80 focus:ring-0 focus:outline-none active:scale-95"
                               >
                                 {isExpanded ? (
                                   <>

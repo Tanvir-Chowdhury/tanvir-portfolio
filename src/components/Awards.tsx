@@ -143,11 +143,11 @@ const MobileAwardItem = ({ award }: { award: AwardItem }) => {
           <h3 className="text-lg sm:text-xl font-bold text-foreground">
             {award.title}
           </h3>
-          <div className="flex items-center gap-2">
-            <Badge variant="default" className="bg-gradient-primary text-sm px-3 py-1">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Badge variant="default" className="bg-gradient-primary text-xs sm:text-sm px-2 py-1 whitespace-nowrap">
               {award.rank}
             </Badge>
-            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-sm">
+            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-xs sm:text-sm whitespace-nowrap">
               {award.year}
             </Badge>
           </div>
