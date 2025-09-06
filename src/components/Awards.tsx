@@ -90,7 +90,7 @@ const Awards = () => {
                         </DialogTrigger>
 
                         <DialogContent className="max-w-3xl w-[90vw]">
-                          <DialogTitle className="mb-2">{award.title} â€” {award.organization}</DialogTitle>
+                          <DialogTitle className="mb-2">{award.title} - {award.organization}</DialogTitle>
                           <div className="w-full flex justify-center">
                             {/* Responsive image preview */}
                             <img src={String(award.link)} alt={`${award.title} certificate`} loading="lazy" className="max-h-[70vh] w-auto max-w-full object-contain rounded" onError={(e)=>{ (e.target as HTMLImageElement).style.display = 'none' }} />
