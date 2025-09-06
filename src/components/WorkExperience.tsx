@@ -206,7 +206,7 @@ const WorkExperience = () => {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => toggleExpanded(index)}
-                                className="p-0 h-auto font-medium text-accent hover:text-accent/80 focus:ring-0 focus:outline-none active:scale-95"
+                                className="p-0 h-auto font-medium text-accent hover:text-accent/80 hover:bg-transparent focus:bg-transparent active:bg-transparent focus:ring-0 focus:outline-none active:scale-95"
                               >
                                 {isExpanded ? (
                                   <>
