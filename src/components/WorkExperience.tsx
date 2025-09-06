@@ -134,8 +134,8 @@ const WorkExperience = () => {
                               {work.position}
                             </h3>
                             <Badge 
-                              variant={work.type === 'Full-time' ? 'default' : 'secondary'}
-                              className={work.type === 'Full-time' ? 'bg-gradient-primary' : ''}
+                              variant={'default'}
+                              className={'bg-gradient-primary'}
                             >
                               {work.type}
                             </Badge>

@@ -9,7 +9,7 @@ const Education = () => {
       institution: "North South University",
       duration: "August 2022 - Present",
       status: "Current",
-      gpa: "3.43",
+      gpa: "3.40",
       description: "Focusing on software engineering, algorithms, data structures, AI/ML and modern web technologies. Active in programming competitions and tech communities.",
       icon: <GraduationCap className="w-6 h-6" />
     },
@@ -71,8 +71,8 @@ const Education = () => {
                             {edu.degree}
                           </h3>
                           <Badge 
-                            variant={edu.status === 'Current' ? 'default' : 'secondary'}
-                            className={edu.status === 'Current' ? 'bg-gradient-primary' : ''}
+                            variant={'default'}
+                            className={'bg-gradient-primary'}
                           >
                             {edu.status}
                           </Badge>

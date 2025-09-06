@@ -58,12 +58,12 @@ const Header = () => {
                 {/* Floating action icons - hide on small screens to avoid off-screen overflow */}
                 <a href="https://github.com/Tanvir-Chowdhury" className="hidden sm:block">
                   <div className="absolute lg:-top-4 lg:-right-4 -top-2 -right-2 w-10 h-10 lg:w-16 lg:h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float hover:scale-125 hover:bg-primary/40 transition-all duration-700 cursor-pointer">
-                    <Github className="w-7 h-7 sm:w-4 sm:h-4 text-primary" />
+                    <Github className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                   </div>
                 </a>
                 <a href="mailto:tanvir.chowdhury.us@gmail.com" className="hidden sm:block">
                   <div className="absolute lg:-bottom-4 lg:-left-4 -bottom-2 -left-2 w-10 h-10 lg:w-16 lg:h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 hover:bg-accent/40 transition-all duration-700 cursor-pointer" style={{ animationDelay: '1s' }}>
-                    <Mail className="w-7 h-7 sm:w-4 sm:h-4 text-accent" />
+                    <Mail className="w-7 h-7 sm:w-8 sm:h-8 text-accent" />
                   </div>
                 </a>
               </div>

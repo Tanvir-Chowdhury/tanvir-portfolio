@@ -143,7 +143,7 @@ const Projects = () => {
   };
 
   return (
-    <section id='projects' className="py-20 px-4 bg-secondary/30">
+    <section id='projects' className="pt-20 px-4 bg-secondary/30">
       <div className="container max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold">
@@ -171,51 +171,56 @@ const Projects = () => {
 
           {Object.entries(projectCategories).map(([key, category]) => (
             <TabsContent key={key} value={key}>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
                 {category.projects.map((project, index) => (
+                  <div className="h-full">
                   <Card 
                     key={index} 
-                    className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-card/40 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2"
+                    className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-card/40 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 flex flex-col h-full"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
-                    <div className="relative p-6 space-y-6">
-                      <div className="space-y-3">
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-xl font-bold text-foreground group-hover:text-gradient transition-all duration-300">
-                            {project.title}
-                          </h3>
-                          <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative p-6 flex flex-col h-full">
+                      {/* Main content: title, description, badges */}
+                      <div className="flex-1 space-y-6">
+                        <div className="space-y-3">
+                          <div className="flex items-start justify-between">
+                            <h3 className="text-xl font-bold text-foreground group-hover:text-gradient transition-all duration-300">
+                              {project.title}
+                            </h3>
+                            <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          </div>
+                          <p className="text-muted-foreground leading-relaxed">
+                            {project.description}
+                          </p>
                         </div>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {project.description}
-                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                            <Badge 
+                              key={techIndex} 
+                              variant="secondary" 
+                              className="text-xs bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+                            >
+                              {tech}
+                            </Badge>
+                          ))}
+                          {project.technologies.length > 3 && (
+                            <Badge variant="outline" className="text-xs">
+                              +{project.technologies.length - 3} more
+                            </Badge>
+                          )}
+                        </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                          <Badge 
-                            key={techIndex} 
-                            variant="secondary" 
-                            className="text-xs bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{project.technologies.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-
-                      <div className="flex gap-3 pt-2">
+                      {/* Footer: actions */}
+                      <div className="mt-4">
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="flex-1 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
+                              className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
                             >
                               <Eye className="w-4 h-4 mr-2" />
                               View Details
@@ -229,7 +234,7 @@ const Projects = () => {
                               <p className="text-muted-foreground leading-relaxed">
                                 {project.details}
                               </p>
-                              
+
                               <div className="space-y-3">
                                 <h4 className="font-semibold">Technologies Used:</h4>
                                 <div className="flex flex-wrap gap-2">
@@ -244,20 +249,35 @@ const Projects = () => {
                                   ))}
                                 </div>
                               </div>
-                              
+
                               <div className="flex gap-3">
-                                <Button asChild className="bg-gradient-primary">
-                                  <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                                {project.demo && project.demo !== '#' ? (
+                                  <Button asChild className="bg-gradient-primary">
+                                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                                      <ExternalLink className="w-4 h-4 mr-2" />
+                                      Live Demo
+                                    </a>
+                                  </Button>
+                                ) : (
+                                  <Button disabled size="sm" className="bg-muted/30 text-muted-foreground">
                                     <ExternalLink className="w-4 h-4 mr-2" />
                                     Live Demo
-                                  </a>
-                                </Button>
-                                <Button variant="outline" asChild>
-                                  <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                  </Button>
+                                )}
+
+                                {project.github && project.github !== '#' ? (
+                                  <Button variant="outline" asChild>
+                                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                      <Github className="w-4 h-4 mr-2" />
+                                      Source Code
+                                    </a>
+                                  </Button>
+                                ) : (
+                                  <Button disabled variant="outline" className="text-muted-foreground border-muted/30">
                                     <Github className="w-4 h-4 mr-2" />
                                     Source Code
-                                  </a>
-                                </Button>
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </DialogContent>
@@ -265,6 +285,7 @@ const Projects = () => {
                       </div>
                     </div>
                   </Card>
+                  </div>
                 ))}
               </div>
             </TabsContent>
