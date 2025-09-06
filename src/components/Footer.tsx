@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+﻿import { Button } from '@/components/ui/button';
 import { Heart, ArrowUp, Mail, Github, Linkedin, Facebook, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
@@ -73,9 +73,9 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-foreground">Contact</h4>
             <div className="space-y-2 text-muted-foreground">
-              <p>📧 tanvir.chowdhury.us@gmail.com</p>
-              <p>📱 +8801644916069</p>
-              <p>📍 Bashundhara R/A, Dhaka, Bangladesh</p>
+              <p>ðŸ“§ tanvir.chowdhury.us@gmail.com</p>
+              <p>ðŸ“± +8801644916069</p>
+              <p>ðŸ“ Bashundhara R/A, Dhaka, Bangladesh</p>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ const Footer = () => {
         <div className="border-t border-border/50 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
-              <span>© {currentYear} Md. Tanvir Chowdhury. Made with</span>
+              <span>Â© {currentYear} Md. Tanvir Chowdhury. Made with</span>
               <Heart className="w-4 h-4 text-red-500" />
               <span>and lots of coffee</span>
             </div>
@@ -108,4 +108,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer; 

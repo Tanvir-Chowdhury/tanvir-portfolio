@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { GraduationCap, Award, CalendarDays } from 'lucide-react';
 
@@ -108,4 +108,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default Education; 

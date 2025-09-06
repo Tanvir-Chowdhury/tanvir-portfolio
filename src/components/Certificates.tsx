@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Award, ExternalLink, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -257,4 +257,4 @@ const Certificates = () => {
   );
 };
 
-export default Certificates;
+export default Certificates; 

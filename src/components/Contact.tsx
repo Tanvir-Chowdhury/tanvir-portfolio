@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle } from 'lucide-react';
 
@@ -163,4 +163,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Contact; 

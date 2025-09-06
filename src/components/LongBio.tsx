@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import bioImage from '@/assets/tanvir-bio.jpg';
 
 const LongBio = () => {
@@ -47,4 +47,4 @@ const LongBio = () => {
   );
 };
 
-export default LongBio;
+export default LongBio; 

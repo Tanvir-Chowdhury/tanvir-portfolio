@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heart, Users, Globe, Award } from 'lucide-react';
 
@@ -26,7 +26,7 @@ const Volunteering = () => {
   role: "Assistant IT Manager",
   organization: "Ongko.org",
   duration: "Jan 2020 - Jan 2021",
-  description: "Managed a graphics design team of 10+ members and supervised a messenger group of 100+ participants. Actively contributed to the IT team’s goals by helping volunteers and members solve technical issues and supporting the development of the organization’s website.",
+  description: "Managed a graphics design team of 10+ members and supervised a messenger group of 100+ participants. Actively contributed to the IT teamâ€™s goals by helping volunteers and members solve technical issues and supporting the development of the organizationâ€™s website.",
   icon: <Users className="w-6 h-6" />,
   color: "bg-orange-500/10 text-orange-500",
   impact: "10+ designers managed, 100+ members supported, contributed to IT team & website"
@@ -95,4 +95,4 @@ const Volunteering = () => {
   );
 };
 
-export default Volunteering;
+export default Volunteering; 

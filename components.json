@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "default",
   "rsc": false,
@@ -17,4 +17,4 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   }
-}
+} 

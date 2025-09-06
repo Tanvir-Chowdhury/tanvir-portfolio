@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane } from 'lucide-react';
 
 const Hobbies = () => {
@@ -94,4 +94,4 @@ const Hobbies = () => {
   );
 };
 
-export default Hobbies;
+export default Hobbies; 

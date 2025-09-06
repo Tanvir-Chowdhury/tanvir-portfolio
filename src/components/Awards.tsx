@@ -1,9 +1,12 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Trophy, Medal, Award, Star, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useState } from 'react';
+import csoImg from '@/assets/awards/cso.jpg';
+import hultImg from '@/assets/awards/hult_prize_semifinal.jpg';
+import hultCampus from '@/assets/awards/hultprize_on_campus.png';
 
 const Awards = () => {
   const awards = [
@@ -15,7 +18,7 @@ const Awards = () => {
       icon: <Medal className="w-6 h-6" />,
       color: "bg-amber-500/10 text-amber-500",
       rank: "Bronze Medal",
-      link: "../../src/assets/awards/cso.jpg"
+  link: csoImg
     },
     {
       title: "Regional Winner & Semifinalist - Hult Prize Competition",
@@ -25,7 +28,7 @@ const Awards = () => {
       icon: <Trophy className="w-6 h-6" />,
       color: "bg-yellow-500/10 text-yellow-500",
       rank: "Regional Winner",
-      link: "../../src/assets/awards/hult_prize_semifinal.jpg"
+  link: hultImg
     },
     {
       title: "OnCampus Winner - Hult Prize BGCTUB",
@@ -35,7 +38,7 @@ const Awards = () => {
       icon: <Award className="w-6 h-6" />,
       color: "bg-green-500/10 text-green-500",
       rank: "On-Campus Winner",
-      link: "#"
+      link: hultCampus
     },
     {
       title: "2nd Runner Up - DRMC Science Carnival 2020",
@@ -87,10 +90,10 @@ const Awards = () => {
                         </DialogTrigger>
 
                         <DialogContent className="max-w-3xl w-[90vw]">
-                          <DialogTitle className="mb-2">{award.title} — {award.organization}</DialogTitle>
+                          <DialogTitle className="mb-2">{award.title} â€” {award.organization}</DialogTitle>
                           <div className="w-full flex justify-center">
                             {/* Responsive image preview */}
-                            <img src={award.link} alt={`${award.title} certificate`} className="max-h-[70vh] w-auto max-w-full object-contain rounded" />
+                            <img src={String(award.link)} alt={`${award.title} certificate`} loading="lazy" className="max-h-[70vh] w-auto max-w-full object-contain rounded" onError={(e)=>{ (e.target as HTMLImageElement).style.display = 'none' }} />
                           </div>
                         </DialogContent>
                       </Dialog>
@@ -184,4 +187,4 @@ const MobileAwardItem = ({ award }: { award: AwardItem }) => {
   );
 };
 
-export default Awards;
+export default Awards; 

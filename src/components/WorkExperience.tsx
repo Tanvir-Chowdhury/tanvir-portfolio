@@ -1,4 +1,4 @@
-import { Card } from '@/components/ui/card';
+﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Briefcase, Calendar, MapPin, TrendingUp } from 'lucide-react';
 
@@ -189,4 +189,4 @@ const WorkExperience = () => {
   );
 };
 
-export default WorkExperience;
+export default WorkExperience; 

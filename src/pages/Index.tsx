@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+﻿import Header from '@/components/Header';
 import Navbar from '@/components/Navbar';
 import LongBio from '@/components/LongBio';
 import Education from '@/components/Education';
@@ -33,3 +33,4 @@ const Index = () => {
 };
 
 export default Index;
+ 

@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/badge';
+﻿import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Code, Palette, BarChart3, Database, Globe, Smartphone, Brain, Users } from 'lucide-react';
 
@@ -173,4 +173,4 @@ const Skills = () => {
   );
 };
 
-export default Skills;
+export default Skills; 

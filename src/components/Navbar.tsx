@@ -1,4 +1,4 @@
-// Fixed Navbar component
+﻿// Fixed Navbar component
 // - Renders a fixed top navigation bar with a translucent backdrop.
 // - Adjust the `pt-16` on pages (or the `py-3` here) to change layout spacing if needed.
 import { useState } from 'react';
@@ -65,3 +65,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+ 
