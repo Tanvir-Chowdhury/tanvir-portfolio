@@ -84,9 +84,7 @@ const Footer = () => {
         <div className="border-t border-border/50 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
-              <span>Â© {currentYear} Md. Tanvir Chowdhury. Made with</span>
-              <Heart className="w-4 h-4 text-red-500" />
-              <span>and lots of coffee</span>
+            © {currentYear} Md. Tanvir Chowdhury. All rights reserved.
             </div>
             
             <Button
