@@ -73,9 +73,9 @@ const Footer = () => {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-foreground">Contact</h4>
             <div className="space-y-2 text-muted-foreground">
-              <p>ðŸ“§ tanvir.chowdhury.us@gmail.com</p>
-              <p>ðŸ“± +8801644916069</p>
-              <p>ðŸ“ Bashundhara R/A, Dhaka, Bangladesh</p>
+              <p>📩 tanvir.chowdhury.us@gmail.com</p>
+              <p>📞 +8801644916069</p>
+              <p>🌏 Bashundhara R/A, Dhaka, Bangladesh</p>
             </div>
           </div>
         </div>
