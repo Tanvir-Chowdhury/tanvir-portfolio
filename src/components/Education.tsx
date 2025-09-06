@@ -1,8 +1,21 @@
 ﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { GraduationCap, Award, CalendarDays } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { GraduationCap, Award, CalendarDays, ChevronDown, ChevronUp } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useState } from 'react';
 
 const Education = () => {
+  const isMobile = useIsMobile();
+  const [expandedCards, setExpandedCards] = useState<number[]>([]);
+
+  const toggleExpanded = (index: number) => {
+    setExpandedCards(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index)
+        : [...prev, index]
+    );
+  };
   const educationData = [
     {
       degree: "BSc in Computer Science & Engineering",
@@ -51,56 +64,85 @@ const Education = () => {
           <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-primary hidden md:block"></div>
           
           <div className="space-y-8">
-            {educationData.map((edu, index) => (
-              <div key={index} className="relative">
-                {/* Timeline dot */}
-                <div className="absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block"></div>
-                
-                <div className="md:ml-16">
-                  <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group">
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
-                          {edu.icon}
-                        </div>
-                      </div>
-                      
-                      <div className="flex-1 space-y-3">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                          <h3 className="text-xl font-semibold text-foreground">
-                            {edu.degree}
-                          </h3>
-                          <Badge 
-                            variant={'default'}
-                            className={'bg-gradient-primary'}
-                          >
-                            {edu.status}
-                          </Badge>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <p className="text-lg text-primary font-medium">{edu.institution}</p>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1">
-                              <CalendarDays className="w-4 h-4" />
-                              {edu.duration}
-                            </div>
-                            <div className="font-semibold">
-                              {edu.status === 'Current' ? 'Current CGPA:' : 'GPA:'} 
-                              <span className="text-accent ml-1">{edu.gpa}</span>
-                            </div>
+            {educationData.map((edu, index) => {
+              const isExpanded = expandedCards.includes(index);
+              const shouldTruncate = isMobile && !isExpanded;
+              
+              return (
+                <div key={index} className="relative">
+                  {/* Timeline dot */}
+                  <div className="absolute left-6 w-4 h-4 bg-primary rounded-full border-4 border-background hidden md:block"></div>
+                  
+                  <div className="md:ml-16">
+                    <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                            {edu.icon}
                           </div>
                         </div>
                         
-                        <p className="text-muted-foreground leading-relaxed">
-                          {edu.description}
-                        </p>
+                        <div className="flex-1 space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <h3 className="text-xl font-semibold text-foreground">
+                              {edu.degree}
+                            </h3>
+                            <Badge 
+                              variant={'default'}
+                              className={'bg-gradient-primary'}
+                            >
+                              {edu.status}
+                            </Badge>
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <p className="text-lg text-primary font-medium">{edu.institution}</p>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <CalendarDays className="w-4 h-4" />
+                                {edu.duration}
+                              </div>
+                              <div className="font-semibold">
+                                {edu.status === 'Current' ? 'Current CGPA:' : 'GPA:'} 
+                                <span className="text-accent ml-1">{edu.gpa}</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <p className={`text-muted-foreground leading-relaxed transition-all duration-300 ${
+                              shouldTruncate ? 'line-clamp-2' : ''
+                            }`}>
+                              {edu.description}
+                            </p>
+                            
+                            {/* Read More button - only on mobile */}
+                            {isMobile && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleExpanded(index)}
+                                className="p-0 h-auto font-medium text-primary hover:text-primary/80"
+                              >
+                                {isExpanded ? (
+                                  <>
+                                    Read Less <ChevronUp className="ml-1 h-4 w-4" />
+                                  </>
+                                ) : (
+                                  <>
+                                    Read More <ChevronDown className="ml-1 h-4 w-4" />
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

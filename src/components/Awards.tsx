@@ -41,8 +41,8 @@ const Awards = () => {
       link: hultCampus
     },
     {
-      title: "2nd Runner Up - DRMC Science Carnival 2020",
-      organization: "Dhaka Residential Model College & Evaly",
+      title: "2nd Runner Up - Project Display of 13th DRMC-evaly National Science Carnival 2020",
+      organization: "Dhaka Residential Model College",
       year: "2020",
       description: "Secured 2nd runner-up position in the Project Display category of the 13th DRMC-evaly National Science Carnival. Showcased an innovative technology project that demonstrated practical applications of scientific principles.",
       icon: <Trophy className="w-6 h-6" />,
