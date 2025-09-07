@@ -239,14 +239,14 @@ const Skills = () => {
         </div>
 
         {/* 3D Sphere Container */}
-        <div className="flex justify-center items-center h-[650px] md:h-[650px] sm:h-[500px] relative">
+        <div className="flex justify-center items-center h-[650px] md:h-[650px] sm:h-[450px] relative px-4">
           <div 
             ref={sphereRef}
             className="relative cursor-grab active:cursor-grabbing select-none touch-none"
             style={{ 
-              width: 'min(700px, 90vw)', 
-              height: 'min(550px, 70vh)',
-              perspective: '1500px'
+              width: 'min(700px, calc(100vw - 2rem))', 
+              height: 'min(550px, calc(100vh - 200px), calc(100vw - 2rem))',
+              perspective: window.innerWidth < 640 ? '800px' : '1500px'
             }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -295,7 +295,7 @@ const Skills = () => {
                       opacity: opacity,
                       left: '50%',
                       top: '50%',
-                      marginLeft: '-90px',
+                      marginLeft: window.innerWidth < 640 ? '-65px' : '-90px',
                       marginTop: '-22px',
                       zIndex: Math.round(rotatedZ + 320),
                       transformStyle: 'preserve-3d',
@@ -306,10 +306,10 @@ const Skills = () => {
                     <div
                       className={`
                         bg-card/90 backdrop-blur-md border border-border/50
-                        rounded-lg px-5 py-3 text-center cursor-pointer
+                        rounded-lg px-3 py-2 sm:px-5 sm:py-3 text-center cursor-pointer
                         hover:bg-card hover:border-primary/50 hover:scale-105
                         transition-all duration-300 shadow-lg hover:shadow-xl
-                        w-[180px] text-base font-medium
+                        w-[130px] sm:w-[180px] text-sm sm:text-base font-medium
                         hover:z-50 relative
                         ${hoveredSkill === skill ? 'ring-2 ring-primary/50' : ''}
                         ${skillData.color}
