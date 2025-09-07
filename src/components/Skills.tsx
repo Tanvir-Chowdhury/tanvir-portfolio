@@ -69,6 +69,10 @@ const Skills = () => {
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
     const goldenAngle = 2 * Math.PI * (1 - 1/goldenRatio);
     
+    // Responsive radius based on screen size
+    const isMobile = window.innerWidth < 640;
+    const baseRadius = isMobile ? 150 : 320;
+    
     for (let i = 0; i < totalSkills; i++) {
       // Even distribution using golden angle spiral
       const y_normalized = 1 - (i / (totalSkills - 1)) * 2; // y goes from 1 to -1
@@ -77,9 +81,9 @@ const Skills = () => {
       const theta = i * goldenAngle;
       
       // Make globe wider (elliptical) - stretch x and z
-      const radiusX = 320; // Wider radius for x
-      const radiusY = 260; // Standard radius for y  
-      const radiusZ = 320; // Wider radius for z
+      const radiusX = baseRadius; // Responsive radius for x
+      const radiusY = isMobile ? 120 : 260; // Responsive radius for y  
+      const radiusZ = baseRadius; // Responsive radius for z
       
       const x = radiusX * radius_at_y * Math.cos(theta);
       const y = radiusY * y_normalized;
@@ -226,7 +230,7 @@ const Skills = () => {
   }, [isDragging, lastMouse]);
 
   return (
-    <section id='skills' className="py-20 px-4 bg-background">
+    <section id='skills' className="py-20 px-4 bg-background overflow-hidden">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
@@ -239,14 +243,14 @@ const Skills = () => {
         </div>
 
         {/* 3D Sphere Container */}
-        <div className="flex justify-center items-center h-[650px] md:h-[650px] sm:h-[450px] relative px-4">
+        <div className="flex justify-center items-center h-[400px] sm:h-[500px] md:h-[650px] relative px-2 sm:px-4 overflow-hidden">
           <div 
             ref={sphereRef}
-            className="relative cursor-grab active:cursor-grabbing select-none touch-none"
+            className="relative cursor-grab active:cursor-grabbing select-none touch-none mx-auto"
             style={{ 
-              width: 'min(700px, calc(100vw - 2rem))', 
-              height: 'min(550px, calc(100vh - 200px), calc(100vw - 2rem))',
-              perspective: window.innerWidth < 640 ? '800px' : '1500px'
+              width: 'min(350px, calc(100vw - 1rem))', 
+              height: 'min(350px, calc(100vw - 1rem), calc(100vh - 250px))',
+              perspective: window.innerWidth < 640 ? '600px' : '1500px'
             }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -295,8 +299,8 @@ const Skills = () => {
                       opacity: opacity,
                       left: '50%',
                       top: '50%',
-                      marginLeft: window.innerWidth < 640 ? '-65px' : '-90px',
-                      marginTop: '-22px',
+                      marginLeft: window.innerWidth < 640 ? '-35px' : '-80px',
+                      marginTop: window.innerWidth < 640 ? '-12px' : '-20px',
                       zIndex: Math.round(rotatedZ + 320),
                       transformStyle: 'preserve-3d',
                     }}
@@ -306,11 +310,11 @@ const Skills = () => {
                     <div
                       className={`
                         bg-card/90 backdrop-blur-md border border-border/50
-                        rounded-lg px-3 py-2 sm:px-5 sm:py-3 text-center cursor-pointer
+                        rounded-lg px-1.5 py-0.5 sm:px-4 sm:py-2 text-center cursor-pointer
                         hover:bg-card hover:border-primary/50 hover:scale-105
                         transition-all duration-300 shadow-lg hover:shadow-xl
-                        w-[130px] sm:w-[180px] text-sm sm:text-base font-medium
-                        hover:z-50 relative
+                        w-[70px] sm:w-[160px] text-[10px] sm:text-sm font-medium
+                        hover:z-50 relative leading-tight
                         ${hoveredSkill === skill ? 'ring-2 ring-primary/50' : ''}
                         ${skillData.color}
                       `}
@@ -321,7 +325,7 @@ const Skills = () => {
                       }}
                     >
                       {skill}
-                      <div className="text-xs text-muted-foreground/70 mt-1">
+                      <div className="text-[8px] sm:text-xs text-muted-foreground/70 mt-0.5 sm:mt-1 hidden sm:block">
                         {skillData.category}
                       </div>
                     </div>
