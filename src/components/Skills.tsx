@@ -349,7 +349,7 @@ const Skills = () => {
         {/* Instructions */}
         <div className="text-center mt-8 space-y-2">
           <p className="text-sm text-muted-foreground">
-            🌍 Globe auto-rotates • 🖱️ Drag with mouse or 👆 swipe with finger to control
+            🖱️ Drag with mouse or 👆 swipe with finger to control
           </p>
           <p className="text-xs text-muted-foreground/70">
             All {skillsWithCategories.length} skills are distributed across the entire globe surface
