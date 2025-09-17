@@ -43,21 +43,38 @@ const Projects = () => {
       icon: <Code className="w-4 h-4" />,
       projects: [
         {
-          title: "Task Management App",
-          description: "React-based project management tool",
-          technologies: ["React.js", "Node.js", "MongoDB", "Express"],
-          details: "Built a comprehensive task management application with user authentication, real-time updates, drag-and-drop functionality, and team collaboration features. Includes dashboard analytics and notification system.",
-          demo: "#",
-          github: "#"
-        },
-        {
-          title: "Social Media Dashboard",
-          description: "Analytics dashboard for social media",
-          technologies: ["React.js", "Python", "Django", "PostgreSQL"],
-          details: "Developed a social media analytics dashboard that aggregates data from multiple platforms. Features include real-time analytics, content scheduling, and performance tracking with beautiful visualizations.",
-          demo: "#",
-          github: "#"
-        }
+  title: "DataLens - Visual Data Analysis of Paris Olympics 2024",
+  description: "A C++ project with Matplotplusplus designed to provide visual analysis of the Paris Olympics 2024 data with user registration and login support.",
+  technologies: ["C++", "Matplotplusplus"],
+  details: "Built a lightweight data visualization platform where users can register, log in, and explore visual insights about the Paris Olympics 2024. The software leverages Matplotplusplus to generate charts and graphs, enabling intuitive interpretation of sports data for general audiences.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/DataLens"
+},
+{
+  title: "WebShieldAI - AI Powered Web Intrusion Detection and Auto-Defense SaaS Platform",
+  description: "An AI-powered SaaS platform for real-time website intrusion detection and automated defense against cyber threats such as SQLi, XSS, DOM manipulation, and defacement.",
+  technologies: ["Vue.js", "FastAPI", "PostgreSQL", "JavaScript"],
+  details: "Developed a scalable SaaS security solution that leverages LSTM models for SQL injection detection and CNN models for website defacement identification. The platform integrates with modern web stacks to provide automated defense mechanisms, delivering better protection against evolving zero-day threats compared to traditional firewalls and IDS.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/WebShieldAI"
+},
+{
+  title: "StreamFlex - Movie Streaming Platform",
+  description: "An online movie streaming platform enabling users to purchase movies or subscribe for unlimited access, supported by secure transactions and admin content management tools.",
+  technologies: ["PHP", "JavaScript", "Payment Gateway", "IMDB API", "TMDB API", "Bootstrap"],
+  details: "Built a feature-rich streaming platform with user authentication, movie purchase and subscription options, and integrated payment gateways. Includes admin dashboard for content management, movie library integration via IMDB and TMDB APIs, and a responsive Bootstrap-based UI for seamless viewing across devices.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/StreamFlex_movie_streaming_platform"
+},
+{
+  title: "BizConnect - A Portal to Connect Investors, Students, and Founders",
+  description: "A networking platform designed to connect investors, students, and startup founders, helping facilitate funding opportunities and talent acquisition.",
+  technologies: ["React.js", "Tailwind CSS", "Daisy UI", "JavaScript"],
+  details: "Developed the frontend for a portal aimed at bridging investors with founders and students. The platform enables investors to discover startups, founders to recruit student collaborators, and students to gain real-world exposure. The project includes a modern responsive UI built with Tailwind CSS and Daisy UI but remains incomplete due to the lack of backend integration.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/BizConnect-frontend"
+}
+
       ]
     },
     marketing: {
