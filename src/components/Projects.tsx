@@ -8,48 +8,10 @@ import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, S
 
 const Projects = () => {
   const projectCategories = {
-    wordpress: {
-      title: "WordPress",
-      icon: <Globe className="w-4 h-4" />,
-      projects: [
-        {
-          title: "E-commerce Fashion Store",
-          description: "Complete online fashion store with payment integration",
-          technologies: ["WordPress", "WooCommerce", "PHP", "MySQL"],
-          details: "Built a comprehensive e-commerce platform for a fashion brand with custom theme, payment gateway integration, inventory management, and SEO optimization. Features include responsive design, product filtering, and admin dashboard.",
-          demo: "#",
-          github: "#"
-        },
-        {
-          title: "Restaurant Website",
-          description: "Modern restaurant website with online ordering",
-          technologies: ["WordPress", "Custom Theme", "JavaScript", "CSS3"],
-          details: "Developed a modern restaurant website featuring online menu, reservation system, and location integration. Implemented custom post types for menu items and events with responsive design.",
-          demo: "#",
-          github: "#"
-        },
-        {
-          title: "Corporate Business Site",
-          description: "Professional corporate website with CMS",
-          technologies: ["WordPress", "Elementor", "PHP", "Bootstrap"],
-          details: "Created a professional corporate website with custom theme development, team management system, service pages, and contact forms. Optimized for speed and SEO.",
-          demo: "#",
-          github: "#"
-        }
-      ]
-    },
     fullstack: {
-      title: "Full Stack",
+      title: "Web Development",
       icon: <Code className="w-4 h-4" />,
       projects: [
-        {
-  title: "DataLens - Visual Data Analysis of Paris Olympics 2024",
-  description: "A C++ project with Matplotplusplus designed to provide visual analysis of the Paris Olympics 2024 data with user registration and login support.",
-  technologies: ["C++", "Matplotplusplus"],
-  details: "Built a lightweight data visualization platform where users can register, log in, and explore visual insights about the Paris Olympics 2024. The software leverages Matplotplusplus to generate charts and graphs, enabling intuitive interpretation of sports data for general audiences.",
-  demo: "#",
-  github: "https://github.com/Tanvir-Chowdhury/DataLens"
-},
 {
   title: "WebShieldAI - AI Powered Web Intrusion Detection and Auto-Defense SaaS Platform",
   description: "An AI-powered SaaS platform for real-time website intrusion detection and automated defense against cyber threats such as SQLi, XSS, DOM manipulation, and defacement.",
@@ -73,9 +35,96 @@ const Projects = () => {
   details: "Developed the frontend for a portal aimed at bridging investors with founders and students. The platform enables investors to discover startups, founders to recruit student collaborators, and students to gain real-world exposure. The project includes a modern responsive UI built with Tailwind CSS and Daisy UI but remains incomplete due to the lack of backend integration.",
   demo: "#",
   github: "https://github.com/Tanvir-Chowdhury/BizConnect-frontend"
+},
+{
+  title: "Dynamic Web Page Design with HTML, Tailwind CSS, JavaScript and API Integration",
+  description: "A dynamic webpage designed with HTML, Tailwind CSS, and JavaScript that integrates APIs to display real-time data with a responsive and interactive interface.",
+  technologies: ["HTML", "CSS", "JavaScript", "Tailwind CSS"],
+  details: "Created a dynamic and responsive webpage showcasing seamless API integration for real-time data rendering. Tailwind CSS was used for efficient styling and reusable UI components, while JavaScript powered interactivity and dynamic updates. The project highlights the use of modern web technologies to deliver an engaging user experience.",
+  demo: "https://64fc5f9c61818b5d2c9fdb82--taupe-scone-4a636f.netlify.app/",
+  github: "#"
+},
+{
+  title: "Simple Summer Sale Website with JavaScript",
+  description: "A simple and basic web page built with HTML, CSS, and JavaScript to demonstrate interactivity in a summer sale theme.",
+  technologies: ["JavaScript", "Tailwind CSS", "HTML"],
+  details: "Developed a minimalistic summer sale themed website using HTML and CSS for layout and styling, with JavaScript for interactivity. The project demonstrates the use of front-end basics to create an engaging landing page suitable for beginners.",
+  demo: "https://64e498dbcc370e033b488a32--sweet-elf-5cccfa.netlify.app/",
+  github: "#"
+},
+{
+  title: "Fruit Burst - A Simple Web Page with HTML and Tailwind CSS",
+  description: "A visually engaging webpage crafted with HTML and Tailwind CSS, designed to showcase a fruit-themed concept in a modern and responsive layout.",
+  technologies: ["HTML", "Tailwind CSS"],
+  details: "Designed and developed a fruit-themed webpage that combines creative design with technical implementation using Tailwind CSS. The project emphasizes responsive design for desktop and mobile, ensuring accessibility across devices. It reflects creativity, attention to detail, and hands-on practice with utility-first CSS frameworks.",
+  demo: "https://tanvir-chowdhury.github.io/fruit-burst/",
+  github: "https://github.com/Tanvir-Chowdhury/fruit-burst"
+},
+{
+  title: "Gamer Zone - A Simple Web Page",
+  description: "A basic website created to connect gamers in a simple yet functional online space.",
+  technologies: ["HTML", "CSS"],
+  details: "Built a simple static website for gaming enthusiasts using HTML and CSS. The project serves as a basic template for community-driven platforms, with a clean layout and minimal styling focused on accessibility and ease of navigation.",
+  demo: "https://tanvir-chowdhury.github.io/gamer-zone/",
+  github: "https://github.com/Tanvir-Chowdhury/gamer-zone"
+},
+{
+  title: "Online Flower Shop",
+  description: "A simple e-commerce-style website built with HTML and CSS to simulate an online flower shop.",
+  technologies: ["HTML", "CSS"],
+  details: "Developed a beginner-friendly static website that presents a flower shop concept. The site showcases the use of HTML for structure and CSS for styling, giving a practical example of how to design a product-based website layout.",
+  demo: "https://tanvir-chowdhury.github.io/online-flower-shop/",
+  github: "https://github.com/Tanvir-Chowdhury/online-flower-shop"
 }
 
+
       ]
+    },
+    wordpress: {
+      title: "WordPress",
+      icon: <Globe className="w-4 h-4" />,
+      projects: [
+        {
+  title: "Edtech LMS System",
+  description: "An online learning management platform built for Phoenix Admission Care where students can purchase books, enroll in courses, watch class recordings, and take quizzes.",
+  technologies: ["WordPress", "WooCommerce", "CSS", "PHP", "Tutor LMS", "Elementor Pro"],
+  details: "Developed a feature-rich LMS website enabling students to access digital learning resources and purchase guidebooks. Integrated Tutor LMS for course management, WooCommerce for e-commerce functionality, and Elementor Pro for custom UI design. The platform supports quizzes, recorded classes, and a smooth student learning experience.",
+  demo: "https://phoenixedu.com.bd/",
+  github: "#"
+},
+{
+  title: "Ecommerce Shop for Gadgets",
+  description: "A responsive e-commerce website built for The Gadget Ghor to sell gadgets with integrated payment solutions.",
+  technologies: ["WordPress", "WooCommerce", "PHP", "CSS", "Elementor Pro", "Payment Gateways"],
+  details: "Designed and developed a fully functional online gadget shop with WooCommerce integration for inventory and payment processing. The site features modern product display, secure checkout, and mobile-friendly layouts to enhance customer experience and drive sales.",
+  demo: "https://thegadgetghor.com/",
+  github: "#"
+},
+{
+  title: "Business Website for Construction Service in Canada",
+  description: "A professional business website created for Sleekcon, a Canadian construction company, featuring animations and an optimized landing page.",
+  technologies: ["WordPress", "Elementor"],
+  details: "Built and optimized a corporate website for a construction service company in Canada. Added engaging animations, SEO-focused landing pages, and responsive layouts to highlight the brand’s services and credibility. The project focused on creating a clean, professional online presence.",
+  demo: "https://sleekcon.com/",
+  github: "#"
+},
+{
+  title: "Agency Website for Video Production House",
+  description: "A portfolio-driven website created for Halo & Hues, showcasing their video production services, portfolio, and team members.",
+  technologies: ["WordPress", "Elementor"],
+  details: "Developed a creative agency website with dedicated sections for portfolio videos, service offerings, and team introductions. The design emphasizes visual storytelling with smooth navigation and a professional layout tailored to highlight the agency’s strengths in video production.",
+  demo: "https://haloandhues.com/",
+  github: "#"
+},
+{
+  title: "Ecommerce Website for Panjabi Store",
+  description: "An e-commerce platform designed for Ezaam Mens Wear to sell Panjabis online with an attractive product showcase.",
+  technologies: ["WordPress", "WooCommerce", "Elementor Pro"],
+  details: "Created a stylish and responsive e-commerce website tailored for a traditional menswear brand. Integrated WooCommerce for product listings, cart, and checkout, with Elementor Pro for customized layouts. The website highlights product collections in an engaging way, driving sales and brand visibility.",
+  demo: "https://www.behance.net/gallery/222587715/Websites-I-made",
+  github: "#"
+}
+]
     },
     marketing: {
       title: "Marketing",
@@ -104,59 +153,38 @@ const Projects = () => {
       icon: <Database className="w-4 h-4" />,
       projects: [
         {
-          title: "Sales Analytics Dashboard",
-          description: "Python-based data visualization tool",
-          technologies: ["Python", "Pandas", "Matplotlib", "Jupyter"],
-          details: "Created an interactive sales analytics dashboard that processes large datasets and provides actionable insights. Features include trend analysis, forecasting, and automated report generation.",
-          demo: "#",
-          github: "#"
-        },
-        {
-          title: "Customer Behavior Analysis",
-          description: "ML-powered customer insights platform",
-          technologies: ["Python", "Scikit-learn", "TensorFlow", "Tableau"],
-          details: "Developed a machine learning system to analyze customer behavior patterns and predict purchasing decisions. Helped businesses increase conversion rates by 40% through data-driven insights.",
-          demo: "#",
-          github: "#"
-        }
+  title: "DataLens - Visual Data Analysis of Paris Olympics 2024",
+  description: "A C++ project with Matplotplusplus designed to provide visual analysis of the Paris Olympics 2024 data with user registration and login support.",
+  technologies: ["C++", "Matplotplusplus"],
+  details: "Built a lightweight data visualization platform where users can register, log in, and explore visual insights about the Paris Olympics 2024. The software leverages Matplotplusplus to generate charts and graphs, enabling intuitive interpretation of sports data for general audiences.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/DataLens"
+},
+{
+  title: "Scope of Work for a Data Analytics Project",
+  description: "A structured scope-of-work document prepared for a data analytics project while completing Google’s Data Analytics course on Coursera.",
+  technologies: ["Data Analytics"],
+  details: "Developed a comprehensive scope-of-work (SOW) document outlining the objectives, deliverables, methodologies, and expected outcomes of a data analytics project. This document demonstrates proficiency in planning, requirement gathering, and structuring data-driven projects as taught in the Google Data Analytics course.",
+  demo: "https://docs.google.com/document/d/1AsfpSiIuYQ6VRTfmJ4THzvnmkh9MwOspyiEWhhQhFjM/edit?usp=sharing&resourcekey=0-w3t4mGtPKYt6-fhToimgpg",
+  github: "#"
+}
+
       ]
     },
-    mobile: {
-      title: "Mobile",
-      icon: <Smartphone className="w-4 h-4" />,
-      projects: [
-        {
-          title: "AI Chatbot System",
-          description: "Intelligent customer service bot",
-          technologies: ["Python", "NLP", "TensorFlow", "Flask"],
-          details: "Built an AI-powered chatbot system with natural language processing capabilities. Features include intent recognition, context management, and integration with business systems.",
-          demo: "#",
-          github: "#"
-        },
-        {
-          title: "Inventory Management System",
-          description: "C-based enterprise solution",
-          technologies: ["C", "SQLite", "GTK", "Data Structures"],
-          details: "Developed a robust inventory management system using C programming with efficient data structures and algorithms. Features include real-time tracking, automated alerts, and reporting.",
-          demo: "#",
-          github: "#"
-        }
-      ]
-    },
-    design: {
-      title: "Design",
-      icon: <Palette className="w-4 h-4" />,
-      projects: [
-        {
-          title: "UI/UX Design Portfolio",
-          description: "Modern interface designs for various clients",
-          technologies: ["Figma", "Adobe XD", "Sketch", "Prototyping"],
-          details: "Created comprehensive UI/UX designs for mobile and web applications. Focused on user experience, accessibility, and modern design principles with interactive prototypes.",
-          demo: "#",
-          github: "#"
-        }
-      ]
-    }
+    // design: {
+    //   title: "Design",
+    //   icon: <Palette className="w-4 h-4" />,
+    //   projects: [
+    //     {
+    //       title: "UI/UX Design Portfolio",
+    //       description: "Modern interface designs for various clients",
+    //       technologies: ["Figma", "Adobe XD", "Sketch", "Prototyping"],
+    //       details: "Created comprehensive UI/UX designs for mobile and web applications. Focused on user experience, accessibility, and modern design principles with interactive prototypes.",
+    //       demo: "#",
+    //       github: "#"
+    //     }
+    //   ]
+    // }
   };
 
   return (
