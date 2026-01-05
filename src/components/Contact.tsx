@@ -1,6 +1,7 @@
-﻿import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle, Send } from 'lucide-react';
 
 const Contact = () => {
   const contactInfo = [
@@ -39,128 +40,136 @@ const Contact = () => {
       icon: <Facebook className="w-5 h-5" />,
       label: "Facebook",
       href: "https://www.facebook.com/tanvir.11744",
-      color: "hover:text-white"
+      color: "hover:text-[#1877F2] hover:bg-[#1877F2]/10"
     },
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/tanvir11744/",
-      color: "hover:text-white"
+      color: "hover:text-[#0A66C2] hover:bg-[#0A66C2]/10"
     },
     {
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
       href: "https://github.com/Tanvir-Chowdhury",
-      color: "hover:text-white"
+      color: "hover:text-white hover:bg-white/10"
     },
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
       href: "mailto:tanvir.chowdhury.us@gmail.com",
-      color: "hover:text-white"
+      color: "hover:text-red-500 hover:bg-red-500/10"
     },
     {
       icon: <MessageCircle className="w-5 h-5" />,
       label: "WhatsApp",
       href: "https://wa.me/+8801644916069",
-      color: "hover:text-white"
+      color: "hover:text-green-500 hover:bg-green-500/10"
     }
   ];
 
   return (
-    <section className="py-20 px-4 overflow-hidden" id="contact">
-      <div className="container max-w-4xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            Get In <span className="text-gradient">Touch</span>
+    <section className="py-16 px-6 bg-secondary/5 relative overflow-hidden" id="contact">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container max-w-5xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Get In Touch
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Connect</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto px-4">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Ready to collaborate on your next project? Let's discuss how we can work together to bring your ideas to life.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-full">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Contact Information */}
-          <div className="space-y-6 min-w-0">
-            <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold">Contact Information</h3>
+              <p className="text-muted-foreground">
+                Feel free to reach out through any of these channels. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+              </p>
+            </div>
             
             <div className="space-y-4">
               {contactInfo.map((contact, index) => (
                 <Card 
                   key={index} 
-                  className="p-4 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-300 group"
+                  className="p-4 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5"
                 >
                   <a 
                     href={contact.href}
-                    className="flex items-center gap-4 group-hover:scale-105 transition-transform min-w-0"
+                    className="flex items-center gap-4 group-hover:translate-x-1 transition-transform"
                   >
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${contact.color}`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${contact.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                       {contact.icon}
                     </div>
+                    
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm text-muted-foreground">{contact.label}</p>
-                      <p className="font-medium text-foreground break-words">{contact.value}</p>
+                      <p className="text-sm text-muted-foreground font-medium mb-0.5">{contact.label}</p>
+                      <p className="text-foreground font-semibold truncate group-hover:text-primary transition-colors">
+                        {contact.value}
+                      </p>
                     </div>
                   </a>
                 </Card>
               ))}
             </div>
+
+            <div className="pt-4">
+              <h4 className="text-lg font-semibold mb-4">Follow Me</h4>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((social, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="icon"
+                    className={`w-12 h-12 rounded-xl border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-primary/50 ${social.color}`}
+                    asChild
+                  >
+                    <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                      {social.icon}
+                    </a>
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Call to Action */}
-          <div className="space-y-6 min-w-0">
-            <h3 className="text-2xl font-semibold mb-6">Let's Connect</h3>
+          {/* Contact Form Placeholder / Call to Action */}
+          <Card className="p-8 bg-card/40 backdrop-blur-sm border-border/50 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
             
-            <Card className="p-6 md:p-8 bg-card/50 backdrop-blur-sm border-border/50 space-y-6">
-              <div className="space-y-4">
-                <h4 className="text-xl font-semibold text-foreground">
-                  Ready to Start a Project?
-                </h4>
-                <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  Whether you need web development, digital marketing or branding solutions, 
-                  I'm here to help turn your vision into reality. Let's discuss your project 
-                  and explore how we can achieve your goals together.
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <Button 
-                  size="lg" 
-                  className="w-full bg-gradient-primary hover:scale-105 transition-transform glow-primary text-sm md:text-base"
-                  asChild
-                >
-                  <a href="mailto:tanvir@askforbranding.com">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Send me an Email
-                  </a>
-                </Button>
-                
-                <div className="text-center">
-                  <p className="text-sm text-muted-foreground mb-4">Or connect with me on</p>
-                  <div className="flex justify-center gap-2 md:gap-3 flex-wrap">
-                    {socialLinks.map((social, index) => (
-                      <Button
-                        key={index}
-                        variant="outline"
-                        size="icon"
-                        className={`border-border/50 bg-card/30 backdrop-blur-sm hover:scale-110 transition-all ${social.color} w-10 h-10 md:w-12 md:h-12`}
-                        asChild
-                      >
-                        <a href={social.href} target="_blank" rel="noopener noreferrer">
-                          {social.icon}
-                        </a>
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </div>
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-2 relative z-10">
+              <Send className="w-10 h-10 text-primary animate-pulse" />
+            </div>
+            
+            <div className="relative z-10 space-y-2">
+              <h3 className="text-2xl font-bold">Send a Message</h3>
+              <p className="text-muted-foreground max-w-xs mx-auto">
+                I'm currently available for freelance work and open to full-time opportunities.
+              </p>
+            </div>
+            
+            <Button className="w-full max-w-xs relative z-10 group" size="lg" asChild>
+              <a href="mailto:tanvir.chowdhury.us@gmail.com">
+                Say Hello
+                <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </a>
+            </Button>
+          </Card>
         </div>
       </div>
     </section>
   );
 };
 
-export default Contact; 
+export default Contact;

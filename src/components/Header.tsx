@@ -1,69 +1,83 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Download, Mail, Github, Linkedin, Facebook } from 'lucide-react';
+import { Download, Mail, Github, Linkedin, Facebook, Globe, Code, Terminal, Cpu } from 'lucide-react';
 import profileImage from '@/assets/profile-pic.png';
 import cvFile from '@/assets/cv.pdf';
+import * as api from '@/api';
 
 const Header = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [profile, setProfile] = useState<any>(null);
+  const [socialLinks, setSocialLinks] = useState<any[]>([]);
+  const [competitiveProfiles, setCompetitiveProfiles] = useState<any[]>([]);
 
-  const socialLinks = [
-    { icon: Facebook, href: 'https://www.facebook.com/tanvir.11744', label: 'Facebook', color: 'hover:text-white' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/tanvir11744/', label: 'LinkedIn', color: 'hover:text-text-white' },
-    { icon: Mail, href: 'mailto:tanvir.chowdhury.us@gmail.com', label: 'Gmail', color: 'hover:text-text-white' },
-    { icon: Github, href: 'https://github.com/Tanvir-Chowdhury', label: 'GitHub', color: 'hover:text-text-white' },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [profileRes, socialRes, competitiveRes] = await Promise.all([
+          api.getProfile().catch(() => ({ data: {} })),
+          api.getSocialLinks().catch(() => ({ data: [] })),
+          api.getCompetitiveProfiles().catch(() => ({ data: [] }))
+        ]);
+        
+        setProfile(profileRes.data);
+        setSocialLinks(socialRes.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+        setCompetitiveProfiles(competitiveRes.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+      } catch (error) {
+        console.error("Failed to fetch header data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  const programmingProfiles = [
-    { name: 'Codeforces', href: 'https://codeforces.com/profile/tanvir11744', color: 'hover:text-red-500' },
-    { name: 'HackerRank', href: 'https://www.hackerrank.com/profile/codinxter', color: 'hover:text-green-500' },
-    { name: 'LeetCode', href: 'https://leetcode.com/u/Your_Vir/', color: 'hover:text-yellow-500' },
-  ];
+  const getIcon = (iconName: string) => {
+    const icons: any = {
+      Facebook, Linkedin, Mail, Github, Globe, Code, Terminal, Cpu
+    };
+    return icons[iconName] || Globe;
+  };
+
 
   return (
-    <header className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-hero relative overflow-hidden">
+    <header className="min-h-screen flex items-center justify-center px-6 py-20 bg-gradient-hero relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Decorative glows - hidden on very small screens to avoid overflow */}
-        <div className="absolute top-1/4 left-1/4 hidden sm:block w-64 sm:w-72 md:w-96 h-64 sm:h-72 md:h-96 bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 hidden sm:block w-64 sm:w-72 md:w-96 h-64 sm:h-72 md:h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] opacity-50 animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[100px] opacity-50 animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Profile Image Section */}
-          <div className="flex justify-center lg:justify-start">
-            <div className="relative transform-3d">
-              <div className="relative w-60 h-60 lg:w-96 lg:h-96">
+          <div className="flex justify-center lg:justify-start order-2 lg:order-1">
+            <div className="relative group">
+              <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-[400px] lg:h-[400px]">
                 {/* Animated background rings */}
-                <div className="absolute inset-0 rounded-full bg-gradient-primary p-1 float hover:scale-110 transition-transform duration-1000">
-                  <div className="w-full h-full rounded-full bg-background/20 backdrop-blur-sm">
-                    {/* Main profile image - moves with the circle */}
-                    <div className="absolute inset-4 rounded-full overflow-hidden glow-primary hover:glow-accent transition-all duration-1000">
-                      <img
-                        src={profileImage}
-                        alt="Tanvir Chowdhury"
-                        className={`w-full h-full object-cover transition-all duration-1000 ${
-                          imageLoaded ? 'scale-100 opacity-100' : 'scale-110 opacity-0'
-                        }`}
-                        onLoad={() => setImageLoaded(true)}
-                      />
-                    </div>
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary to-accent p-1 animate-spin-slow opacity-70 blur-sm group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-1 rounded-full bg-background flex items-center justify-center z-10">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-background relative">
+                    <img
+                      src={profile?.profile_image_url || profileImage}
+                      alt={profile?.name || "Md Tanvir Chowdhury"}
+                      className={`w-full h-full object-cover transition-all duration-700 ${
+                        imageLoaded ? 'scale-100 opacity-100' : 'scale-110 opacity-0'
+                      } group-hover:scale-105`}
+                      onLoad={() => setImageLoaded(true)}
+                    />
                   </div>
                 </div>
 
-                {/* Floating elements */}
-                {/* Floating action icons - hide on small screens to avoid off-screen overflow */}
-                <a href="https://github.com/Tanvir-Chowdhury" className="hidden sm:block">
-                  <div className="absolute lg:-top-4 lg:-right-4 -top-2 -right-2 w-10 h-10 lg:w-16 lg:h-16 bg-primary/20 rounded-full backdrop-blur-sm border border-primary/30 flex items-center justify-center float hover:scale-125 hover:bg-primary/40 transition-all duration-700 cursor-pointer">
-                    <Github className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
+                {/* Floating elements - Visible on larger screens */}
+                <a href="https://github.com/Tanvir-Chowdhury" className="hidden lg:block absolute -top-4 -right-4 z-20">
+                  <div className="w-16 h-16 bg-background/80 backdrop-blur-md rounded-2xl border border-primary/30 flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-110 hover:rotate-6 transition-all duration-300 cursor-pointer group/icon">
+                    <Github className="w-8 h-8 text-primary group-hover/icon:text-accent transition-colors" />
                   </div>
                 </a>
-                <a href="mailto:tanvir.chowdhury.us@gmail.com" className="hidden sm:block">
-                  <div className="absolute lg:-bottom-4 lg:-left-4 -bottom-2 -left-2 w-10 h-10 lg:w-16 lg:h-16 bg-accent/20 rounded-full backdrop-blur-sm border border-accent/30 flex items-center justify-center float hover:scale-125 hover:bg-accent/40 transition-all duration-700 cursor-pointer" style={{ animationDelay: '1s' }}>
-                    <Mail className="w-7 h-7 sm:w-8 sm:h-8 text-accent" />
+                <a href={profile?.email ? `mailto:${profile.email}` : "mailto:tanvir.chowdhury.us@gmail.com"} className="hidden lg:block absolute -bottom-4 -left-4 z-20">
+                  <div className="w-16 h-16 bg-background/80 backdrop-blur-md rounded-2xl border border-accent/30 flex items-center justify-center shadow-lg shadow-accent/20 hover:scale-110 hover:-rotate-6 transition-all duration-300 cursor-pointer group/icon">
+                    <Mail className="w-8 h-8 text-accent group-hover/icon:text-primary transition-colors" />
                   </div>
                 </a>
               </div>
@@ -71,83 +85,87 @@ const Header = () => {
           </div>
 
           {/* Content Section */}
-          <div className="text-center lg:text-left space-y-8">
+          <div className="text-center lg:text-left space-y-8 order-1 lg:order-2">
             <div className="space-y-4 slide-up">
-              
-              <h1 className="text-4xl lg:text-6xl font-bold">
-                <span className="text-gradient"> Md. Tanvir </span>
-                {/* <br /> */}
-                <span>Chowdhury</span>
+              <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+                Welcome to my portfolio
+              </Badge>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+                Hi, I'm <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-accent animate-gradient-x">
+                  {profile?.name || "Md Tanvir Chowdhury"}
+                </span>
               </h1>
               
               <div className="space-y-2">
-                <h2 className="text-xl lg:text-2xl text-muted-foreground">
-                  Software Engineer & Marketing Strategist
+                <h2 className="text-xl lg:text-2xl font-medium text-muted-foreground">
+                  {profile?.title || "Software Engineer & Marketing Strategist"}
                 </h2>
-                {/* <p className="text-lg text-accent">Founder of Ask for Branding</p> */}
               </div>
             </div>
 
-
             {/* Short Bio */}
-            <div className="space-y-4 slide-up" style={{ animationDelay: '0.4s' }}>
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                Passionate about solving problems through technology and creative marketing strategies. 
-                I love building solutions that make a real impact in the digital world.
+            <div className="space-y-6 slide-up" style={{ animationDelay: '0.2s' }}>
+              <p className="text-lg sm:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto lg:mx-0">
+                {profile?.bio || "I love building solutions that make a real impact in the digital world."}
               </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-              <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
-                Languages I Speak:
-              </h3>
-                <Badge variant="secondary" className="text-xs">
+              
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start items-center">
+                <span className="text-sm font-semibold text-foreground/80 uppercase tracking-wider mr-2">
+                  Languages:
+                </span>
+                <Badge variant="secondary" className="px-3 py-1 bg-secondary hover:bg-white hover:text-black transition-colors">
                   Bengali
                 </Badge>
-                <Badge variant="secondary" className="text-xs">
+                <Badge variant="secondary" className="px-3 py-1 bg-secondary hover:bg-white hover:text-black transition-colors">
                   English
                 </Badge>
               </div>
+            </div>
 
             {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 slide-up" style={{ animationDelay: '0.6s' }}>
-              <Button size="lg" className="bg-gradient-primary hover:scale-105 transition-transform glow-primary" asChild>
-                <a href={cvFile} download="Tanvir-Chowdhury-CV.pdf">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start slide-up pt-4" style={{ animationDelay: '0.4s' }}>
+              <Button size="lg" className="h-12 px-8 text-base bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-all shadow-lg shadow-primary/25 rounded-full" asChild>
+                <a href={profile?.cv_url || cvFile} download="Tanvir-Chowdhury-CV.pdf">
                   <Download className="w-5 h-5 mr-2" />
                   Download CV
                 </a>
               </Button>
               
-              <div className="flex gap-3">
-                {socialLinks.map((social, index) => (
-                  <Button
-                    key={social.label}
-                    variant="outline"
-                    size="icon"
-                    className={`border-border/50 bg-card/30 backdrop-blur-sm hover:scale-110 transition-all ${social.color}`}
-                    asChild
-                  >
-                    <a href={social.href} target="_blank" rel="noopener noreferrer">
-                      <social.icon className="w-5 h-5" />
-                    </a>
-                  </Button>
-                ))}
+              <div className="flex gap-3 items-center">
+                {socialLinks.map((social) => {
+                  const Icon = getIcon(social.icon_name || 'Globe');
+                  return (
+                    <Button
+                      key={social.id || social.platform}
+                      variant="outline"
+                      size="icon"
+                      className="w-12 h-12 rounded-full border-border/50 bg-background/50 backdrop-blur-sm hover:scale-110 hover:border-primary/50 transition-all hover:text-white"
+                      asChild
+                    >
+                      <a href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.platform}>
+                        <Icon className="w-5 h-5" />
+                      </a>
+                    </Button>
+                  );
+                })}
               </div>
             </div>
 
             {/* Programming Profiles */}
-            <div className="space-y-3 slide-up" style={{ animationDelay: '0.8s' }}>
+            <div className="space-y-4 slide-up pt-6 border-t border-border/30" style={{ animationDelay: '0.6s' }}>
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                 Competitive Coding Profiles
               </h3>
-              <div className="flex flex-wrap gap-3">
-                {programmingProfiles.map((profile, index) => (
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                {competitiveProfiles.map((profile) => (
                   <a
-                    key={profile.name}
-                    href={profile.href}
-                    className={`text-sm px-4 py-2 rounded-full bg-secondary/50 border border-border/50 transition-all hover:scale-105 ${profile.color}`}
+                    key={profile.platform}
+                    href={profile.profile_link}
+                    target="_blank"
+                    className="text-sm px-5 py-2 rounded-full bg-secondary/30 border border-border/50 transition-all hover:scale-105 hover:bg-secondary/60 hover:border-primary/30 hover:text-primary"
                   >
-                    {profile.name}
+                    {profile.platform}
                   </a>
                 ))}
               </div>

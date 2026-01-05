@@ -1,13 +1,30 @@
-﻿import { useState } from 'react';
+﻿import { useState, useEffect, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone } from 'lucide-react';
+import * as api from '@/api';
 
 const Projects = () => {
-  const projectCategories = {
+  const [projectsData, setProjectsData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await api.getProjects();
+        if (response.data && response.data.length > 0) {
+          setProjectsData(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+        }
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      }
+    };
+    fetchProjects();
+  }, []);
+
+  const initialProjectCategories = {
     fullstack: {
       title: "Web Development",
       icon: <Code className="w-4 h-4" />,
@@ -187,149 +204,186 @@ const Projects = () => {
     // }
   };
 
+  const projectCategories = useMemo(() => {
+    if (projectsData.length > 0) {
+      const categories = JSON.parse(JSON.stringify(initialProjectCategories));
+      // Reset projects arrays
+      Object.keys(categories).forEach(key => {
+        categories[key].projects = [];
+      });
+
+      projectsData.forEach((project: any) => {
+        let categoryKey = 'fullstack'; // Default
+        const cat = project.category ? project.category.toLowerCase() : '';
+        
+        if (cat.includes('wordpress')) categoryKey = 'wordpress';
+        else if (cat.includes('marketing')) categoryKey = 'marketing';
+        else if (cat.includes('data')) categoryKey = 'dataanalytics';
+        else if (cat.includes('design')) categoryKey = 'design';
+        
+        if (categories[categoryKey]) {
+          categories[categoryKey].projects.push({
+            title: project.title,
+            description: project.description,
+            technologies: project.technologies || [],
+            details: project.details || project.description,
+            demo: project.link || "#",
+            github: project.github_link || "#"
+          });
+        }
+      });
+      return categories;
+    }
+    return initialProjectCategories;
+  }, [projectsData, initialProjectCategories]);
+
   return (
-    <section id='projects' className="pt-20 px-4 bg-secondary/30">
-      <div className="container max-w-7xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            My <span className="text-gradient">Projects</span>
+    <section id='projects' className="py-16 px-6 bg-background relative">
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="container max-w-7xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Portfolio
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Projects</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Showcasing diverse projects across web development, marketing, and technology solutions
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Explore a collection of my work across web development, marketing strategies, and data analytics.
           </p>
         </div>
 
         <Tabs defaultValue="wordpress" className="w-full">
-          <TabsList className="flex flex-wrap justify-center gap-2 mb-12 bg-transparent p-0">
-            {Object.entries(projectCategories).map(([key, category]) => (
-              <TabsTrigger 
-                key={key} 
-                value={key} 
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-card/30 backdrop-blur-sm border border-border/30 data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:scale-105 hover:bg-muted/50 hover:scale-105"
-              >
-                {category.icon}
-                <span className="hidden sm:inline">{category.title}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="flex justify-center mb-12">
+            <TabsList className="inline-flex h-auto p-1 bg-secondary/30 backdrop-blur-md rounded-full border border-border/40">
+              {Object.entries(projectCategories).map(([key, category]: [string, any]) => (
+                <TabsTrigger 
+                  key={key} 
+                  value={key} 
+                  className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg hover:text-primary"
+                >
+                  {category.icon}
+                  <span className="hidden sm:inline">{category.title}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
-          {Object.entries(projectCategories).map(([key, category]) => (
-            <TabsContent key={key} value={key}>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+          {Object.entries(projectCategories).map(([key, category]: [string, any]) => (
+            <TabsContent key={key} value={key} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {category.projects.map((project, index) => (
-                  <div className="h-full">
-                  <Card 
-                    key={index} 
-                    className="group relative overflow-hidden bg-gradient-to-br from-card/60 to-card/40 backdrop-blur-sm border border-border/30 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 flex flex-col h-full"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    
-                    <div className="relative p-6 flex flex-col h-full">
-                      {/* Main content: title, description, badges */}
-                      <div className="flex-1 space-y-6">
-                        <div className="space-y-3">
-                          <div className="flex items-start justify-between">
-                            <h3 className="text-xl font-bold text-foreground group-hover:text-gradient transition-all duration-300">
-                              {project.title}
-                            </h3>
-                            <div className="w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div key={index} className="h-full">
+                    <Card className="group h-full flex flex-col bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 overflow-hidden rounded-2xl">
+                      <div className="p-6 flex flex-col h-full">
+                        <div className="mb-4 flex justify-between items-start">
+                          <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                            {category.icon}
                           </div>
-                          <p className="text-muted-foreground leading-relaxed">
-                            {project.description}
-                          </p>
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.slice(0, 3).map((tech, techIndex) => (
-                            <Badge 
-                              key={techIndex} 
-                              variant="secondary" 
-                              className="text-xs bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                          {project.technologies.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{project.technologies.length - 3} more
-                            </Badge>
+                          {project.github && project.github !== '#' && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                              <Github className="w-5 h-5" />
+                            </a>
                           )}
                         </div>
-                      </div>
+                        
+                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                          {project.title}
+                        </h3>
+                        
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3 flex-1">
+                          {project.description}
+                        </p>
 
-                      {/* Footer: actions */}
-                      <div className="mt-4">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="w-full group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
-                            >
-                              <Eye className="w-4 h-4 mr-2" />
-                              View Details
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl">
-                            <DialogHeader>
-                              <DialogTitle className="text-2xl">{project.title}</DialogTitle>
-                            </DialogHeader>
-                            <div className="space-y-6">
-                              <p className="text-muted-foreground leading-relaxed">
-                                {project.details}
-                              </p>
+                        <div className="space-y-4 mt-auto">
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                              <Badge 
+                                key={techIndex} 
+                                variant="secondary" 
+                                className="text-xs font-normal bg-secondary/50 hover:bg-secondary transition-colors"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                            {project.technologies.length > 3 && (
+                              <Badge variant="outline" className="text-xs font-normal">
+                                +{project.technologies.length - 3}
+                              </Badge>
+                            )}
+                          </div>
 
-                              <div className="space-y-3">
-                                <h4 className="font-semibold">Technologies Used:</h4>
-                                <div className="flex flex-wrap gap-2">
-                                  {project.technologies.map((tech, techIndex) => (
-                                    <Badge 
-                                      key={techIndex} 
-                                      variant="outline"
-                                      className="border-primary/20 bg-primary/5"
-                                    >
-                                      {tech}
-                                    </Badge>
-                                  ))}
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button className="w-full bg-secondary/50 hover:bg-primary hover:text-primary-foreground text-foreground transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20">
+                                View Details
+                                <Eye className="w-4 h-4 ml-2" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-xl border-border/50">
+                              <DialogHeader>
+                                <DialogTitle className="text-2xl font-bold text-gradient">{project.title}</DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-6 py-4">
+                                <p className="text-muted-foreground leading-relaxed text-base">
+                                  {project.details}
+                                </p>
+
+                                <div className="space-y-3">
+                                  <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">Technologies</h4>
+                                  <div className="flex flex-wrap gap-2">
+                                    {project.technologies.map((tech, techIndex) => (
+                                      <Badge 
+                                        key={techIndex} 
+                                        variant="outline"
+                                        className="px-3 py-1 border-primary/20 bg-primary/5 text-primary"
+                                      >
+                                        {tech}
+                                      </Badge>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
 
-                              <div className="flex gap-3">
-                                {project.demo && project.demo !== '#' ? (
-                                  <Button asChild className="bg-gradient-primary">
-                                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                                <div className="flex gap-4 pt-4">
+                                  {project.demo && project.demo !== '#' ? (
+                                    <Button asChild className="flex-1 bg-gradient-to-r from-primary to-accent hover:opacity-90">
+                                      <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                                        <ExternalLink className="w-4 h-4 mr-2" />
+                                        Live Demo
+                                      </a>
+                                    </Button>
+                                  ) : (
+                                    <Button disabled className="flex-1 opacity-50">
                                       <ExternalLink className="w-4 h-4 mr-2" />
                                       Live Demo
-                                    </a>
-                                  </Button>
-                                ) : (
-                                  <Button disabled size="sm" className="bg-muted/30 text-muted-foreground">
-                                    <ExternalLink className="w-4 h-4 mr-2" />
-                                    Live Demo
-                                  </Button>
-                                )}
+                                    </Button>
+                                  )}
 
-                                {project.github && project.github !== '#' ? (
-                                  <Button variant="outline" asChild>
-                                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                  {project.github && project.github !== '#' ? (
+                                    <Button variant="outline" asChild className="flex-1 border-primary/20 hover:bg-primary/5">
+                                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                        <Github className="w-4 h-4 mr-2" />
+                                        Source Code
+                                      </a>
+                                    </Button>
+                                  ) : (
+                                    <Button disabled variant="outline" className="flex-1 opacity-50">
                                       <Github className="w-4 h-4 mr-2" />
                                       Source Code
-                                    </a>
-                                  </Button>
-                                ) : (
-                                  <Button disabled variant="outline" className="text-muted-foreground border-muted/30">
-                                    <Github className="w-4 h-4 mr-2" />
-                                    Source Code
-                                  </Button>
-                                )}
+                                    </Button>
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
                       </div>
-                    </div>
-                  </Card>
+                    </Card>
                   </div>
                 ))}
               </div>

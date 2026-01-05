@@ -1,6 +1,9 @@
 ﻿import { useState, useRef, useEffect, MouseEvent, TouchEvent } from 'react';
+import { Badge } from '@/components/ui/badge';
+import * as api from '@/api';
 
 const Skills = () => {
+  const [skillsData, setSkillsData] = useState<any[]>([]);
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
@@ -9,7 +12,45 @@ const Skills = () => {
   const sphereRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
 
-  const skillsWithCategories = [
+  const initialSkillsWithCategories = [
+    // Frontend
+    { name: "React", category: "Frontend", color: "text-blue-400" },
+    // ... (rest of dummy data)
+  ];
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await api.getSkills();
+        if (response.data && response.data.length > 0) {
+          setSkillsData(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+        }
+      } catch (error) {
+        console.error("Failed to fetch skills:", error);
+      }
+    };
+    fetchSkills();
+  }, []);
+
+  const getCategoryColor = (category: string) => {
+    const colors: any = {
+      Frontend: "text-blue-400",
+      Backend: "text-green-400",
+      Database: "text-purple-400",
+      DevOps: "text-orange-400",
+      Mobile: "text-cyan-400",
+      Design: "text-pink-400",
+      AI: "text-yellow-400",
+      Tools: "text-gray-400"
+    };
+    return colors[category] || "text-white";
+  };
+
+  const skillsWithCategories = skillsData.length > 0 ? skillsData.map(s => ({
+    name: s.name,
+    category: s.category,
+    color: getCategoryColor(s.category)
+  })) : [
     // Frontend
     { name: "React", category: "Frontend", color: "text-blue-400" },
     { name: "Next.js", category: "Frontend", color: "text-blue-400" },
@@ -230,15 +271,22 @@ const Skills = () => {
   }, [isDragging, lastMouse]);
 
   return (
-    <section id='skills' className="py-20 px-4 bg-background overflow-hidden">
-      <div className="container max-w-6xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
-            My <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Skills</span>
+    <section id='skills' className="py-16 px-6 bg-secondary/5 overflow-hidden relative">
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Technical Expertise
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Skills</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Auto-rotating skills globe - drag with mouse or swipe with finger to control
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Interactive 3D visualization of my technical skillset. Drag to explore.
           </p>
         </div>
 
@@ -309,13 +357,13 @@ const Skills = () => {
                   >
                     <div
                       className={`
-                        bg-card/90 backdrop-blur-md border border-border/50
-                        rounded-lg px-1.5 py-0.5 sm:px-4 sm:py-2 text-center cursor-pointer
-                        hover:bg-card hover:border-primary/50 hover:scale-105
-                        transition-all duration-300 shadow-lg hover:shadow-xl
-                        w-[70px] sm:w-[160px] text-[10px] sm:text-sm font-medium
-                        hover:z-50 relative leading-tight
-                        ${hoveredSkill === skill ? 'ring-2 ring-primary/50' : ''}
+                        bg-card/80 backdrop-blur-xl border border-border/50
+                        rounded-xl px-2 py-1 sm:px-4 sm:py-2 text-center cursor-pointer
+                        hover:bg-primary/10 hover:border-primary/50 hover:scale-110
+                        transition-all duration-300 shadow-lg hover:shadow-primary/20
+                        w-[80px] sm:w-[160px] text-[10px] sm:text-sm font-bold
+                        hover:z-50 relative leading-tight group
+                        ${hoveredSkill === skill ? 'ring-2 ring-primary/50 bg-primary/20' : ''}
                         ${skillData.color}
                       `}
                       style={{
@@ -325,38 +373,23 @@ const Skills = () => {
                       }}
                     >
                       {skill}
-                      <div className="text-[8px] sm:text-xs text-muted-foreground/70 mt-0.5 sm:mt-1 hidden sm:block">
+                      <div className="text-[8px] sm:text-xs text-muted-foreground/80 mt-0.5 sm:mt-1 hidden sm:block font-normal group-hover:text-foreground transition-colors">
                         {skillData.category}
                       </div>
                     </div>
                   </div>
                 );
               }).filter(Boolean)}
-
-              {/* Elliptical wireframe (optional visual guide) */}
-              <div 
-                className="absolute inset-0 border border-border/20 pointer-events-none rounded-full"
-                style={{
-                  width: '640px',
-                  height: '520px',
-                  left: '50%',
-                  top: '50%',
-                  marginLeft: '-320px',
-                  marginTop: '-260px',
-                  transform: 'scaleX(1.2)', // Make it wider/elliptical
-                }}
-              />
             </div>
           </div>
         </div>
 
         {/* Instructions */}
-        <div className="text-center mt-8 space-y-2">
-          <p className="text-sm text-muted-foreground">
-            🖱️ Drag with mouse or 👆 swipe with finger to control
-          </p>
-          <p className="text-xs text-muted-foreground/70">
-            All {skillsWithCategories.length} skills are distributed across the entire globe surface
+        <div className="text-center mt-8 space-y-2 animate-pulse">
+          <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary"></span>
+            Drag to rotate
+            <span className="w-2 h-2 rounded-full bg-accent"></span>
           </p>
         </div>
       </div>

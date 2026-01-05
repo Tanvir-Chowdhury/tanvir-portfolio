@@ -1,15 +1,42 @@
-﻿import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Trophy, Medal, Award, Star, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Trophy, Medal, Award, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as api from '@/api';
 import csoImg from '@/assets/awards/cso.jpg';
 import hultImg from '@/assets/awards/hult_prize_semifinal.jpg';
 import hultCampus from '@/assets/awards/hultprize_on_campus.png';
 
 const Awards = () => {
-  const awards = [
+  const [awardsData, setAwardsData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchAwards = async () => {
+      try {
+        const response = await api.getAwards();
+        if (response.data && response.data.length > 0) {
+          const formattedData = response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)).map((item: any) => ({
+            title: item.title,
+            organization: item.organization,
+            year: item.date ? new Date(item.date).getFullYear().toString() : (item.year || ""),
+            description: item.description,
+            icon: <Trophy className="w-6 h-6" />,
+            color: "bg-primary/10 text-primary",
+            rank: item.rank || "Winner",
+            link: item.image_url || item.link || "#"
+          }));
+          setAwardsData(formattedData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch awards:", error);
+      }
+    };
+    fetchAwards();
+  }, []);
+
+  const staticAwards = [
     {
       title: "Bronze Prize at Climate Science Olympiad 2023",
       organization: "Climate Science Foundation",
@@ -18,7 +45,7 @@ const Awards = () => {
       icon: <Medal className="w-6 h-6" />,
       color: "bg-amber-500/10 text-amber-500",
       rank: "Bronze Medal",
-  link: csoImg
+      link: csoImg
     },
     {
       title: "Regional Winner & Semifinalist - Hult Prize Competition",
@@ -28,7 +55,7 @@ const Awards = () => {
       icon: <Trophy className="w-6 h-6" />,
       color: "bg-yellow-500/10 text-yellow-500",
       rank: "Regional Winner",
-  link: hultImg
+      link: hultImg
     },
     {
       title: "OnCampus Winner - Hult Prize BGCTUB",
@@ -52,66 +79,85 @@ const Awards = () => {
     }
   ];
 
+  const awards = awardsData.length > 0 ? awardsData : staticAwards;
+
   return (
-    <section id='awards' className="pt-20 px-4">
-      <div className="container max-w-6xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            Honors & <span className="text-gradient">Awards</span>
+    <section id='awards' className="py-16 px-6 bg-background relative overflow-hidden">
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Achievements
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Honors & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Awards</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Recognition for excellence in competitions, innovation, and academic achievements
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Recognition for excellence in competitions, innovation, and academic achievements.
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="grid md:grid-cols-2 gap-8">
           {awards.map((award, index) => {
             const hasLink = !!award.link && award.link !== '#' && award.link.trim() !== '';
             return (
               <Card 
                 key={index} 
-                className="p-6 sm:p-8 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group"
+                className="p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl flex flex-col h-full"
               >
-                <div className="flex flex-col">
-                  <MobileAwardItem award={award} />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-all group-hover:scale-150 duration-500"></div>
+                
+                <div className="flex flex-col h-full relative z-10">
+                  <div className="flex items-start gap-5 mb-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${award.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                      {award.icon}
+                    </div>
+                    
+                    <div className="flex-1 space-y-1">
+                      <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+                        {award.title}
+                      </h3>
+                      <p className="text-primary font-medium">{award.organization}</p>
+                      <Badge variant="secondary" className="mt-2 bg-secondary/50">
+                        {award.year}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-grow">
+                    <MobileAwardItem award={award} />
+                  </div>
 
-                  {/* Footer with certificate button (full width on mobile) */}
-                  <div className="mt-4 flex justify-end">
-                    {hasLink ? (
+                  {/* Footer with certificate button */}
+                  <div className="mt-6 pt-6 border-t border-border/30 flex justify-between items-center">
+                    <Badge variant="outline" className="border-primary/20 text-primary bg-primary/5">
+                      {award.rank}
+                    </Badge>
+                    
+                    {hasLink && (
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button variant="secondary" className="w-full sm:w-auto" title={`Open certificate: ${award.title}`}>
-                            <span className="inline-flex items-center gap-2">
-                              <ExternalLink className="w-4 h-4" />
-                              <span>View Certificate</span>
-                            </span>
+                          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 hover:bg-primary/10 gap-2 group/btn">
+                            <span>View Certificate</span>
+                            <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                           </Button>
                         </DialogTrigger>
 
-                        <DialogContent className="max-w-3xl w-[90vw]">
-                          <DialogTitle className="mb-2">{award.title} - {award.organization}</DialogTitle>
-                          <div className="w-full flex justify-center">
+                        <DialogContent className="max-w-4xl w-[90vw] p-0 overflow-hidden bg-background/95 backdrop-blur-xl border-primary/20">
+                          <div className="p-6 border-b border-border/50">
+                            <DialogTitle className="text-xl font-bold">{award.title}</DialogTitle>
+                            <p className="text-muted-foreground">{award.organization}</p>
+                          </div>
+                          <div className="w-full flex justify-center p-4 bg-black/50">
                             {/* Responsive image preview */}
-                            <img src={String(award.link)} alt={`${award.title} certificate`} loading="lazy" className="max-h-[70vh] w-auto max-w-full object-contain rounded" onError={(e)=>{ (e.target as HTMLImageElement).style.display = 'none' }} />
+                            <img src={String(award.link)} alt={`${award.title} certificate`} loading="lazy" className="max-h-[70vh] w-auto max-w-full object-contain rounded shadow-2xl" onError={(e)=>{ (e.target as HTMLImageElement).style.display = 'none' }} />
                           </div>
                         </DialogContent>
                       </Dialog>
-                    ) : (
-                      <Button variant="secondary" className="w-full sm:w-auto opacity-50" disabled title="No certificate available">
-                        <span className="inline-flex items-center gap-2">
-                          <ExternalLink className="w-4 h-4" />
-                          <span>View Certificate</span>
-                        </span>
-                      </Button>
                     )}
                   </div>
                 </div>
-
-                {/* Decorative line */}
-                <div className="mt-4 sm:mt-6 h-px bg-gradient-primary opacity-20"></div>
               </Card>
-            )
+            );
           })}
         </div>
       </div>
@@ -119,72 +165,33 @@ const Awards = () => {
   );
 };
 
-type AwardItem = {
-  title: string;
-  organization: string;
-  year: string;
-  description: string;
-  icon: React.ReactNode;
-  color: string;
-  rank: string;
-  link?: string;
-}
+const MobileAwardItem = ({ award }: { award: any }) => {
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false; // Simple check, ideally use hook
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldTruncate = isMobile && !isExpanded;
 
-const MobileAwardItem = ({ award }: { award: AwardItem }) => {
-  const [open, setOpen] = useState(false);
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-      <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center ${award.color} group-hover:scale-110 transition-transform flex-shrink-0`}>
-        {award.icon}
-      </div>
-
-      <div className="flex-1">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <h3 className="text-lg sm:text-xl font-bold text-foreground">
-            {award.title}
-          </h3>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <Badge variant="default" className="bg-gradient-primary text-xs sm:text-sm px-2 py-1 whitespace-nowrap">
-              {award.rank}
-            </Badge>
-            <Badge variant="outline" className="border-primary/20 bg-primary/5 text-xs sm:text-sm whitespace-nowrap">
-              {award.year}
-            </Badge>
-          </div>
-        </div>
-
-        <p className="text-sm sm:text-lg text-primary font-medium mt-2">
-          {award.organization}
-        </p>
-
-        <div className="mt-3">
-          {/* Truncate only on small screens; show full text on sm+ */}
-          <div className={`text-muted-foreground leading-relaxed text-sm sm:text-base ${open ? 'max-h-full' : 'max-h-16 overflow-hidden'} sm:max-h-full sm:overflow-visible`}>
-            {award.description}
-          </div>
-
-          {/* Toggle only visible on mobile */}
-          <button
-            className="mt-2 text-sm text-primary inline-flex items-center gap-2 sm:hidden"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-          >
-            {open ? (
-              <>
-                <span>Hide</span>
-                <ChevronUp className="w-4 h-4" />
-              </>
-            ) : (
-              <>
-                <span>Read more</span>
-                <ChevronDown className="w-4 h-4" />
-              </>
-            )}
-          </button>
-        </div>
-      </div>
+    <div className="space-y-3">
+      <p className={`text-muted-foreground leading-relaxed ${shouldTruncate ? 'line-clamp-3' : ''}`}>
+        {award.description}
+      </p>
+      
+      {isMobile && (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="p-0 h-auto text-primary hover:text-primary/80 hover:bg-transparent"
+        >
+          {isExpanded ? (
+            <span className="flex items-center text-xs">Show Less <ChevronUp className="ml-1 w-3 h-3" /></span>
+          ) : (
+            <span className="flex items-center text-xs">Read More <ChevronDown className="ml-1 w-3 h-3" /></span>
+          )}
+        </Button>
+      )}
     </div>
   );
 };
 
-export default Awards; 
+export default Awards;

@@ -3,11 +3,38 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Briefcase, Calendar, MapPin, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import * as api from '@/api';
 
 const WorkExperience = () => {
   const isMobile = useIsMobile();
   const [expandedCards, setExpandedCards] = useState<number[]>([]);
+  const [experienceData, setExperienceData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      try {
+        const response = await api.getExperience();
+        if (response.data && response.data.length > 0) {
+          const formattedData = response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)).map((item: any) => ({
+            position: item.position,
+            company: item.company,
+            location: item.location,
+            duration: item.duration || (item.start_date ? `${new Date(item.start_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${item.is_current ? 'Present' : (item.end_date ? new Date(item.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '')}` : ''),
+            type: item.type,
+            description: item.description,
+            achievements: Array.isArray(item.achievements) ? item.achievements : (item.achievements ? item.achievements.split('\n') : [])
+          }));
+          setExperienceData(formattedData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch experience:", error);
+      }
+    };
+    fetchExperience();
+  }, []);
+
+  const displayData = experienceData.length > 0 ? experienceData : workData;
 
   const toggleExpanded = (index: number) => {
     setExpandedCards(prev => 
@@ -109,70 +136,77 @@ const WorkExperience = () => {
   ];
 
   return (
-    <section id='experience' className="py-20 px-4 bg-secondary/30">
-      <div className="container max-w-4xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            Work <span className="text-gradient">Experience</span>
+    <section id='experience' className="py-16 px-6 bg-secondary/10 relative">
+      <div className="container max-w-5xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-accent/50 text-accent bg-accent/10 backdrop-blur-sm">
+            Career Path
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">Experience</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Professional journey building solutions and creating impact in the digital world
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            My professional journey building solutions and creating impact in the digital world.
           </p>
         </div>
 
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-primary hidden md:block"></div>
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-primary/50 to-transparent hidden md:block transform -translate-x-1/2"></div>
           
-          <div className="space-y-8">
-            {workData.map((work, index) => {
+          <div className="space-y-12">
+            {displayData.map((work, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncateDesc = isMobile && !isExpanded;
+              const isEven = index % 2 === 0;
               
               return (
-                <div key={index} className="relative">
+                <div key={index} className={`relative flex flex-col md:flex-row gap-8 ${isEven ? 'md:flex-row-reverse' : ''}`}>
                   {/* Timeline dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-accent rounded-full border-4 border-background hidden md:block"></div>
+                  <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-background rounded-full border-4 border-accent z-10 hidden md:block transform -translate-x-1/2 mt-8 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
                   
-                  <div className="md:ml-16">
-                    <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-accent transition-all duration-500 group">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0">
-                          <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 transition-colors">
+                  <div className="flex-1 md:w-1/2"></div>
+                  
+                  <div className="flex-1 md:w-1/2">
+                    <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 group relative overflow-hidden rounded-2xl">
+                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                      
+                      <div className="flex items-start gap-5">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform duration-300">
                             <Briefcase className="w-6 h-6" />
                           </div>
                         </div>
                         
                         <div className="flex-1 space-y-4">
-                          <div className="space-y-2">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                              <h3 className="text-xl font-semibold text-foreground">
+                          <div className="space-y-1">
+                            <div className="flex justify-between items-start gap-2">
+                              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
                                 {work.position}
                               </h3>
                               <Badge 
-                                variant={'default'}
-                                className={'bg-gradient-primary'}
+                                variant={'outline'}
+                                className="bg-accent/5 border-accent/20 text-accent whitespace-nowrap"
                               >
                                 {work.type}
                               </Badge>
                             </div>
                             
-                            <p className="text-lg text-accent font-medium">{work.company}</p>
+                            <p className="text-lg text-primary font-medium">{work.company}</p>
                             
-                            <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
-                              <div className="flex items-center gap-1">
-                                <Calendar className="w-4 h-4" />
-                                {work.duration}
+                            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground pt-1">
+                              <div className="flex items-center gap-1.5 bg-secondary/50 px-3 py-1 rounded-full">
+                                <Calendar className="w-4 h-4 text-accent" />
+                                <span>{work.duration}</span>
                               </div>
-                              <div className="flex items-center gap-1">
-                                <MapPin className="w-4 h-4" />
-                                {work.location}
+                              <div className="flex items-center gap-1.5 bg-secondary/50 px-3 py-1 rounded-full">
+                                <MapPin className="w-4 h-4 text-primary" />
+                                <span>{work.location}</span>
                               </div>
                             </div>
                           </div>
                           
-                          <div className="space-y-3">
+                          <div className="space-y-4">
                             <p className={`text-muted-foreground leading-relaxed transition-all duration-300 ${
                               shouldTruncateDesc ? 'line-clamp-2' : ''
                             }`}>
@@ -181,8 +215,8 @@ const WorkExperience = () => {
                             
                             {/* Achievements section - collapse on mobile when not expanded */}
                             {(!isMobile || isExpanded) && (
-                              <div className="space-y-2">
-                                <div className="flex items-center gap-2 text-sm font-medium">
+                              <div className="space-y-3 pt-2 border-t border-border/30">
+                                <div className="flex items-center gap-2 text-sm font-semibold text-foreground/80 uppercase tracking-wider">
                                   <TrendingUp className="w-4 h-4 text-accent" />
                                   Key Achievements
                                 </div>
@@ -190,8 +224,8 @@ const WorkExperience = () => {
                                   {work.achievements.map((achievement, achIndex) => (
                                     <Badge 
                                       key={achIndex} 
-                                      variant="outline" 
-                                      className="text-xs border-accent/20 bg-accent/5"
+                                      variant="secondary" 
+                                      className="text-xs font-normal bg-secondary/50 hover:bg-secondary transition-colors"
                                     >
                                       {achievement}
                                     </Badge>
@@ -206,16 +240,12 @@ const WorkExperience = () => {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => toggleExpanded(index)}
-                                className="p-0 h-auto font-medium text-accent hover:text-accent/80 hover:bg-transparent focus:bg-transparent active:bg-transparent focus:ring-0 focus:outline-none active:scale-95"
+                                className="w-full mt-2 text-accent hover:text-accent/80 hover:bg-accent/10"
                               >
                                 {isExpanded ? (
-                                  <>
-                                    Read Less <ChevronUp className="ml-1 h-4 w-4" />
-                                  </>
+                                  <span className="flex items-center">Show Less <ChevronUp className="ml-1 w-4 h-4" /></span>
                                 ) : (
-                                  <>
-                                    Read More <ChevronDown className="ml-1 h-4 w-4" />
-                                  </>
+                                  <span className="flex items-center">Read More <ChevronDown className="ml-1 w-4 h-4" /></span>
                                 )}
                               </Button>
                             )}

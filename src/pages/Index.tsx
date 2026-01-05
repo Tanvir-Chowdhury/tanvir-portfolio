@@ -22,10 +22,10 @@ const Index = () => {
       <Education />
       <WorkExperience />
       <Volunteering />
-      {/* <Certificates /> */}
+      <Certificates />
       <Awards />
-      {/* <Skills /> */}
-      {/* <Hobbies /> */}
+      <Skills />
+      <Hobbies />
       <Contact />
       <Footer />
     </div>

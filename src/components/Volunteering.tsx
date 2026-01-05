@@ -1,9 +1,36 @@
 ﻿import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heart, Users, Globe, Award } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import * as api from '@/api';
 
 const Volunteering = () => {
-  const volunteeringData = [
+  const [fetchedVolunteeringData, setFetchedVolunteeringData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchVolunteering = async () => {
+      try {
+        const response = await api.getVolunteering();
+        if (response.data && response.data.length > 0) {
+          const formattedData = response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)).map((item: any) => ({
+            role: item.role,
+            organization: item.organization,
+            duration: item.duration || (item.start_date ? `${new Date(item.start_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${item.is_current ? 'Present' : (item.end_date ? new Date(item.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '')}` : ''),
+            description: item.description,
+            icon: <Users className="w-6 h-6" />,
+            color: "bg-primary/10 text-primary",
+            impact: item.impact || item.description
+          }));
+          setFetchedVolunteeringData(formattedData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch volunteering:", error);
+      }
+    };
+    fetchVolunteering();
+  }, []);
+
+  const staticVolunteeringData = [
     {
   role: "Team Lead",
   organization: "Graphics Team, IEEE WIE",
@@ -43,48 +70,61 @@ const Volunteering = () => {
 
   ];
 
+  const volunteeringData = fetchedVolunteeringData.length > 0 ? fetchedVolunteeringData : staticVolunteeringData;
+
   return (
-    <section className="py-20 px-4">
-      <div className="container max-w-6xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            Volunteering <span className="text-gradient">Experience</span>
+    <section className="py-16 px-6 bg-background relative overflow-hidden">
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Community Impact
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Volunteering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Experience</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Giving back to the community through mentorship, education and tech initiatives
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Giving back to the community through mentorship, education and tech initiatives.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-8">
           {volunteeringData.map((volunteer, index) => (
             <Card 
               key={index} 
-              className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group hover:scale-105"
+              className="p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl"
             >
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${volunteer.color} group-hover:scale-110 transition-transform`}>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-all group-hover:scale-150 duration-500"></div>
+              
+              <div className="space-y-6 relative z-10">
+                <div className="flex items-start gap-5">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${volunteer.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
                     {volunteer.icon}
                   </div>
                   
-                  <div className="flex-1 space-y-2">
-                    <h3 className="text-xl font-semibold text-foreground">
+                  <div className="flex-1 space-y-1">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                       {volunteer.role}
                     </h3>
-                    <p className="text-primary font-medium">{volunteer.organization}</p>
-                    <p className="text-sm text-muted-foreground">{volunteer.duration}</p>
+                    <p className="text-lg text-primary font-medium">{volunteer.organization}</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                      {volunteer.duration}
+                    </p>
                   </div>
                 </div>
                 
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed text-base">
                   {volunteer.description}
                 </p>
                 
-                <div className="flex items-center justify-between pt-2">
-                  <Badge variant="outline" className="border-primary/20 bg-primary/5">
+                <div className="pt-4 border-t border-border/30">
+                  <div className="flex items-center gap-2">
+                    <Award className="w-4 h-4 text-accent" />
+                    <span className="text-sm font-medium text-foreground/80">Key Impact:</span>
+                  </div>
+                  <p className="mt-2 text-sm text-muted-foreground bg-secondary/30 p-3 rounded-lg border border-border/30">
                     {volunteer.impact}
-                  </Badge>
+                  </p>
                 </div>
               </div>
             </Card>

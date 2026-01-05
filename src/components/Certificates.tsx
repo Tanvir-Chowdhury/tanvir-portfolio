@@ -1,10 +1,36 @@
-﻿import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Award, ExternalLink, Calendar } from 'lucide-react';
+import { Award, ExternalLink, Calendar, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+import * as api from '@/api';
 
 const Certificates = () => {
-  const certificates = [
+  const [certificatesData, setCertificatesData] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchCertificates = async () => {
+      try {
+        const response = await api.getCertificates();
+        if (response.data && response.data.length > 0) {
+          const formattedData = response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)).map((item: any) => ({
+            title: item.title,
+            issuer: item.issuer,
+            date: item.issue_date ? new Date(item.issue_date).getFullYear().toString() : (item.date || ""),
+            category: item.category || "General",
+            skills: item.skills || [],
+            link: item.credential_url || item.link || "#"
+          }));
+          setCertificatesData(formattedData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch certificates:", error);
+      }
+    };
+    fetchCertificates();
+  }, []);
+
+  const staticCertificates = [
     {
       title: "React.js Complete Course",
       issuer: "Udemy",
@@ -99,155 +125,69 @@ const Certificates = () => {
       date: "2023",
       category: "Marketing",
       skills: ["Content", "Strategy", "Writing"],
-      link: "https://contentmarketinginstitute.com/certificate/example"
-    },
-    {
-      title: "Git & GitHub Mastery",
-      issuer: "GitHub",
-      date: "2022",
-      category: "Development",
-      skills: ["Git", "GitHub", "Version Control"],
-      link: "https://www.github.com/certification/example"
-    },
-    {
-      title: "Google Analytics Certified",
-      issuer: "Google",
-      date: "2023",
-      category: "Analytics",
-      skills: ["Analytics", "Data", "Insights"],
-      link: "https://analytics.google.com/certificate/example"
-    },
-    {
-      title: "Responsive Web Design",
-      issuer: "freeCodeCamp",
-      date: "2021",
-      category: "Web Development",
-      skills: ["HTML", "CSS", "Responsive"],
-      link: "https://www.freecodecamp.org/certificate/responsive-web-example"
-    },
-    {
-      title: "Email Marketing Automation",
-      issuer: "Mailchimp",
-      date: "2023",
-      category: "Marketing",
-      skills: ["Email", "Automation", "CRM"],
-      link: "https://mailchimp.com/certificate/example"
-    },
-    {
-      title: "Database Design & SQL",
-      issuer: "Oracle",
-      date: "2022",
-      category: "Database",
-      skills: ["SQL", "Database", "MySQL"],
-      link: "https://education.oracle.com/certificate/example"
-    },
-    {
-      title: "Project Management",
-      issuer: "PMI",
-      date: "2023",
-      category: "Management",
-      skills: ["Project Management", "Agile", "Scrum"],
-      link: "https://www.pmi.org/certificate/example"
-    },
-    {
-      title: "Cybersecurity Fundamentals",
-      issuer: "IBM",
-      date: "2022",
-      category: "Security",
-      skills: ["Security", "Networking", "Risk"],
-      link: "https://www.ibm.com/certification/example"
+      link: "https://www.contentmarketinginstitute.com/certificate/example"
     }
   ];
 
-  const categories = [...new Set(certificates.map(cert => cert.category))];
+  const certificates = certificatesData.length > 0 ? certificatesData : staticCertificates;
 
   return (
-    <section id='certificates' className="py-20 px-4 bg-secondary/30">
-      <div className="container max-w-7xl mx-auto">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold">
-            Certificates & <span className="text-gradient">Courses</span>
+    <section id='certificates' className="py-16 px-6 bg-secondary/5 relative overflow-hidden">
+      <div className="container max-w-6xl mx-auto relative z-10">
+        <div className="text-center space-y-6 mb-12">
+          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
+            Continuous Learning
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Certifications</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Continuous learning through certified courses and professional development programs
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Validating skills and expertise through recognized industry certifications.
           </p>
         </div>
 
-        {/* Category badges */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category, index) => (
-            <Badge 
-              key={index} 
-              variant="outline" 
-              className="px-4 py-2 border-primary/20 bg-primary/5 hover:bg-primary/10 transition-colors"
-            >
-              {category}
-            </Badge>
-          ))}
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {certificates.map((cert, index) => (
             <Card 
               key={index} 
-              className="relative p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:glow-primary transition-all duration-500 group hover:scale-105"
+              className="p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden flex flex-col h-full"
             >
-              {/* Hover-only open link button in top-right */}
-              {cert.link && (
-                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button
-                    asChild
-                    variant="ghost"
-                    size="icon"
-                    title={`Open certificate: ${cert.title}`}
-                  >
-                    <a href={cert.link} target="_blank" rel="noopener noreferrer" aria-label={`Open ${cert.title} in new tab`}>
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </Button>
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 duration-500"></div>
+              
+              <div className="flex items-start justify-between mb-4 relative z-10">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                  <Award className="w-6 h-6" />
                 </div>
-              )}
-
-              <div className="space-y-4">
-                <div className="flex items-start justify-between">
-                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 transition-colors">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" />
-                </div>
-                
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-foreground leading-tight">
+                <Badge variant="secondary" className="bg-secondary/50 backdrop-blur-sm">
+                  {cert.date}
+                </Badge>
+              </div>
+              
+              <div className="space-y-3 flex-grow relative z-10">
+                <div>
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1" title={cert.title}>
                     {cert.title}
                   </h3>
-                  <p className="text-primary font-medium text-sm">{cert.issuer}</p>
-                  
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Calendar className="w-3 h-3" />
-                    {cert.date}
-                  </div>
+                  <p className="text-sm text-muted-foreground font-medium">{cert.issuer}</p>
                 </div>
                 
-                <div className="space-y-2">
-                  <Badge 
-                    variant="secondary" 
-                    className="text-xs"
-                  >
-                    {cert.category}
-                  </Badge>
-                  
-                  <div className="flex flex-wrap gap-1">
-                    {cert.skills.map((skill, skillIndex) => (
-                      <span 
-                        key={skillIndex}
-                        className="text-xs px-2 py-1 rounded bg-muted/50 text-muted-foreground"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {cert.skills.slice(0, 3).map((skill, i) => (
+                    <span key={i} className="text-xs px-2 py-1 rounded-md bg-secondary/30 text-muted-foreground border border-border/30 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-primary/70" />
+                      {skill}
+                    </span>
+                  ))}
                 </div>
+              </div>
+              
+              <div className="mt-6 pt-4 border-t border-border/30 relative z-10">
+                <Button variant="ghost" size="sm" className="w-full justify-between text-primary hover:text-primary hover:bg-primary/10 group/btn" asChild>
+                  <a href={cert.link} target="_blank" rel="noopener noreferrer">
+                    Verify Credential
+                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
               </div>
             </Card>
           ))}
@@ -257,4 +197,4 @@ const Certificates = () => {
   );
 };
 
-export default Certificates; 
+export default Certificates;
