@@ -41,7 +41,7 @@ const Hobbies = () => {
   }, []);
 
   const getIcon = (iconName: string) => {
-    const icons: any = { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane };
+    const icons: any = { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Code };
     const IconComponent = icons[iconName] || Star;
     return <IconComponent className="w-6 h-6" />;
   };
@@ -54,8 +54,8 @@ const Hobbies = () => {
     {
       title: "Reading",
       description: "Love reading books on business, technology and personal development. Currently exploring 'Building a Story Brand' by Donald Miller.",
-      icon: <BookOpen className="w-6 h-6" />,
-      color: "bg-blue-500/10 text-blue-500"
+      icon_name: <BookOpen className="w-6 h-6" />,
+      color_class: "bg-blue-500/10 text-blue-500"
     },
     {
       title: "Korean Dramas",
@@ -102,10 +102,10 @@ const Hobbies = () => {
   ];
 
   const itemsToDisplay = hobbiesData.length > 0 ? hobbiesData.map((h, index) => ({
-    title: h.name,
+    title: h.title,
     description: h.description,
-    icon: getIcon(h.icon),
-    color: ["bg-blue-500/10 text-blue-500", "bg-red-500/10 text-red-500", "bg-green-500/10 text-green-500", "bg-orange-500/10 text-orange-500", "bg-purple-500/10 text-purple-500"][index % 5]
+    icon_name: getIcon(h.icon_name),
+    color_class: ["bg-blue-500/10 text-blue-500", "bg-red-500/10 text-red-500", "bg-green-500/10 text-green-500", "bg-orange-500/10 text-orange-500", "bg-purple-500/10 text-purple-500"][index % 5]
   })) : initialHobbies;
 
   return (
@@ -133,7 +133,7 @@ const Hobbies = () => {
               
               <div className="space-y-4 text-center relative z-10 flex flex-col h-full">
                 <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
-                  {hobby.icon}
+                  {hobby.icon_name}
                 </div>
                 
                 <div className="space-y-2 flex-grow">
