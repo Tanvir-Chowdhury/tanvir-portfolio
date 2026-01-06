@@ -101,12 +101,36 @@ const Hobbies = () => {
     }
   ];
 
-  const itemsToDisplay = hobbiesData.length > 0 ? hobbiesData.map((h, index) => ({
-    title: h.title,
-    description: h.description,
-    icon_name: getIcon(h.icon_name),
-    color_class: ["bg-blue-500/10 text-blue-500", "bg-red-500/10 text-red-500", "bg-green-500/10 text-green-500", "bg-orange-500/10 text-orange-500", "bg-purple-500/10 text-purple-500"][index % 5]
-  })) : initialHobbies;
+  const colors = [
+    "bg-blue-500/10 text-blue-500",
+    "bg-red-500/10 text-red-500",
+    "bg-green-500/10 text-green-500", 
+    "bg-orange-500/10 text-orange-500",
+    "bg-purple-500/10 text-purple-500",
+    "bg-pink-500/10 text-pink-500",
+    "bg-indigo-500/10 text-indigo-500",
+    "bg-teal-500/10 text-teal-500",
+    "bg-cyan-500/10 text-cyan-500",
+    "bg-amber-500/10 text-amber-500"
+  ];
+
+  const itemsToDisplay = (hobbiesData.length > 0 ? hobbiesData : initialHobbies).map((h, index) => {
+    let iconRender;
+    // Handle both string icon names (API) and direct JSX (dummy data)
+    if (typeof h.icon_name === 'string') {
+      iconRender = getIcon(h.icon_name);
+    } else if (h.icon) {
+      iconRender = h.icon;
+    } else if (h.icon_name) {
+      iconRender = h.icon_name;
+    }
+
+    return {
+      ...h,
+      icon_name: iconRender,
+      color: colors[index % colors.length]
+    };
+  });
 
   return (
     <section className="py-16 px-6 bg-background relative overflow-hidden">
