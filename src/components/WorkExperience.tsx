@@ -34,8 +34,6 @@ const WorkExperience = () => {
     fetchExperience();
   }, []);
 
-  const displayData = experienceData.length > 0 ? experienceData : workData;
-
   const toggleExpanded = (index: number) => {
     setExpandedCards(prev => 
       prev.includes(index) 
@@ -134,6 +132,8 @@ const WorkExperience = () => {
 }
 
   ];
+
+  const displayData = experienceData.length > 0 ? experienceData : workData;
 
   return (
     <section id='experience' className="py-16 px-6 bg-secondary/10 relative">

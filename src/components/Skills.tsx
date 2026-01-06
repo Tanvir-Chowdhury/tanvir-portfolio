@@ -389,7 +389,6 @@ const Skills = () => {
           <p className="text-sm text-muted-foreground flex items-center justify-center gap-2">
             <span className="w-2 h-2 rounded-full bg-primary"></span>
             Drag to rotate
-            <span className="w-2 h-2 rounded-full bg-accent"></span>
           </p>
         </div>
       </div>

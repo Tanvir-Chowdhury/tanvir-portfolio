@@ -4,6 +4,7 @@ const API_URL = 'https://portfolio-backend-s06z.onrender.com/api'; // Adjust if 
 
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 120000, // 120 seconds timeout to handle slow backend responses (e.g. Render cold start)
 });
 
 // Add a request interceptor to include the token
@@ -78,6 +79,8 @@ export const getCompetitiveProfiles = () => api.get('/competitive-profiles');
 export const createCompetitiveProfile = (data) => api.post('/competitive-profiles', data);
 export const updateCompetitiveProfile = (id, data) => api.put(`/competitive-profiles/${id}`, data);
 export const deleteCompetitiveProfile = (id) => api.delete(`/competitive-profiles/${id}`);
+
+export const sendContactEmail = (data) => api.post('/contact', data);
 
 export default api;
 

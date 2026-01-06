@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Heart, ArrowUp, Mail, Github, Linkedin, Facebook, MessageCircle } from 'lucide-react';
+import { Heart, ArrowUp, Mail, Github, Linkedin, Facebook, MessageCircle, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,6 +19,14 @@ const Footer = () => {
     { name: "Contact", href: "#contact" }
   ];
 
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -27,12 +35,12 @@ const Footer = () => {
     <footer className="bg-secondary/30 border-t border-border/50 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none"></div>
       
-      <div className="container max-w-6xl mx-auto px-6 py-16 relative z-10">
+      <div className="container max-w-6xl mx-auto px-6 pt-16 pb-8 relative z-10">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Md. Tanvir</span> Chowdhury
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Md Tanvir</span> Chowdhury
             </h3>
             <p className="text-muted-foreground leading-relaxed max-w-sm">
               Software Engineer & Marketing Strategist passionate about creating solutions 
@@ -63,6 +71,7 @@ const Footer = () => {
                 <a
                   key={index}
                   href={link.href}
+                  onClick={(e) => handleScroll(e, link.href)}
                   className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform duration-200 flex items-center gap-2 w-fit"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
@@ -90,7 +99,7 @@ const Footer = () => {
               </a>
               <div className="flex items-center gap-3 group">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <Heart className="w-4 h-4" />
+                  <MapPin className="w-4 h-4" />
                 </div>
                 Bashundhara R/A, Dhaka, Bangladesh
               </div>
@@ -102,7 +111,7 @@ const Footer = () => {
         <div className="border-t border-border/30 pt-8 mt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-muted-foreground text-center md:text-left">
-              &copy; {currentYear} Md. Tanvir Chowdhury. All rights reserved.
+              &copy; {currentYear} Md Tanvir Chowdhury. All rights reserved.
             </div>
             
             <Button

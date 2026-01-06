@@ -123,48 +123,46 @@ const Contact = () => {
                 </Card>
               ))}
             </div>
-
-            <div className="pt-4">
-              <h4 className="text-lg font-semibold mb-4">Follow Me</h4>
-              <div className="flex flex-wrap gap-3">
-                {socialLinks.map((social, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="icon"
-                    className={`w-12 h-12 rounded-xl border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-primary/50 ${social.color}`}
-                    asChild
-                  >
-                    <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-                      {social.icon}
-                    </a>
-                  </Button>
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* Contact Form Placeholder / Call to Action */}
+          {/* Contact Form / Telegram Button */}
           <Card className="p-8 bg-card/40 backdrop-blur-sm border-border/50 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none"></div>
             
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-2 relative z-10">
-              <Send className="w-10 h-10 text-primary animate-pulse" />
+            <div className="relative z-10 space-y-6 w-full">
+              <div className="space-y-2">
+                <h3 className="text-2xl font-bold">Send a Message</h3>
+                <p className="text-muted-foreground">
+                  I'm currently available for freelance work and open to full-time opportunities.
+                </p>
+              </div>
+              
+              <Button className="w-full max-w-xs mx-auto group" size="lg" asChild>
+                <a href="https://t.me/Tanvir11744" target="_blank" rel="noopener noreferrer">
+                  Send Message on Telegram
+                  <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </a>
+              </Button>
+
+              <div className="pt-8 border-t border-border/30">
+                <h4 className="text-lg font-semibold mb-4">Follow Me</h4>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {socialLinks.map((social, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="icon"
+                      className={`w-12 h-12 rounded-xl border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-primary/50 ${social.color}`}
+                      asChild
+                    >
+                      <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                        {social.icon}
+                      </a>
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
-            
-            <div className="relative z-10 space-y-2">
-              <h3 className="text-2xl font-bold">Send a Message</h3>
-              <p className="text-muted-foreground max-w-xs mx-auto">
-                I'm currently available for freelance work and open to full-time opportunities.
-              </p>
-            </div>
-            
-            <Button className="w-full max-w-xs relative z-10 group" size="lg" asChild>
-              <a href="mailto:tanvir.chowdhury.us@gmail.com">
-                Say Hello
-                <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
-            </Button>
           </Card>
         </div>
       </div>

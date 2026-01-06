@@ -129,7 +129,7 @@ const Certificates = () => {
     }
   ];
 
-  const certificates = certificatesData.length > 0 ? certificatesData : staticCertificates;
+  const certificates = certificatesData;
 
   return (
     <section id='certificates' className="py-16 px-6 bg-secondary/5 relative overflow-hidden">

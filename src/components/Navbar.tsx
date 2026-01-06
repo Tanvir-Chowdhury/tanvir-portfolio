@@ -29,7 +29,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
-          {['About Me', 'Education', 'Experience', 'Certificates', 'Awards', 'Projects', 'Skills', 'Contact'].map((item) => (
+          {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Contact'].map((item) => (
             <a 
               key={item}
               href={`#${item.toLowerCase().replace(' ', '_')}`} 

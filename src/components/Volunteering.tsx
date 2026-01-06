@@ -70,7 +70,7 @@ const Volunteering = () => {
 
   ];
 
-  const volunteeringData = fetchedVolunteeringData.length > 0 ? fetchedVolunteeringData : staticVolunteeringData;
+  const volunteeringData = fetchedVolunteeringData;
 
   return (
     <section className="py-16 px-6 bg-background relative overflow-hidden">

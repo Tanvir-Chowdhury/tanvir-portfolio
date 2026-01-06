@@ -206,10 +206,13 @@ const Projects = () => {
 
   const projectCategories = useMemo(() => {
     if (projectsData.length > 0) {
-      const categories = JSON.parse(JSON.stringify(initialProjectCategories));
-      // Reset projects arrays
-      Object.keys(categories).forEach(key => {
-        categories[key].projects = [];
+      // Create a shallow copy of the structure to avoid circular dependency issues with React elements (icons)
+      const categories: any = {};
+      Object.keys(initialProjectCategories).forEach((key) => {
+        categories[key] = { 
+          ...initialProjectCategories[key as keyof typeof initialProjectCategories], 
+          projects: [] 
+        };
       });
 
       projectsData.forEach((project: any) => {
@@ -258,7 +261,7 @@ const Projects = () => {
           </p>
         </div>
 
-        <Tabs defaultValue="wordpress" className="w-full">
+        <Tabs defaultValue="fullstack" className="w-full">
           <div className="flex justify-center mb-12">
             <TabsList className="inline-flex h-auto p-1 bg-secondary/30 backdrop-blur-md rounded-full border border-border/40">
               {Object.entries(projectCategories).map(([key, category]: [string, any]) => (
