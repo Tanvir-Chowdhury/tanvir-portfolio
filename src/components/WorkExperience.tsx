@@ -150,24 +150,21 @@ const WorkExperience = () => {
           </p>
         </div>
 
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-primary/50 to-transparent hidden md:block transform -translate-x-1/2"></div>
+        <div className="relative md:ml-6">
+          {/* Timeline line - Left aligned on desktop, hidden on mobile */}
+          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-primary/50 to-transparent hidden md:block"></div>
           
           <div className="space-y-12">
             {displayData.map((work, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncateDesc = isMobile && !isExpanded;
-              const isEven = index % 2 === 0;
               
               return (
-                <div key={index} className={`relative flex flex-col md:flex-row gap-8 ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                <div key={index} className="relative md:pl-12">
                   {/* Timeline dot */}
-                  <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-background rounded-full border-4 border-accent z-10 hidden md:block transform -translate-x-1/2 mt-8 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
+                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-accent z-10 hidden md:block mt-8 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
                   
-                  <div className="flex-1 md:w-1/2"></div>
-                  
-                  <div className="flex-1 md:w-1/2">
+                  <div className="w-full">
                     <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 group relative overflow-hidden rounded-2xl">
                       <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
                       

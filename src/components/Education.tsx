@@ -75,26 +75,23 @@ const Education = () => {
           </p>
         </div>
 
-        <div className="relative">
+        <div className="relative md:ml-6">
           {/* Timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-accent/50 to-transparent hidden md:block transform -translate-x-1/2"></div>
+          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-accent/50 to-transparent hidden md:block"></div>
           
           <div className="space-y-12">
             {education.map((edu, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncate = isMobile && !isExpanded;
-              const isEven = index % 2 === 0;
               const icon = <GraduationCap className="w-6 h-6" />;
               const status = edu.duration?.toLowerCase().includes('present') ? 'Current' : 'Completed';
               
               return (
-                <div key={edu.id || index} className={`relative flex flex-col md:flex-row gap-8 ${isEven ? 'md:flex-row-reverse' : ''}`}>
+                <div key={edu.id || index} className="relative md:pl-12">
                   {/* Timeline dot */}
-                  <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-background rounded-full border-4 border-primary z-10 hidden md:block transform -translate-x-1/2 mt-8 shadow-[0_0_10px_rgba(124,58,237,0.5)]"></div>
+                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-primary z-10 hidden md:block mt-8 shadow-[0_0_10px_rgba(124,58,237,0.5)]"></div>
                   
-                  <div className="flex-1 md:w-1/2"></div>
-                  
-                  <div className="flex-1 md:w-1/2">
+                  <div className="w-full">
                     <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group relative overflow-hidden rounded-2xl">
                       <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent opacity-50 group-hover:opacity-100 transition-opacity"></div>
                       

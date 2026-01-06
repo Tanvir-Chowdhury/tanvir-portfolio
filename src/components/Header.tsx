@@ -51,7 +51,7 @@ const Header = () => {
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Profile Image Section */}
-          <div className="flex justify-center lg:justify-start order-2 lg:order-1">
+          <div className="flex justify-center lg:justify-start order-1 lg:order-1">
             <div className="relative group">
               <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-[400px] lg:h-[400px]">
                 {/* Animated background rings */}

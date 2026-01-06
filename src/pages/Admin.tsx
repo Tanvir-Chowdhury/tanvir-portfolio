@@ -388,18 +388,42 @@ const SectionManager = ({ title, resource, items, setItems, apiCreate, apiUpdate
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Create payload copy
+      const payload = { ...currentItem };
+      
+      // Process list fields back to arrays
+      const listFields = ['achievements', 'technologies', 'skills', 'details'];
+      
+      listFields.forEach(field => {
+        if (typeof payload[field] === 'string') {
+          if (field === 'achievements' || (field === 'details' && resource === 'projects' && payload[field].includes('\n'))) {
+            // Split by newline for textarea fields or complex details
+             // Note: 'details' in projects is sometimes string, sometimes list? 
+             // Dummy data has details as string. If user enters list in textarea, we might want list. 
+             // But for now, let's stick to what we know: achievements is list.
+            if (field === 'achievements') {
+               payload[field] = payload[field].split('\n').filter((s: string) => s.trim());
+            }
+          } else if ((field === 'technologies' || field === 'skills') && payload[field]) {
+             // Split by comma for text inputs
+             payload[field] = payload[field].split(',').map((s: string) => s.trim()).filter((s: string) => s);
+          }
+        }
+      });
+      
       if (currentItem.id) {
-        await apiUpdate(currentItem.id, currentItem);
-        setItems(items.map((i: any) => i.id === currentItem.id ? currentItem : i));
+        await apiUpdate(currentItem.id, payload);
+        setItems(items.map((i: any) => i.id === currentItem.id ? payload : i)); // Update with payload to reflect array state
         toast({ title: "Updated successfully" });
       } else {
-        const res = await apiCreate(currentItem);
+        const res = await apiCreate(payload);
         setItems([...items, res.data]);
         toast({ title: "Created successfully" });
       }
       setIsDialogOpen(false);
       setCurrentItem(null);
     } catch (error) {
+      console.error(error);
       toast({ title: "Operation failed", variant: "destructive" });
     }
   };
@@ -458,7 +482,22 @@ const SectionManager = ({ title, resource, items, setItems, apiCreate, apiUpdate
   };
 
   const openEdit = (item: any) => {
-    setCurrentItem({ ...item });
+    const editableItem = { ...item };
+    
+    // Process list fields for editing (Array -> String)
+    const listFields = ['achievements', 'technologies', 'skills'];
+    
+    listFields.forEach(field => {
+      if (Array.isArray(editableItem[field])) {
+        if (field === 'achievements') {
+          editableItem[field] = editableItem[field].join('\n');
+        } else {
+          editableItem[field] = editableItem[field].join(', ');
+        }
+      }
+    });
+
+    setCurrentItem(editableItem);
     setIsDialogOpen(true);
   };
 

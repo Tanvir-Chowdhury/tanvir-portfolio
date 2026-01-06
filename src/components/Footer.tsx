@@ -36,9 +36,9 @@ const Footer = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none"></div>
       
       <div className="container max-w-6xl mx-auto px-6 pt-16 pb-8 relative z-10">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+        <div className="grid md:grid-cols-12 gap-8 lg:gap-12 mb-12">
           {/* Brand Section */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:col-span-4">
             <h3 className="text-2xl font-bold tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Md Tanvir</span> Chowdhury
             </h3>
@@ -64,7 +64,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:col-span-3">
             <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
             <nav className="flex flex-col space-y-3">
               {quickLinks.map((link, index) => (
@@ -82,7 +82,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div className="space-y-6 md:col-span-5">
             <h4 className="text-lg font-semibold text-foreground">Contact</h4>
             <div className="space-y-4 text-muted-foreground">
               <a href="mailto:tanvir.chowdhury.us@gmail.com" className="flex items-center gap-3 hover:text-primary transition-colors group">
@@ -98,7 +98,7 @@ const Footer = () => {
                 +8801644916069
               </a>
               <div className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform p-auto">
                   <MapPin className="w-4 h-4" />
                 </div>
                 Bashundhara R/A, Dhaka, Bangladesh

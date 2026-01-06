@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code} from 'lucide-react';
+import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball} from 'lucide-react';
 import * as api from '@/api';
 
 const Hobbies = () => {
@@ -41,7 +41,7 @@ const Hobbies = () => {
   }, []);
 
   const getIcon = (iconName: string) => {
-    const icons: any = { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Code };
+    const icons: any = { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball };
     const IconComponent = icons[iconName] || Star;
     return <IconComponent className="w-6 h-6" />;
   };
@@ -101,36 +101,12 @@ const Hobbies = () => {
     }
   ];
 
-  const colors = [
-    "bg-blue-500/10 text-blue-500",
-    "bg-red-500/10 text-red-500",
-    "bg-green-500/10 text-green-500", 
-    "bg-orange-500/10 text-orange-500",
-    "bg-purple-500/10 text-purple-500",
-    "bg-pink-500/10 text-pink-500",
-    "bg-indigo-500/10 text-indigo-500",
-    "bg-teal-500/10 text-teal-500",
-    "bg-cyan-500/10 text-cyan-500",
-    "bg-amber-500/10 text-amber-500"
-  ];
-
-  const itemsToDisplay = (hobbiesData.length > 0 ? hobbiesData : initialHobbies).map((h, index) => {
-    let iconRender;
-    // Handle both string icon names (API) and direct JSX (dummy data)
-    if (typeof h.icon_name === 'string') {
-      iconRender = getIcon(h.icon_name);
-    } else if (h.icon) {
-      iconRender = h.icon;
-    } else if (h.icon_name) {
-      iconRender = h.icon_name;
-    }
-
-    return {
-      ...h,
-      icon_name: iconRender,
-      color: colors[index % colors.length]
-    };
-  });
+  const itemsToDisplay = hobbiesData.length > 0 ? hobbiesData.map((h, index) => ({
+    title: h.title,
+    description: h.description,
+    icon_name: getIcon(h.icon_name),
+    color_class: ["bg-blue-500/10 text-blue-500", "bg-red-500/10 text-red-500", "bg-green-500/10 text-green-500", "bg-orange-500/10 text-orange-500", "bg-purple-500/10 text-purple-500"][index % 5]
+  })) : initialHobbies;
 
   return (
     <section className="py-16 px-6 bg-background relative overflow-hidden">
@@ -156,7 +132,7 @@ const Hobbies = () => {
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-6 -mt-6 transition-all group-hover:scale-150 duration-500"></div>
               
               <div className="space-y-4 text-center relative z-10 flex flex-col h-full">
-                <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color_class} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                   {hobby.icon_name}
                 </div>
                 

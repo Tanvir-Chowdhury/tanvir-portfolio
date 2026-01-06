@@ -28,7 +28,7 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-8">
           {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Contact'].map((item) => (
             <a 
               key={item}
@@ -46,7 +46,7 @@ const Navbar = () => {
           </a>
         </div>
 
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <Button size="icon" variant="ghost" onClick={() => setOpen(!open)} className="hover:bg-primary/10">
             {open ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6" />}
           </Button>
@@ -55,7 +55,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl absolute w-full left-0 animate-in slide-in-from-top-5 fade-in duration-200">
+        <div className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl absolute w-full left-0 animate-in slide-in-from-top-5 fade-in duration-200">
           <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
             {['About Me', 'Education', 'Experience', 'Certificates', 'Awards', 'Projects', 'Skills', 'Contact'].map((item) => (
               <a 
@@ -78,4 +78,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
- 
+
