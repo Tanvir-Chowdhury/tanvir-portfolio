@@ -327,7 +327,7 @@ const Admin = () => {
             apiUpdate={api.updateHobby}
             apiDelete={api.deleteHobby}
             fields={[
-              { name: 'name', label: 'Hobby Name', type: 'text' },
+              { name: 'title', label: 'Hobby Name', type: 'text' },
               { name: 'description', label: 'Description', type: 'textarea' },
               { name: 'color_class', label: 'Color Class', type: 'text' },
               { name: 'icon_name', label: 'Icon Name (Lucide)', type: 'text' }

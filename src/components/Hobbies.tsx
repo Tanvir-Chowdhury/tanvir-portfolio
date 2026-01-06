@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star } from 'lucide-react';
+import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code} from 'lucide-react';
 import * as api from '@/api';
 
 const Hobbies = () => {
@@ -10,7 +10,7 @@ const Hobbies = () => {
   const initialHobbies = [
     {
       title: "Reading",
-      description: "Love reading books on business, technology and personal development. Currently exploring 'Building a Story Brand' by Donald Miller.",
+      description: "Love reading books on business, technology and personal development.",
       icon: <BookOpen className="w-6 h-6" />,
       color: "bg-blue-500/10 text-blue-500"
     },
