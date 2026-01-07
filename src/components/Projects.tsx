@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone } from 'lucide-react';
+import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml } from 'lucide-react';
 import * as api from '@/api';
 
 const Projects = () => {
@@ -27,7 +27,7 @@ const Projects = () => {
   const initialProjectCategories = {
     fullstack: {
       title: "Web Development",
-      icon: <Code className="w-4 h-4" />,
+      icon: <CodeXml className="w-4 h-4" />,
       projects: [
 {
   title: "WebShieldAI - AI Powered Web Intrusion Detection and Auto-Defense SaaS Platform",
@@ -97,52 +97,52 @@ const Projects = () => {
 
       ]
     },
-    wordpress: {
-      title: "WordPress",
-      icon: <Globe className="w-4 h-4" />,
-      projects: [
-        {
-  title: "Edtech LMS System",
-  description: "An online learning management platform built for Phoenix Admission Care where students can purchase books, enroll in courses, watch class recordings, and take quizzes.",
-  technologies: ["WordPress", "WooCommerce", "CSS", "PHP", "Tutor LMS", "Elementor Pro"],
-  details: "Developed a feature-rich LMS website enabling students to access digital learning resources and purchase guidebooks. Integrated Tutor LMS for course management, WooCommerce for e-commerce functionality, and Elementor Pro for custom UI design. The platform supports quizzes, recorded classes, and a smooth student learning experience.",
-  demo: "https://phoenixedu.com.bd/",
-  github: "#"
-},
-{
-  title: "Ecommerce Shop for Gadgets",
-  description: "A responsive e-commerce website built for The Gadget Ghor to sell gadgets with integrated payment solutions.",
-  technologies: ["WordPress", "WooCommerce", "PHP", "CSS", "Elementor Pro", "Payment Gateways"],
-  details: "Designed and developed a fully functional online gadget shop with WooCommerce integration for inventory and payment processing. The site features modern product display, secure checkout, and mobile-friendly layouts to enhance customer experience and drive sales.",
-  demo: "https://thegadgetghor.com/",
-  github: "#"
-},
-{
-  title: "Business Website for Construction Service in Canada",
-  description: "A professional business website created for Sleekcon, a Canadian construction company, featuring animations and an optimized landing page.",
-  technologies: ["WordPress", "Elementor"],
-  details: "Built and optimized a corporate website for a construction service company in Canada. Added engaging animations, SEO-focused landing pages, and responsive layouts to highlight the brand’s services and credibility. The project focused on creating a clean, professional online presence.",
-  demo: "https://sleekcon.com/",
-  github: "#"
-},
-{
-  title: "Agency Website for Video Production House",
-  description: "A portfolio-driven website created for Halo & Hues, showcasing their video production services, portfolio, and team members.",
-  technologies: ["WordPress", "Elementor"],
-  details: "Developed a creative agency website with dedicated sections for portfolio videos, service offerings, and team introductions. The design emphasizes visual storytelling with smooth navigation and a professional layout tailored to highlight the agency’s strengths in video production.",
-  demo: "https://haloandhues.com/",
-  github: "#"
-},
-{
-  title: "Ecommerce Website for Panjabi Store",
-  description: "An e-commerce platform designed for Ezaam Mens Wear to sell Panjabis online with an attractive product showcase.",
-  technologies: ["WordPress", "WooCommerce", "Elementor Pro"],
-  details: "Created a stylish and responsive e-commerce website tailored for a traditional menswear brand. Integrated WooCommerce for product listings, cart, and checkout, with Elementor Pro for customized layouts. The website highlights product collections in an engaging way, driving sales and brand visibility.",
-  demo: "https://www.behance.net/gallery/222587715/Websites-I-made",
-  github: "#"
-}
-]
-    },
+    // wordpress: {
+    //   title: "WordPress",
+    //   icon: <Globe className="w-4 h-4" />,
+    //   projects: [
+    //     {
+    //       title: "Edtech LMS System",
+    //       description: "An online learning management platform built for Phoenix Admission Care where students can purchase books, enroll in courses, watch class recordings, and take quizzes.",
+    //       technologies: ["WordPress", "WooCommerce", "CSS", "PHP", "Tutor LMS", "Elementor Pro"],
+    //       details: "Developed a feature-rich LMS website enabling students to access digital learning resources and purchase guidebooks. Integrated Tutor LMS for course management, WooCommerce for e-commerce functionality, and Elementor Pro for custom UI design. The platform supports quizzes, recorded classes, and a smooth student learning experience.",
+    //       demo: "https://phoenixedu.com.bd/",
+    //       github: "#"
+    //     },
+    //     {
+    //       title: "Ecommerce Shop for Gadgets",
+    //       description: "A responsive e-commerce website built for The Gadget Ghor to sell gadgets with integrated payment solutions.",
+    //       technologies: ["WordPress", "WooCommerce", "PHP", "CSS", "Elementor Pro", "Payment Gateways"],
+    //       details: "Designed and developed a fully functional online gadget shop with WooCommerce integration for inventory and payment processing. The site features modern product display, secure checkout, and mobile-friendly layouts to enhance customer experience and drive sales.",
+    //       demo: "https://thegadgetghor.com/",
+    //       github: "#"
+    //     },
+    //     {
+    //       title: "Business Website for Construction Service in Canada",
+    //       description: "A professional business website created for Sleekcon, a Canadian construction company, featuring animations and an optimized landing page.",
+    //       technologies: ["WordPress", "Elementor"],
+    //       details: "Built and optimized a corporate website for a construction service company in Canada. Added engaging animations, SEO-focused landing pages, and responsive layouts to highlight the brand’s services and credibility. The project focused on creating a clean, professional online presence.",
+    //       demo: "https://sleekcon.com/",
+    //       github: "#"
+    //     },
+    //     {
+    //       title: "Agency Website for Video Production House",
+    //       description: "A portfolio-driven website created for Halo & Hues, showcasing their video production services, portfolio, and team members.",
+    //       technologies: ["WordPress", "Elementor"],
+    //       details: "Developed a creative agency website with dedicated sections for portfolio videos, service offerings, and team introductions. The design emphasizes visual storytelling with smooth navigation and a professional layout tailored to highlight the agency’s strengths in video production.",
+    //       demo: "https://haloandhues.com/",
+    //       github: "#"
+    //     },
+    //     {
+    //       title: "Ecommerce Website for Panjabi Store",
+    //       description: "An e-commerce platform designed for Ezaam Mens Wear to sell Panjabis online with an attractive product showcase.",
+    //       technologies: ["WordPress", "WooCommerce", "Elementor Pro"],
+    //       details: "Created a stylish and responsive e-commerce website tailored for a traditional menswear brand. Integrated WooCommerce for product listings, cart, and checkout, with Elementor Pro for customized layouts. The website highlights product collections in an engaging way, driving sales and brand visibility.",
+    //       demo: "https://www.behance.net/gallery/222587715/Websites-I-made",
+    //       github: "#"
+    //     }
+    //   ]
+    // },
     marketing: {
       title: "Marketing",
       icon: <BarChart3 className="w-4 h-4" />,

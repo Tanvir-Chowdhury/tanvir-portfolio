@@ -22,9 +22,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/40 supports-[backdrop-filter]:bg-background/60 transition-all duration-300">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300">T</div>
-            <span className="font-bold text-lg tracking-tight group-hover:text-primary transition-colors">Tanvir</span>
+          <a href="https://tanvir-chowdhury.github.io/tanvir-portfolio/" className="flex items-center gap-2 group">
+            <div className="px-2 h-8 rounded-[0.25rem] bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300">Tanvir</div>
+            <span className="font-bold text-lg tracking-tight group-hover:text-primary transition-colors"></span>
           </a>
         </div>
 
