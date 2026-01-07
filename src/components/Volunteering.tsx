@@ -73,7 +73,7 @@ const Volunteering = () => {
   const volunteeringData = fetchedVolunteeringData;
 
   return (
-    <section className="py-16 px-6 bg-background relative overflow-hidden">
+    <section className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
@@ -96,7 +96,7 @@ const Volunteering = () => {
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-all group-hover:scale-150 duration-500"></div>
               
               <div className="space-y-6 relative z-10">
-                <div className="flex items-start gap-5">
+                <div className="flex flex-col md:flex-row items-start gap-5">
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${volunteer.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
                     {volunteer.icon}
                   </div>
