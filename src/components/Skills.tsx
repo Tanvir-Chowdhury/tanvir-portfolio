@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useEffect, MouseEvent, TouchEvent } from 'react';
+﻿import { useState, useRef, useEffect, MouseEvent, TouchEvent, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import * as api from '@/api';
 
@@ -9,8 +9,16 @@ const Skills = () => {
   const [lastMouse, setLastMouse] = useState({ x: 0, y: 0 });
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [autoRotation, setAutoRotation] = useState({ y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
   const sphereRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const initialSkillsWithCategories = [
     // Frontend
@@ -46,16 +54,16 @@ const Skills = () => {
     return colors[category] || "text-white";
   };
 
-  const skillsWithCategories = skillsData.length > 0 ? skillsData.map(s => ({
-    name: s.name,
-    category: s.category,
-    color: getCategoryColor(s.category)
-  })) : [
+  const skillsWithCategories = useMemo(() => {
+    let data = skillsData.length > 0 ? skillsData.map(s => ({
+      name: s.name,
+      category: s.category,
+      color: getCategoryColor(s.category)
+    })) : [
     // Frontend
     { name: "React", category: "Frontend", color: "text-blue-400" },
     { name: "Next.js", category: "Frontend", color: "text-blue-400" },
     { name: "Vue.js", category: "Frontend", color: "text-blue-400" },
-    { name: "Angular", category: "Frontend", color: "text-blue-400" },
     { name: "HTML/CSS", category: "Frontend", color: "text-blue-400" },
     { name: "Tailwind CSS", category: "Frontend", color: "text-blue-400" },
     { name: "JavaScript", category: "Frontend", color: "text-blue-400" },
@@ -63,46 +71,52 @@ const Skills = () => {
     
     // Backend
     { name: "Node.js", category: "Backend", color: "text-green-400" },
-    { name: "Express.js", category: "Backend", color: "text-green-400" },
     { name: "Python", category: "Backend", color: "text-green-400" },
-    { name: "Django", category: "Backend", color: "text-green-400" },
-    { name: "Laravel", category: "Backend", color: "text-green-400" },
-    { name: "Spring Boot", category: "Backend", color: "text-green-400" },
-    { name: "GraphQL", category: "Backend", color: "text-green-400" },
-    
-    // Database
     { name: "MongoDB", category: "Database", color: "text-purple-400" },
     { name: "PostgreSQL", category: "Database", color: "text-purple-400" },
     { name: "MySQL", category: "Database", color: "text-purple-400" },
-    { name: "Redis", category: "Database", color: "text-purple-400" },
-    { name: "Elasticsearch", category: "Database", color: "text-purple-400" },
-    { name: "Firebase", category: "Database", color: "text-purple-400" },
     
     // DevOps & Cloud
     { name: "Docker", category: "DevOps", color: "text-orange-400" },
-    { name: "Kubernetes", category: "DevOps", color: "text-orange-400" },
     { name: "AWS", category: "DevOps", color: "text-orange-400" },
-    { name: "Jenkins", category: "DevOps", color: "text-orange-400" },
-    { name: "Terraform", category: "DevOps", color: "text-orange-400" },
-    { name: "Nginx", category: "DevOps", color: "text-orange-400" },
+    { name: "Git", category: "Tools", color: "text-gray-400" },
     
     // Mobile & Design
     { name: "Flutter", category: "Mobile", color: "text-cyan-400" },
-    { name: "React Native", category: "Mobile", color: "text-cyan-400" },
     { name: "Figma", category: "Design", color: "text-pink-400" },
-    { name: "UI/UX Design", category: "Design", color: "text-pink-400" },
     
     // AI & Tools
     { name: "Machine Learning", category: "AI", color: "text-yellow-400" },
-    { name: "TensorFlow", category: "AI", color: "text-yellow-400" },
-    { name: "Git", category: "Tools", color: "text-gray-400" },
-    { name: "WordPress", category: "Tools", color: "text-gray-400" }
+    
+    // Only add more if not mobile to prevent lag
+    ...(!isMobile ? [
+      { name: "Angular", category: "Frontend", color: "text-blue-400" },
+      { name: "Express.js", category: "Backend", color: "text-green-400" },
+      { name: "Django", category: "Backend", color: "text-green-400" },
+      { name: "Laravel", category: "Backend", color: "text-green-400" },
+      { name: "Spring Boot", category: "Backend", color: "text-green-400" },
+      { name: "GraphQL", category: "Backend", color: "text-green-400" },
+      { name: "Redis", category: "Database", color: "text-purple-400" },
+      { name: "Elasticsearch", category: "Database", color: "text-purple-400" },
+      { name: "Firebase", category: "Database", color: "text-purple-400" },
+      { name: "Kubernetes", category: "DevOps", color: "text-orange-400" },
+      { name: "Jenkins", category: "DevOps", color: "text-orange-400" },
+      { name: "Terraform", category: "DevOps", color: "text-orange-400" },
+      { name: "Nginx", category: "DevOps", color: "text-orange-400" },
+      { name: "React Native", category: "Mobile", color: "text-cyan-400" },
+      { name: "UI/UX Design", category: "Design", color: "text-pink-400" },
+      { name: "TensorFlow", category: "AI", color: "text-yellow-400" },
+      { name: "WordPress", category: "Tools", color: "text-gray-400" }
+    ] : [])
   ];
+  
+  return data;
+  }, [skillsData, isMobile]);
 
-  const skills = skillsWithCategories.map(skill => skill.name);
+  const skills = useMemo(() => skillsWithCategories.map(skill => skill.name), [skillsWithCategories]);
 
   // Generate evenly distributed positions on sphere surface
-  const generateEvenPositions = () => {
+  const skillPositions = useMemo(() => {
     const positions: Array<{x: number, y: number, z: number, rotationX: number, rotationY: number}> = [];
     const totalSkills = skills.length;
     
@@ -111,8 +125,7 @@ const Skills = () => {
     const goldenAngle = 2 * Math.PI * (1 - 1/goldenRatio);
     
     // Responsive radius based on screen size
-    const isMobile = window.innerWidth < 640;
-    const baseRadius = isMobile ? 150 : 320;
+    const baseRadius = isMobile ? 140 : 320;
     
     for (let i = 0; i < totalSkills; i++) {
       // Even distribution using golden angle spiral
@@ -138,9 +151,7 @@ const Skills = () => {
     }
 
     return positions;
-  };
-
-  const skillPositions = generateEvenPositions();
+  }, [skills.length, isMobile]);
 
   const handleMouseDown = (e: MouseEvent) => {
     setIsDragging(true);
@@ -274,7 +285,7 @@ const Skills = () => {
     <section id='skills' className="py-16 px-2 md:px-6 bg-secondary/5 overflow-hidden relative">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px]"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] sm:w-[800px] sm:h-[800px] bg-primary/5 rounded-full blur-[80px] sm:blur-[120px]"></div>
       </div>
 
       <div className="container max-w-6xl mx-auto relative z-10">
@@ -298,7 +309,7 @@ const Skills = () => {
             style={{ 
               width: 'min(350px, calc(100vw - 1rem))', 
               height: 'min(350px, calc(100vw - 1rem), calc(100vh - 250px))',
-              perspective: window.innerWidth < 640 ? '600px' : '1500px'
+              perspective: isMobile ? '800px' : '1500px'
             }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
