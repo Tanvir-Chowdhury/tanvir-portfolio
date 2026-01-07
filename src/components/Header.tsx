@@ -41,7 +41,7 @@ const Header = () => {
 
 
   return (
-    <header className="min-h-screen flex items-center justify-center px-6 py-20 bg-gradient-hero relative overflow-hidden">
+    <header className="min-h-screen flex items-center justify-center px-2 lg:px-6 py-20 bg-gradient-hero relative overflow-hidden">
       {/* Background glow effects */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] opacity-50 animate-pulse"></div>
@@ -132,7 +132,7 @@ const Header = () => {
                 </a>
               </Button>
               
-              <div className="flex gap-3 items-center">
+              <div className="flex gap-3 items-center justify-center lg:justify-start">
                 {socialLinks.map((social) => {
                   const Icon = getIcon(social.icon_name || 'Globe');
                   return (

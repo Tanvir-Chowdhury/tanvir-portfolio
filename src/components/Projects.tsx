@@ -257,7 +257,7 @@ const Projects = () => {
             Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Projects</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Explore a collection of my work across web development, marketing strategies, and data analytics.
+            Explore a collection of my work across web development, marketing strategies and data analytics.
           </p>
         </div>
 
@@ -289,7 +289,7 @@ const Projects = () => {
                             {category.icon}
                           </div>
                           {project.github && project.github !== '#' && (
-                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                            <a href={project.github} target="_blank" rel="noopener noreferrer" className="p-3 text-muted-foreground hover:text-primary transition-colors">
                               <Github className="w-5 h-5" />
                             </a>
                           )}
@@ -330,7 +330,7 @@ const Projects = () => {
                             </DialogTrigger>
                             <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-xl border-border/50">
                               <DialogHeader>
-                                <DialogTitle className="text-2xl font-bold text-gradient">{project.title}</DialogTitle>
+                                <DialogTitle className="pt-4 text-2xl font-bold text-gradient">{project.title}</DialogTitle>
                               </DialogHeader>
                               <div className="space-y-6 py-4">
                                 <p className="text-muted-foreground leading-relaxed text-base">

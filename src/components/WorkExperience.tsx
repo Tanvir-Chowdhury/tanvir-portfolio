@@ -136,7 +136,7 @@ const WorkExperience = () => {
   const displayData = experienceData.length > 0 ? experienceData : workData;
 
   return (
-    <section id='experience' className="py-16 px-6 bg-secondary/10 relative">
+    <section id='experience' className="py-16 px-2 md:px-6 bg-secondary/10 relative">
       <div className="container max-w-5xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-accent/50 text-accent bg-accent/10 backdrop-blur-sm">
@@ -168,7 +168,7 @@ const WorkExperience = () => {
                     <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 group relative overflow-hidden rounded-2xl">
                       <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
                       
-                      <div className="flex items-start gap-5">
+                      <div className="flex flex-col md:flex-row items-start gap-5">
                         <div className="flex-shrink-0 mt-1">
                           <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform duration-300">
                             <Briefcase className="w-6 h-6" />
@@ -177,13 +177,13 @@ const WorkExperience = () => {
                         
                         <div className="flex-1 space-y-4">
                           <div className="space-y-1">
-                            <div className="flex justify-between items-start gap-2">
-                              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-2">
+                              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors order-2 md:order-1">
                                 {work.position}
                               </h3>
                               <Badge 
                                 variant={'outline'}
-                                className="bg-accent/5 border-accent/20 text-accent whitespace-nowrap"
+                                className="bg-accent/5 border-accent/20 text-accent whitespace-nowrap md:order-2"
                               >
                                 {work.type}
                               </Badge>

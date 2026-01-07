@@ -109,7 +109,7 @@ const Hobbies = () => {
   })) : initialHobbies;
 
   return (
-    <section className="py-16 px-6 bg-background relative overflow-hidden">
+    <section className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
@@ -123,11 +123,11 @@ const Hobbies = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
           {itemsToDisplay.map((hobby, index) => (
             <Card 
               key={index} 
-              className="p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl h-full"
+              className="py-3 px-1 md:p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl h-full"
             >
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-6 -mt-6 transition-all group-hover:scale-150 duration-500"></div>
               

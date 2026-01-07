@@ -69,7 +69,7 @@ const Contact = () => {
   ];
 
   return (
-    <section className="py-16 px-6 bg-secondary/5 relative overflow-hidden" id="contact">
+    <section className="py-16 px-2 md:px-6 bg-secondary/5 relative overflow-hidden" id="contact">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
@@ -89,12 +89,12 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold">Contact Information</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-2xl text-center md:text-left font-bold">Contact Information</h3>
+              <p className="text-center md:text-left text-muted-foreground">
                 Feel free to reach out through any of these channels. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
               </p>
             </div>

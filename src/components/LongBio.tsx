@@ -4,7 +4,7 @@ import bioImage from '@/assets/tanvir-bio.jpg';
 
 const LongBio = () => {
   return (
-    <section id='about_me' className="py-16 px-6 bg-secondary/10 relative overflow-hidden">
+    <section id='about_me' className="py-16 lg:px-6 bg-secondary/10 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-accent/5 to-transparent pointer-events-none"></div>
@@ -23,7 +23,7 @@ const LongBio = () => {
               </h2>
             </div>
 
-            <Card className="p-8 lg:p-10 bg-card/40 backdrop-blur-md border-border/50 shadow-xl relative overflow-hidden group">
+            <Card className="p-4 lg:p-10 bg-card/40 backdrop-blur-md border-border/50 shadow-xl relative overflow-hidden group">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">

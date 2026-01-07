@@ -61,7 +61,7 @@ const Education = () => {
   ];
 
   return (
-    <section id='education' className="py-16 px-6 bg-background relative overflow-hidden">
+    <section id='education' className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-5xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
@@ -95,7 +95,7 @@ const Education = () => {
                     <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group relative overflow-hidden rounded-2xl">
                       <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent opacity-50 group-hover:opacity-100 transition-opacity"></div>
                       
-                      <div className="flex items-start gap-5">
+                      <div className="flex flex-col md:flex-row items-start gap-5">
                         <div className="flex-shrink-0 mt-1">
                           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                             {icon}
@@ -104,13 +104,13 @@ const Education = () => {
                         
                         <div className="flex-1 space-y-3">
                           <div className="flex flex-col gap-1">
-                            <div className="flex justify-between items-start gap-2">
-                              <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                            <div className="flex flex-col md:flex-row justify-between items-start gap-2">
+                              <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors order-2 md:order-1">
                                 {edu.degree}
                               </h3>
                               <Badge 
                                 variant={'outline'}
-                                className="bg-primary/5 border-primary/20 text-primary whitespace-nowrap"
+                                className="bg-primary/5 border-primary/20 text-primary whitespace-nowrap md:order-2"
                               >
                                 {status}
                               </Badge>
@@ -118,7 +118,7 @@ const Education = () => {
                             <p className="text-lg text-accent font-medium">{edu.institution}</p>
                           </div>
                           
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                          <div className="flex flex-col md:flex-row md:items-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-1.5 bg-secondary/50 px-3 py-1 rounded-full">
                               <CalendarDays className="w-4 h-4 text-primary" />
                               <span>{edu.duration}</span>

@@ -271,7 +271,7 @@ const Skills = () => {
   }, [isDragging, lastMouse]);
 
   return (
-    <section id='skills' className="py-16 px-6 bg-secondary/5 overflow-hidden relative">
+    <section id='skills' className="py-16 px-2 md:px-6 bg-secondary/5 overflow-hidden relative">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px]"></div>
@@ -291,7 +291,7 @@ const Skills = () => {
         </div>
 
         {/* 3D Sphere Container */}
-        <div className="flex justify-center items-center h-[400px] sm:h-[500px] md:h-[650px] relative px-2 sm:px-4 overflow-hidden">
+        <div className="flex justify-center items-center h-[400px] sm:h-[500px] md:h-[650px] relative px-2 sm:px-2 ">
           <div 
             ref={sphereRef}
             className="relative cursor-grab active:cursor-grabbing select-none touch-none mx-auto"
