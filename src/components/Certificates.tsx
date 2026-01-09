@@ -1,5 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Award, ExternalLink, Calendar, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
@@ -146,52 +147,69 @@ const Certificates = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certificates.map((cert, index) => (
-            <Card 
-              key={index} 
-              className="p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden flex flex-col h-full"
-            >
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 duration-500"></div>
-              
-              <div className="flex items-start justify-between mb-4 relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
-                  <Award className="w-6 h-6" />
-                </div>
-                <Badge variant="secondary" className="bg-secondary/50 backdrop-blur-sm">
-                  {cert.date}
-                </Badge>
-              </div>
-              
-              <div className="space-y-3 flex-grow relative z-10">
-                <div>
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1" title={cert.title}>
-                    {cert.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground font-medium">{cert.issuer}</p>
-                </div>
-                
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {cert.skills.slice(0, 3).map((skill, i) => (
-                    <span key={i} className="text-xs px-2 py-1 rounded-md bg-secondary/30 text-muted-foreground border border-border/30 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3 text-primary/70" />
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-border/30 relative z-10">
-                <Button variant="ghost" size="sm" className="w-full justify-between text-primary hover:text-primary hover:bg-primary/10 group/btn" asChild>
-                  <a href={cert.link} target="_blank" rel="noopener noreferrer">
-                    Verify Credential
-                    <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
+        <Carousel 
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {certificates.map((cert, index) => (
+              <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/4">
+                <Card 
+                  className="p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden flex flex-col h-full"
+                >
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 duration-500"></div>
+                  
+                  <div className="flex items-start justify-between mb-4 relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                      <Award className="w-6 h-6" />
+                    </div>
+                    <Badge variant="secondary" className="bg-secondary/50 backdrop-blur-sm">
+                      {cert.date}
+                    </Badge>
+                  </div>
+                  
+                  <div className="space-y-3 flex-grow relative z-10">
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors line-clamp-1" title={cert.title}>
+                        {cert.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-medium">{cert.issuer}</p>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {cert.skills.slice(0, 3).map((skill: string, i: number) => (
+                        <span key={i} className="text-xs px-2 py-1 rounded-md bg-secondary/30 text-muted-foreground border border-border/30 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3 text-primary/70" />
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 pt-4 border-t border-border/30 relative z-10">
+                    <Button variant="ghost" size="sm" className="w-full justify-between text-primary hover:text-primary hover:bg-primary/10 group/btn" asChild>
+                      <a href={cert.link} target="_blank" rel="noopener noreferrer">
+                        Verify Credential
+                        <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </a>
+                    </Button>
+                  </div>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex justify-center gap-2 mt-4 md:hidden">
+            <CarouselPrevious className="static translate-y-0" />
+            <CarouselNext className="static translate-y-0" />
+          </div>
+          <div className="hidden md:block">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
+        </Carousel>
       </div>
     </section>
   );

@@ -182,7 +182,7 @@ const Admin = () => {
               { name: 'title', label: 'Title', type: 'text' },
               { name: 'description', label: 'Description', type: 'textarea' },
               { name: 'technologies', label: 'Technologies (comma separated)', type: 'text' },
-              { name: 'details', label: 'Details (comma separated)', type: 'text' },
+              { name: 'details', label: 'Key Implementations', type: 'textarea' },
               { name: 'category', label: 'Category', type: 'text' },
               { name: 'demo_link', label: 'Live Link', type: 'text' },
               { name: 'github_link', label: 'GitHub Link', type: 'text' },

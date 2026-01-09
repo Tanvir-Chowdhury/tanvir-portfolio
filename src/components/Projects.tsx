@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml } from 'lucide-react';
+import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml, Layers, CheckCircle2 } from 'lucide-react';
 import * as api from '@/api';
 
 const Projects = () => {
@@ -231,7 +231,8 @@ const Projects = () => {
             technologies: project.technologies || [],
             details: project.details || project.description,
             demo: project.link || "#",
-            github: project.github_link || "#"
+            github: project.github_link || "#",
+            image: project.image_url
           });
         }
       });
@@ -328,23 +329,46 @@ const Projects = () => {
                                 <Eye className="w-4 h-4 ml-2" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-2xl bg-card/95 backdrop-blur-xl border-border/50">
-                              <DialogHeader>
-                                <DialogTitle className="pt-4 text-2xl font-bold text-gradient">{project.title}</DialogTitle>
+                            <DialogContent className="max-w-3xl max-h-[85vh] w-[90vw] overflow-y-auto bg-card/95 backdrop-blur-xl border-border/50 rounded-2xl p-6 sm:p-8">
+                              <DialogHeader className="mb-6 mt-4 space-y-4">
+                                <DialogTitle className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 pr-8">
+                                  {project.title}
+                                </DialogTitle>
+                                {project.image && (
+                                  <div className="w-full rounded-xl overflow-hidden mt-4 border border-border/50 shadow-sm border-white/50 relative group">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
+                                    <img 
+                                      src={project.image} 
+                                      alt={project.title}
+                                      className="w-full h-full object-contain transform transition-transform duration-700 hover:scale-105"
+                                      onError={(e) => {
+                                        (e.target as HTMLImageElement).parentElement!.style.display = 'none';
+                                      }}
+                                    />
+                                  </div>
+                                )}
                               </DialogHeader>
-                              <div className="space-y-6 py-4">
-                                <p className="text-muted-foreground leading-relaxed text-base">
-                                  {project.details}
-                                </p>
 
-                                <div className="space-y-3">
-                                  <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground">Technologies</h4>
+                              <div className="space-y-8">
+                                {/* Overview */}
+                                <div className="bg-secondary/20 rounded-xl border border-secondary/10 shadow-sm">
+                                  <p className="text-foreground/90 leading-relaxed text-base sm:text-lg">
+                                    {project.description}
+                                  </p>
+                                </div>
+
+                                {/* Technologies */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-4">
+                                    <Layers className="w-5 h-5 text-primary" />
+                                    <h4 className="font-semibold text-base uppercase tracking-wider text-muted-foreground">Technologies</h4>
+                                  </div>
                                   <div className="flex flex-wrap gap-2">
                                     {project.technologies.map((tech, techIndex) => (
                                       <Badge 
                                         key={techIndex} 
-                                        variant="outline"
-                                        className="px-3 py-1 border-primary/20 bg-primary/5 text-primary"
+                                        variant="secondary"
+                                        className="px-3 py-1.5 text-sm font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
                                       >
                                         {tech}
                                       </Badge>
@@ -352,31 +376,58 @@ const Projects = () => {
                                   </div>
                                 </div>
 
-                                <div className="flex gap-4 pt-4">
+                                {/* Key Features */}
+                                <div>
+                                  <div className="flex items-center gap-2 mb-4">
+                                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                                    <h4 className="font-semibold text-base uppercase tracking-wider text-muted-foreground">Key Implementations</h4>
+                                  </div>
+                                  <div className="bg-background/50 rounded-xl border border-border/50 p-2 shadow-inner">
+                                    <ul className="grid gap-2 p-2">
+                                      {Array.isArray(project.details) 
+                                        ? project.details.map((detail: any, index: number) => (
+                                            <li key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                                              <span className="text-muted-foreground leading-relaxed">{detail}</span>
+                                            </li>
+                                          ))
+                                        : (project.details || '').split(/<br\s*\/?>/i).filter((s: string) => s.trim()).map((detail: string, index: number) => (
+                                            <li key={index} className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                                              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                                              <span className="text-muted-foreground leading-relaxed">{detail.trim()}</span>
+                                            </li>
+                                          ))
+                                      }
+                                    </ul>
+                                  </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-border/50 mt-8">
                                   {project.demo && project.demo !== '#' ? (
-                                    <Button asChild className="flex-1 bg-gradient-to-r from-primary to-accent hover:opacity-90">
+                                    <Button asChild size="lg" className="flex-1 h-16 sm:h-14 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/20 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
                                       <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                                        <ExternalLink className="w-4 h-4 mr-2" />
+                                        <ExternalLink className="w-5 h-5 mr-2" />
                                         Live Demo
                                       </a>
                                     </Button>
                                   ) : (
-                                    <Button disabled className="flex-1 opacity-50">
-                                      <ExternalLink className="w-4 h-4 mr-2" />
+                                    <Button disabled size="lg" className="flex-1 h-16 sm:h-14 opacity-50 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
+                                      <ExternalLink className="w-5 h-5 mr-2" />
                                       Live Demo
                                     </Button>
                                   )}
 
                                   {project.github && project.github !== '#' ? (
-                                    <Button variant="outline" asChild className="flex-1 border-primary/20 hover:bg-primary/5">
+                                    <Button variant="outline" asChild size="lg" className="flex-1 h-16 sm:h-14 border-primary/20 hover:bg-primary/5 hover:border-primary/50 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
                                       <a href={project.github} target="_blank" rel="noopener noreferrer">
-                                        <Github className="w-4 h-4 mr-2" />
+                                        <Github className="w-5 h-5 mr-2" />
                                         Source Code
                                       </a>
                                     </Button>
                                   ) : (
-                                    <Button disabled variant="outline" className="flex-1 opacity-50">
-                                      <Github className="w-4 h-4 mr-2" />
+                                    <Button disabled variant="outline" size="lg" className="flex-1 h-16 sm:h-14 opacity-50 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
+                                      <Github className="w-5 h-5 mr-2" />
                                       Source Code
                                     </Button>
                                   )}

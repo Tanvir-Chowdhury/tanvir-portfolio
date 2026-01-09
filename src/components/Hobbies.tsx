@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball} from 'lucide-react';
 import * as api from '@/api';
 
@@ -109,7 +110,7 @@ const Hobbies = () => {
   })) : initialHobbies;
 
   return (
-    <section className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
+    <section id="hobbies" className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
@@ -123,31 +124,48 @@ const Hobbies = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-          {itemsToDisplay.map((hobby, index) => (
-            <Card 
-              key={index} 
-              className="py-3 px-1 md:p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl h-full"
-            >
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-6 -mt-6 transition-all group-hover:scale-150 duration-500"></div>
-              
-              <div className="space-y-4 text-center relative z-10 flex flex-col h-full">
-                <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color_class} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
-                  {hobby.icon_name}
-                </div>
-                
-                <div className="space-y-2 flex-grow">
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
-                    {hobby.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {hobby.description}
-                  </p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+        <Carousel 
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4 pt-4">
+            {itemsToDisplay.map((hobby, index) => (
+              <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/4">
+                <Card 
+                  className="py-3 px-1 md:p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl h-full"
+                >
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-6 -mt-6 transition-all group-hover:scale-150 duration-500"></div>
+                  
+                  <div className="space-y-4 text-center relative z-10 flex flex-col h-full">
+                    <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color_class} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                      {hobby.icon_name}
+                    </div>
+                    
+                    <div className="space-y-2 flex-grow">
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+                        {hobby.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                        {hobby.description}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex justify-center gap-2 mt-4 md:hidden">
+            <CarouselPrevious className="static translate-y-0" />
+            <CarouselNext className="static translate-y-0" />
+          </div>
+          <div className="hidden md:block">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
+        </Carousel>
       </div>
     </section>
   );

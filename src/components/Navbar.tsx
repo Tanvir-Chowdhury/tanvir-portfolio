@@ -29,7 +29,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden lg:flex items-center gap-8">
-          {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Contact'].map((item) => (
+          {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Hobbies', 'Contact'].map((item) => (
             <a 
               key={item}
               href={`#${item.toLowerCase().replace(' ', '_')}`} 
@@ -57,7 +57,7 @@ const Navbar = () => {
       {open && (
         <div className="lg:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl absolute w-full left-0 animate-in slide-in-from-top-5 fade-in duration-200">
           <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
-            {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Contact'].map((item) => (
+            {['About Me', 'Projects', 'Education', 'Experience', 'Certificates', 'Awards', 'Skills', 'Hobbies', 'Contact'].map((item) => (
               <a 
                 key={item}
                 href={`#${item.toLowerCase().replace(' ', '_')}`} 
