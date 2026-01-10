@@ -230,7 +230,7 @@ const Projects = () => {
             description: project.description,
             technologies: project.technologies || [],
             details: project.details || project.description,
-            demo: project.link || "#",
+            demo: project.demo_link || project.link || "#",
             github: project.github_link || "#",
             image: project.image_url
           });
