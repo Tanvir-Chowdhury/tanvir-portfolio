@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Menu, X } from 'lucide-react';
+import { ModeToggle } from './mode-toggle';
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -44,9 +45,13 @@ const Navbar = () => {
               Hire me
             </Button>
           </a>
+          <div className="ml-2">
+           <ModeToggle />
+          </div>
         </div>
 
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center gap-2">
+          <ModeToggle />
           <Button size="icon" variant="ghost" onClick={() => setOpen(!open)} className="hover:bg-primary/10">
             {open ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6" />}
           </Button>
