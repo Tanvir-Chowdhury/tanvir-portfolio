@@ -84,7 +84,7 @@ const DraggableMarquee = ({ skills, isMobile }: { skills: any[], isMobile: boole
     
     const onMouseLeave = () => {
         setIsDragging(false);
-        if (!isMobile) setIsPaused(false);
+        setIsPaused(false);
     }
 
     // Touch Events
@@ -105,6 +105,7 @@ const DraggableMarquee = ({ skills, isMobile }: { skills: any[], isMobile: boole
 
     const onTouchEnd = () => {
         setIsDragging(false);
+        setIsPaused(false);
     }
 
     return (
