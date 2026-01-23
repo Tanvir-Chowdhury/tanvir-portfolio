@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle, Send, Calendar } from 'lucide-react';
 
 const Contact = () => {
   const contactInfo = [
@@ -29,8 +29,8 @@ const Contact = () => {
     {
       icon: <Linkedin className="w-6 h-6" />,
       label: "LinkedIn",
-      value: "linkedin.com/in/tanvir11744",
-      href: "https://www.linkedin.com/in/tanvir11744/",
+      value: "linkedin.com/in/grow-with-vir",
+      href: "https://www.linkedin.com/in/grow-with-vir/",
       color: "bg-blue-600/10 text-blue-600"
     }
   ];
@@ -45,7 +45,7 @@ const Contact = () => {
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-      href: "https://www.linkedin.com/in/tanvir11744/",
+      href: "https://www.linkedin.com/in/grow-with-vir/",
       color: "hover:text-[#0A66C2] hover:bg-[#0A66C2]/10"
     },
     {
@@ -79,13 +79,13 @@ const Contact = () => {
       <div className="container max-w-5xl mx-auto relative z-10">
         <div className="text-center space-y-6 mb-12">
           <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Get In Touch
+            Start Your Growth Journey
           </Badge>
           <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Connect</span>
+            Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Scale?</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Ready to collaborate on your next project? Let's discuss how we can work together to bring your ideas to life.
+            I help founders and businesses scale efficiently by integrating custom websites, AI agents, and strategic marketing. Let's discuss your growth goals.
           </p>
         </div>
 
@@ -95,7 +95,7 @@ const Contact = () => {
             <div className="space-y-4">
               <h3 className="text-2xl text-center md:text-left font-bold">Contact Information</h3>
               <p className="text-center md:text-left text-muted-foreground">
-                Feel free to reach out through any of these channels. I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+                Reach out directly to discuss how we can automate your operations and increase revenue.
               </p>
             </div>
             
@@ -125,22 +125,22 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Contact Form / Telegram Button */}
+          
           <Card className="p-8 bg-card/40 backdrop-blur-sm border-border/50 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none"></div>
             
             <div className="relative z-10 space-y-6 w-full">
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Send a Message</h3>
+                <h3 className="text-2xl font-bold">Let's Discuss</h3>
                 <p className="text-muted-foreground">
-                  I'm currently available for freelance work and open to full-time opportunities.
+                  Identify bottlenecks, discover opportunities, and map out a strategy to scale your business.
                 </p>
               </div>
               
               <Button className="w-full max-w-xs mx-auto group" size="lg" asChild>
-                <a href="https://t.me/Tanvir11744" target="_blank" rel="noopener noreferrer">
-                  Send Message on Telegram
-                  <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <a href="https://calendly.com/tanvir-chowdhury-us/meet" target="_blank" rel="noopener noreferrer" >
+                  Book A Discovery Call
+                  <Calendar className="w-4 h-4 ml-2" />
                 </a>
               </Button>
 

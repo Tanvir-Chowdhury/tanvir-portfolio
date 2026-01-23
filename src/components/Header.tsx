@@ -88,7 +88,7 @@ const Header = () => {
           <div className="text-center lg:text-left space-y-8 order-1 lg:order-2">
             <div className="space-y-4 slide-up">
               <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-                Welcome to my portfolio
+                Building Scalable Digital Solutions
               </Badge>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
                 Hi, I'm <br />
@@ -98,16 +98,16 @@ const Header = () => {
               </h1>
               
               <div className="space-y-2">
-                <h2 className="text-xl lg:text-2xl font-medium text-muted-foreground">
-                  {profile?.title || "Software Engineer & Marketing Strategist"}
+                <h2 className="text-xl lg:text-1xl font-medium text-muted-foreground">
+                  {profile?.title || "Helping Founders & Solopreneurs Scale Efficiently"}
                 </h2>
               </div>
             </div>
 
             {/* Short Bio */}
             <div className="space-y-6 slide-up" style={{ animationDelay: '0.2s' }}>
-              <p className="text-lg sm:text-xl leading-relaxed text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-                {profile?.bio || "I love building solutions that make a real impact in the digital world."}
+              <p className="text-xl leading-relaxed text-muted-foreground max-w-1xl mx-auto lg:mx-0">
+                {profile?.bio || "Full Stack Development (Pro-Code/WP) + AI Automation (n8n/Chatbots/LLMs) + 360° Marketing Strategy to scale revenue on autopilot."}
               </p>
               
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start items-center">
