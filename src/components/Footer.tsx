@@ -6,7 +6,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: <Facebook className="w-4 h-4" />, href: "https://www.facebook.com/tanvir.11744", label: "Facebook" },
-    { icon: <Linkedin className="w-4 h-4" />, href: "https://www.linkedin.com/in/tanvir11744/", label: "LinkedIn" },
+    { icon: <Linkedin className="w-4 h-4" />, href: "https://www.linkedin.com/in/grow-with-vir/", label: "LinkedIn" },
     { icon: <Github className="w-4 h-4" />, href: "https://github.com/Tanvir-Chowdhury", label: "GitHub" },
     { icon: <Mail className="w-4 h-4" />, href: "mailto:tanvir.chowdhury.us@gmail.com", label: "Email" },
     { icon: <MessageCircle className="w-4 h-4" />, href: "https://wa.me/+8801644916069", label: "WhatsApp" }

@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Download, Mail, Github, Linkedin, Facebook, Globe, Code, Terminal, Cpu } from 'lucide-react';
+import { Download, Mail, Github, Linkedin, Facebook, Globe, Code, Terminal, Cpu, MessageCircle } from 'lucide-react';
 import profileImage from '@/assets/profile-pic.png';
 import cvFile from '@/assets/cv.pdf';
 import * as api from '@/api';
@@ -34,10 +34,20 @@ const Header = () => {
 
   const getIcon = (iconName: string) => {
     const icons: any = {
-      Facebook, Linkedin, Mail, Github, Globe, Code, Terminal, Cpu
+      Facebook, Linkedin, Mail, Github, Globe, Code, Terminal, Cpu, MessageCircle
     };
     return icons[iconName] || Globe;
   };
+
+  const fallbackSocialLinks = [
+    { id: 'github', platform: 'GitHub', icon_name: 'Github', url: 'https://github.com/Tanvir-Chowdhury' },
+    { id: 'linkedin', platform: 'LinkedIn', icon_name: 'Linkedin', url: 'https://www.linkedin.com/in/grow-with-vir/' },
+    { id: 'facebook', platform: 'Facebook', icon_name: 'Facebook', url: 'https://www.facebook.com/tanvir.11744' },
+    { id: 'email', platform: 'Email', icon_name: 'Mail', url: 'mailto:tanvir.chowdhury.us@gmail.com' },
+    { id: 'whatsapp', platform: 'WhatsApp', icon_name: 'MessageCircle', url: 'https://wa.me/+8801644916069' },
+  ];
+
+  const displaySocialLinks = socialLinks.length > 0 ? socialLinks : fallbackSocialLinks;
 
 
   return (
@@ -121,7 +131,7 @@ const Header = () => {
               </Button>
 
               <div className="flex gap-3 items-center justify-center lg:justify-start">
-                {socialLinks.map((social) => {
+                {displaySocialLinks.map((social) => {
                   const Icon = getIcon(social.icon_name || 'Globe');
                   return (
                     <Button
@@ -141,23 +151,25 @@ const Header = () => {
             </div>
 
             {/* Programming Profiles */}
-            <div className="space-y-4 slide-up pt-6 border-t border-border/50" style={{ animationDelay: '0.45s' }}>
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                Competitive Coding Profiles
-              </h3>
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                {competitiveProfiles.map((profile) => (
-                  <a
-                    key={profile.platform}
-                    href={profile.profile_link}
-                    target="_blank"
-                    className="text-sm px-5 py-2 rounded-full bg-secondary/40 border border-border/60 transition-all hover:bg-secondary hover:border-primary/30 hover:text-primary"
-                  >
-                    {profile.platform}
-                  </a>
-                ))}
+            {competitiveProfiles.length > 0 && (
+              <div className="space-y-4 slide-up pt-6 border-t border-border/50" style={{ animationDelay: '0.45s' }}>
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                  Competitive Coding Profiles
+                </h3>
+                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                  {competitiveProfiles.map((profile) => (
+                    <a
+                      key={profile.platform}
+                      href={profile.profile_link}
+                      target="_blank"
+                      className="text-sm px-5 py-2 rounded-full bg-secondary/40 border border-border/60 transition-all hover:bg-secondary hover:border-primary/30 hover:text-primary"
+                    >
+                      {profile.platform}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

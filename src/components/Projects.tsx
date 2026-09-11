@@ -171,14 +171,6 @@ const Projects = () => {
           details: "Developed comprehensive brand identities for 20+ clients including logo design, brand guidelines, marketing materials, and digital presence strategy. Increased brand recognition by 300% on average.",
           demo: "#",
           github: "#"
-        },
-        {
-          title: "Marketing Automation Suite - Automata One / Phoenix Education",
-          description: "A set of marketing automation tools including an ad analyzer, competitor analyzer, and post scraper, built while running full marketing (video and post content) for Phoenix Education.",
-          technologies: ["Marketing Automation", "Data Scraping", "Analytics"],
-          details: "Built an ad analyzer, a competitor analyzer, and a post scraper as part of a marketing automation suite for Automata One, the sister concern of Phoenix Education. These tools support ongoing full-scope marketing work for Phoenix Education, including video and post content.",
-          demo: "#",
-          github: "#"
         }
       ]
     },
@@ -240,6 +232,46 @@ const Projects = () => {
   details: "Built a RAG pipeline integrating Pinecone for vector storage and Mistral AI for response generation, with JWT-based authentication, background email verification, persistent chat history, and scheduled maintenance tasks via APScheduler.",
   demo: "#",
   github: "https://github.com/Tanvir-Chowdhury/Backend-Only-AI-Chatbot"
+},
+{
+  title: "Deep Learning Projects - Breast Cancer & Digit Recognition",
+  description: "A set of neural network experiments covering breast cancer classification and handwritten digit recognition.",
+  technologies: ["Python", "Jupyter Notebook", "Neural Networks"],
+  details: "Built and trained neural network models for two classic classification problems: predicting whether a tumor is benign or malignant from diagnostic features (breast cancer classification), and recognizing handwritten digits from image data. Implemented as self-contained Jupyter notebooks covering data preprocessing, model architecture, training, and evaluation.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/Deep-Learning-Projects"
+},
+{
+  title: "Ad Analyzer",
+  description: "An internal marketing tool that reviews ad performance data and surfaces which creatives and targeting choices are actually working.",
+  technologies: ["Marketing Automation", "Data Analysis"],
+  details: "Built for Automata One / Phoenix Education to cut down the manual work of reviewing ad performance. Pulls ad metrics together and highlights which campaigns, creatives, and audiences are over- or under-performing, so budget and creative decisions can be made faster.",
+  demo: "#",
+  github: "#"
+},
+{
+  title: "Competitor Analyzer",
+  description: "A tool that tracks competitor marketing activity (campaigns, content, positioning) to keep strategy grounded in what's actually happening in the market.",
+  technologies: ["Marketing Automation", "Data Analysis"],
+  details: "Built for Automata One / Phoenix Education to systematically monitor what competitors are publishing and running, instead of checking manually. Feeds into marketing strategy and content planning by surfacing competitor activity in one place.",
+  demo: "#",
+  github: "#"
+},
+{
+  title: "Post Scraper",
+  description: "A scraper that collects social media posts and engagement data for analysis, removing the need to gather that data by hand.",
+  technologies: ["Marketing Automation", "Data Scraping"],
+  details: "Built for Automata One / Phoenix Education to automatically pull posts and their engagement metrics from social platforms, feeding downstream analysis of what content performs best.",
+  demo: "#",
+  github: "#"
+},
+{
+  title: "Caption Writer Tool",
+  description: "An automation tool that drafts social media captions, speeding up content production for ongoing marketing work.",
+  technologies: ["Marketing Automation", "Content Generation"],
+  details: "Built for Automata One / Phoenix Education to generate first-draft captions for social media and video posts, reducing the time spent writing copy from scratch for the volume of content the marketing team publishes.",
+  demo: "#",
+  github: "#"
 }
       ]
     },
