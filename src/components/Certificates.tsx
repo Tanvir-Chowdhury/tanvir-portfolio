@@ -34,104 +34,176 @@ const Certificates = () => {
 
   const staticCertificates = [
     {
-      title: "React.js Complete Course",
-      issuer: "Udemy",
-      date: "2023",
-      category: "Web Development",
-      skills: ["React.js", "JavaScript", "Redux"],
-      link: "https://www.udemy.com/certificate/react-course-example"
-    },
-    {
-      title: "Digital Marketing Fundamentals",
-      issuer: "Google",
-      date: "2023",
-      category: "Marketing",
-      skills: ["SEO", "Google Ads", "Analytics"],
-      link: "https://www.coursera.org/certificate/google-marketing-example"
-    },
-    {
-      title: "Python for Data Science",
-      issuer: "Coursera",
-      date: "2022",
-      category: "Data Science",
-      skills: ["Python", "Pandas", "NumPy"],
-      link: "https://www.coursera.org/certificate/python-data-science-example"
-    },
-    {
-      title: "AWS Cloud Practitioner",
-      issuer: "Amazon",
-      date: "2023",
-      category: "Cloud Computing",
-      skills: ["AWS", "Cloud", "DevOps"],
-      link: "https://www.aws.training/certification/example"
-    },
-    {
-      title: "JavaScript Algorithms",
-      issuer: "freeCodeCamp",
-      date: "2022",
-      category: "Programming",
-      skills: ["JavaScript", "Algorithms", "DSA"],
-      link: "https://www.freecodecamp.org/certificate/js-algo-example"
-    },
-    {
-      title: "Brand Strategy Course",
-      issuer: "LinkedIn Learning",
-      date: "2023",
-      category: "Branding",
-      skills: ["Branding", "Strategy", "Marketing"],
-      link: "https://www.linkedin.com/learning/certificate/example"
-    },
-    {
-      title: "Node.js Backend Development",
-      issuer: "Udemy",
-      date: "2022",
-      category: "Backend",
-      skills: ["Node.js", "Express", "MongoDB"],
-      link: "https://www.udemy.com/certificate/nodejs-example"
-    },
-    {
-      title: "Social Media Marketing",
-      issuer: "HubSpot",
-      date: "2023",
-      category: "Marketing",
-      skills: ["Social Media", "Content", "Strategy"],
-      link: "https://academy.hubspot.com/certification/example"
-    },
-    {
-      title: "Machine Learning Basics",
-      issuer: "Coursera",
-      date: "2022",
+      title: "NASA Space Apps Challenge 2025 Participation Certificate",
+      issuer: "NASA International Space Apps Challenge",
+      date: "2025",
       category: "AI/ML",
-      skills: ["Python", "ML", "TensorFlow"],
-      link: "https://www.coursera.org/certificate/ml-example"
+      skills: ["Project Management", "Back-End Development"],
+      link: "#"
     },
     {
-      title: "UI/UX Design Principles",
-      issuer: "Adobe",
-      date: "2023",
-      category: "Design",
-      skills: ["UI/UX", "Figma", "Design"],
-      link: "https://www.adobe.com/certification/example"
+      title: "Mastering Machine Learning Fundamentals",
+      issuer: "IEEE NSU Student Branch, WIE Affinity Group",
+      date: "2025",
+      category: "AI/ML",
+      skills: ["Machine Learning", "NLP"],
+      link: "#"
     },
     {
-      title: "WordPress Development",
-      issuer: "WPBeginner",
-      date: "2021",
-      category: "CMS",
-      skills: ["WordPress", "PHP", "MySQL"],
-      link: "https://www.wpbeginner.com/certificate/example"
+      title: "Prepare Data for Exploration",
+      issuer: "Google",
+      date: "2024",
+      category: "Data Science",
+      skills: ["SQL"],
+      link: "#"
     },
     {
-      title: "Content Marketing Strategy",
-      issuer: "Content Marketing Institute",
-      date: "2023",
+      title: "Ask Questions to Make Data-Driven Decisions",
+      issuer: "Google",
+      date: "2024",
+      category: "Data Science",
+      skills: ["Data Analytics"],
+      link: "#"
+    },
+    {
+      title: "Foundations: Data, Data, Everywhere",
+      issuer: "Google",
+      date: "2024",
+      category: "Data Science",
+      skills: ["Data Analytics"],
+      link: "#"
+    },
+    {
+      title: "Data Science Short Course by Jennifer Widom",
+      issuer: "NSU ACM-W Student Chapter",
+      date: "2024",
+      category: "Data Science",
+      skills: ["Data Science", "Data Analytics"],
+      link: "#"
+    },
+    {
+      title: "Digital Marketing Agency: Grow Your Agency with Dekker",
+      issuer: "Udemy",
+      date: "2024",
       category: "Marketing",
-      skills: ["Content", "Strategy", "Writing"],
-      link: "https://www.contentmarketinginstitute.com/certificate/example"
+      skills: ["Digital Marketing", "Agency Growth"],
+      link: "#"
+    },
+    {
+      title: "Art of Communication",
+      issuer: "Grameenphone Academy",
+      date: "2025",
+      category: "Communication",
+      skills: ["Communication"],
+      link: "#"
+    },
+    {
+      title: "Corporate Presentation Skills",
+      issuer: "Grameenphone Academy",
+      date: "2025",
+      category: "Communication",
+      skills: ["Presentation"],
+      link: "#"
+    },
+    {
+      title: "Acing Aptitude Tests",
+      issuer: "Grameenphone Academy",
+      date: "2025",
+      category: "Career Development",
+      skills: ["Aptitude"],
+      link: "#"
+    },
+    {
+      title: "Smart CV",
+      issuer: "Grameenphone Academy",
+      date: "2025",
+      category: "Career Development",
+      skills: ["CV Writing"],
+      link: "#"
+    },
+    {
+      title: "LinkedIn 101",
+      issuer: "Grameenphone Academy",
+      date: "2025",
+      category: "Career Development",
+      skills: ["Personal Branding"],
+      link: "#"
+    },
+    {
+      title: "NSU Startups Next: Certified Skill Lab Workshops",
+      issuer: "NSU Startups Next",
+      date: "2023",
+      category: "Career Development",
+      skills: ["Problem Solving", "Communication"],
+      link: "#"
+    },
+    {
+      title: "Scientist for a Day",
+      issuer: "NASA",
+      date: "2021",
+      category: "AI/ML",
+      skills: ["Critical Thinking"],
+      link: "#"
+    },
+    {
+      title: "Mission to Mars Student Challenge",
+      issuer: "NASA",
+      date: "2021",
+      category: "AI/ML",
+      skills: ["Problem Solving"],
+      link: "#"
+    },
+    {
+      title: "International MUN Certified Internship",
+      issuer: "International MUN",
+      date: "2021",
+      category: "Career Development",
+      skills: ["Problem Solving", "Critical Thinking"],
+      link: "#"
+    },
+    {
+      title: "International MUN Online Conference 73.0",
+      issuer: "International MUN",
+      date: "2021",
+      category: "Career Development",
+      skills: ["Critical Thinking"],
+      link: "#"
+    },
+    {
+      title: "Tesla Lab Certified Official Co-ordinator",
+      issuer: "Tesla Lab",
+      date: "2020",
+      category: "Career Development",
+      skills: ["Coordination"],
+      link: "#"
+    },
+    {
+      title: "Chattagram Chess Club Presents Chess Fiesta 2020",
+      issuer: "Chattagram Chess Club",
+      date: "2020",
+      category: "Career Development",
+      skills: ["Critical Thinking"],
+      link: "#"
+    },
+    {
+      title: "Communication Hacks",
+      issuer: "10 Minute School",
+      date: "2023",
+      category: "Communication",
+      skills: ["Communication"],
+      link: "#"
+    },
+    {
+      title: "How to Create a Professional Presentation in PowerPoint",
+      issuer: "Udemy",
+      date: "2022",
+      category: "Career Development",
+      skills: ["Microsoft PowerPoint"],
+      link: "#"
     }
   ];
 
-  const certificates = certificatesData;
+  const certificates = certificatesData.length > 0 ? certificatesData : staticCertificates;
 
   return (
     <section id='certificates' className="py-16 px-6 bg-secondary/5 relative overflow-hidden">
@@ -183,14 +255,16 @@ const Certificates = () => {
                     </div>
                   </div>
                   
-                  <div className="mt-6 pt-4 border-t border-border/30 relative z-10">
-                    <Button variant="ghost" size="sm" className="w-full justify-between text-primary hover:text-primary hover:bg-primary/10 group/btn" asChild>
-                      <a href={cert.link} target="_blank" rel="noopener noreferrer">
-                        Verify Credential
-                        <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                      </a>
-                    </Button>
-                  </div>
+                  {cert.link && cert.link !== '#' && (
+                    <div className="mt-6 pt-4 border-t border-border/30 relative z-10">
+                      <Button variant="ghost" size="sm" className="w-full justify-between text-primary hover:text-primary hover:bg-primary/10 group/btn" asChild>
+                        <a href={cert.link} target="_blank" rel="noopener noreferrer">
+                          Verify Credential
+                          <ExternalLink className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </a>
+                      </Button>
+                    </div>
+                  )}
                 </Card>
               </CarouselItem>
             ))}

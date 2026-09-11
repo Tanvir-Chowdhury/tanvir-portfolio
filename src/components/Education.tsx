@@ -17,7 +17,9 @@ const Education = () => {
     const fetchEducation = async () => {
       try {
         const response = await api.getEducation();
-        setEducation(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+        if (response.data && response.data.length > 0) {
+          setEducation(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
+        }
       } catch (error) {
         console.error("Failed to fetch education data:", error);
       }
@@ -62,6 +64,8 @@ const Education = () => {
     }
   ];
 
+  const displayEducation = education.length > 0 ? education : educationData;
+
   return (
     <section id='education' className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-5xl mx-auto relative z-10">
@@ -77,7 +81,7 @@ const Education = () => {
           <div className="absolute md:left-0 top-0 bottom-0 w-px bg-border hidden md:block"></div>
 
           <div className="space-y-8">
-            {education.map((edu, index) => {
+            {displayEducation.map((edu, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncate = isMobile && !isExpanded;
               const icon = <GraduationCap className="w-6 h-6" />;

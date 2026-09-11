@@ -45,17 +45,55 @@ const WorkExperience = () => {
   };
   const workData = [
     {
+  position: "Marketing Growth & Automation Specialist",
+  company: "Automata One",
+  location: "Dhaka, Bangladesh",
+  duration: "Jun 2026 - Present",
+  type: "Full-time · Hybrid",
+  description: "Building marketing automation tools including an ad analyzer, competitor analyzer, and post scraper. Also leading full marketing for Phoenix Education (including video and post content), since Automata One is Phoenix Education's sister concern.",
+  achievements: [
+    "Built an ad analyzer tool",
+    "Built a competitor analyzer tool",
+    "Built a post scraper tool",
+    "Leading video & post marketing for Phoenix Education"
+  ]
+},
+{
+  position: "Sub-Team Lead, Marketing",
+  company: "Phoenix Education",
+  location: "Dhaka, Bangladesh",
+  duration: "Oct 2025 - Dec 2025",
+  type: "Part-time · On-site",
+  description: "Led a sub-team within the Marketing department, taking on team management and leadership responsibilities.",
+  achievements: [
+    "Team Management",
+    "Team Leadership"
+  ]
+},
+{
   position: "Junior Executive, PR & Marketing",
   company: "Phoenix Education",
   location: "Dhaka, Bangladesh",
-  duration: "Dec 2024 - Present",
-  type: "Part-time",
+  duration: "Feb 2025 - Oct 2025",
+  type: "Part-time · On-site",
   description: "Redesigned the official website from scratch to make it more user-friendly. Created 150+ engaging Facebook posts and designed 50+ poster contents. Increased page followers by over 25% and boosted overall reach to millions.",
   achievements: [
     "Website redesigned for user-friendliness",
     "150+ Facebook contents & 50+ posters",
     "25%+ growth in followers",
     "Millions in page reach"
+  ]
+},
+{
+  position: "Social Media Content Writer",
+  company: "Phoenix Education",
+  location: "Dhaka, Bangladesh",
+  duration: "Dec 2024 - Feb 2025",
+  type: "Part-time · On-site",
+  description: "Wrote and produced social media content, contributing to the brand's marketing and social media presence.",
+  achievements: [
+    "Social Media Marketing",
+    "Branding"
   ]
 },
 {

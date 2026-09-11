@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml, Layers, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml, Layers, CheckCircle2, Bot } from 'lucide-react';
 import * as api from '@/api';
 import SectionHeading from '@/components/SectionHeading';
 import Reveal from '@/components/Reveal';
@@ -94,8 +94,15 @@ const Projects = () => {
   details: "Developed a beginner-friendly static website that presents a flower shop concept. The site showcases the use of HTML for structure and CSS for styling, giving a practical example of how to design a product-based website layout.",
   demo: "https://tanvir-chowdhury.github.io/online-flower-shop/",
   github: "https://github.com/Tanvir-Chowdhury/online-flower-shop"
+},
+{
+  title: "Short-flix - Netflix-Style Short Video Platform",
+  description: "A modern Netflix-style video platform for short clips, featuring a responsive UI with search and filtering to browse, watch and favorite short video content.",
+  technologies: ["React 19", "Vite", "Tailwind CSS", "Python (Serverless)"],
+  details: "Built a full-stack short-video streaming platform with a React 19 + Vite frontend and a Python serverless backend deployed natively on Vercel. Implemented search, filtering, and favoriting, with a monorepo deployment combining static frontend and serverless API routes.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/Short-flix"
 }
-
 
       ]
     },
@@ -164,6 +171,14 @@ const Projects = () => {
           details: "Developed comprehensive brand identities for 20+ clients including logo design, brand guidelines, marketing materials, and digital presence strategy. Increased brand recognition by 300% on average.",
           demo: "#",
           github: "#"
+        },
+        {
+          title: "Marketing Automation Suite - Automata One / Phoenix Education",
+          description: "A set of marketing automation tools including an ad analyzer, competitor analyzer, and post scraper, built while running full marketing (video and post content) for Phoenix Education.",
+          technologies: ["Marketing Automation", "Data Scraping", "Analytics"],
+          details: "Built an ad analyzer, a competitor analyzer, and a post scraper as part of a marketing automation suite for Automata One, the sister concern of Phoenix Education. These tools support ongoing full-scope marketing work for Phoenix Education, including video and post content.",
+          demo: "#",
+          github: "#"
         }
       ]
     },
@@ -188,6 +203,44 @@ const Projects = () => {
   github: "#"
 }
 
+      ]
+    },
+    ai: {
+      title: "AI & Automation",
+      icon: <Bot className="w-4 h-4" />,
+      projects: [
+        {
+  title: "NSU Class Schedule Management System",
+  description: "An AI-powered academic scheduling platform with an intelligent auto-scheduler, admin/teacher/student portals, and a RAG-based assistant that answers questions about schedules and rules.",
+  technologies: ["FastAPI", "PostgreSQL", "Pinecone", "Mistral AI", "React", "Tailwind CSS"],
+  details: "Built a Class Schedule Management System for North South University featuring an intelligent auto-scheduling algorithm (floor-level room prioritization, department-specific allocation, teacher preference matching, lab/theory consistency), a notification system, and a context-aware RAG chatbot backed by a Pinecone vector database that stays in sync with the live PostgreSQL data. Also integrates one-click Google Calendar sync for the full semester schedule.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/NSU-Class-Schedule-Management-System"
+},
+{
+  title: "Phoenix Telegram Bot 2.0",
+  description: "A Telegram-based doubt-solving assistant built for Phoenix Education / Phoenix Admission Care, helping students preparing for private university admission tests in Bangladesh.",
+  technologies: ["Python", "Telegram Bot API"],
+  details: "Developed a 24/7 doubt-solving Telegram bot for admission test candidates, covering Math, English, Analytical Ability, and General Knowledge. Students can mention the bot in Telegram groups to ask questions or submit images of questions for step-by-step, student-friendly explanations. Deployed live on Vercel.",
+  demo: "https://phoenix-telegram-bot-2-0-btt1.vercel.app",
+  github: "https://github.com/Tanvir-Chowdhury/Phoenix_Telegram_bot_2.0"
+},
+{
+  title: "NASA Space Apps Challenge - AI Research Assistant",
+  description: "An intelligent research assistant that provides context-aware answers about space research, missions, and experiments using Retrieval-Augmented Generation, built for the NASA Space Apps Challenge 2025.",
+  technologies: ["FastAPI", "Google Gemini", "Pinecone", "NASA OSDR API"],
+  details: "Built a RAG-based AI assistant combining a Pinecone vector database with NASA's Open Science Data Repository (OSDR) API for dual search, topic extraction, and source-attributed answers about space research and missions. Deployed live on Vercel.",
+  demo: "https://3js-test-theta.vercel.app/",
+  github: "https://github.com/Tanvir-Chowdhury/AI-and-RAG-Based-Chatbot-with-Gaming-Experience"
+},
+{
+  title: "Backend-Only AI Chatbot",
+  description: "A backend-only AI chatbot built with Django REST Framework, using a Retrieval-Augmented Generation pipeline for context-aware responses.",
+  technologies: ["Django", "Django REST Framework", "Pinecone", "Mistral AI", "JWT"],
+  details: "Built a RAG pipeline integrating Pinecone for vector storage and Mistral AI for response generation, with JWT-based authentication, background email verification, persistent chat history, and scheduled maintenance tasks via APScheduler.",
+  demo: "#",
+  github: "https://github.com/Tanvir-Chowdhury/Backend-Only-AI-Chatbot"
+}
       ]
     },
     // design: {
@@ -225,6 +278,7 @@ const Projects = () => {
         else if (cat.includes('marketing')) categoryKey = 'marketing';
         else if (cat.includes('data')) categoryKey = 'dataanalytics';
         else if (cat.includes('design')) categoryKey = 'design';
+        else if (cat.includes('ai') || cat.includes('automation')) categoryKey = 'ai';
         
         if (categories[categoryKey]) {
           categories[categoryKey].projects.push({

@@ -184,9 +184,13 @@ const Skills = () => {
       // Backend
       { name: "Node.js", category: "Backend", color: "text-green-400" },
       { name: "Python", category: "Backend", color: "text-green-400" },
+      { name: "FastAPI", category: "Backend", color: "text-green-400" },
+      { name: "Django", category: "Backend", color: "text-green-400" },
+      { name: "PHP", category: "Backend", color: "text-green-400" },
       { name: "MongoDB", category: "Database", color: "text-purple-400" },
       { name: "PostgreSQL", category: "Database", color: "text-purple-400" },
       { name: "MySQL", category: "Database", color: "text-purple-400" },
+      { name: "Pinecone", category: "Database", color: "text-purple-400" },
       
       // DevOps & Cloud
       { name: "Docker", category: "DevOps", color: "text-orange-400" },
@@ -199,7 +203,8 @@ const Skills = () => {
       
       // AI & Tools
       { name: "Machine Learning", category: "AI", color: "text-yellow-400" },
-      
+      { name: "RAG / LLMs", category: "AI", color: "text-yellow-400" },
+
       { name: "Angular", category: "Frontend", color: "text-blue-400" },
       { name: "Express.js", category: "Backend", color: "text-green-400" },
       { name: "UI/UX Design", category: "Design", color: "text-pink-400" },
