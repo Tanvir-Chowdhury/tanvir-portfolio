@@ -5,6 +5,8 @@ import { Briefcase, Calendar, MapPin, TrendingUp, ChevronDown, ChevronUp } from 
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const WorkExperience = () => {
   const isMobile = useIsMobile();
@@ -138,36 +140,29 @@ const WorkExperience = () => {
   return (
     <section id='experience' className="py-16 px-2 md:px-6 bg-secondary/10 relative">
       <div className="container max-w-5xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-accent/50 text-accent bg-accent/10 backdrop-blur-sm">
-            Career Path
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary">Experience</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            My professional journey building solutions and creating impact in the digital world.
-          </p>
-        </div>
+        <SectionHeading
+          index="04"
+          eyebrow="Career Path"
+          title={<>Work <span className="text-gradient">Experience</span></>}
+          description="My professional journey building solutions and creating impact in the digital world."
+        />
 
         <div className="relative md:ml-6">
           {/* Timeline line - Left aligned on desktop, hidden on mobile */}
-          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-gradient-to-b from-accent/50 via-primary/50 to-transparent hidden md:block"></div>
-          
-          <div className="space-y-12">
+          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-border hidden md:block"></div>
+
+          <div className="space-y-8">
             {displayData.map((work, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncateDesc = isMobile && !isExpanded;
-              
+
               return (
-                <div key={index} className="relative md:pl-12">
+                <Reveal key={index} delay={Math.min(index, 3) * 80} className="relative md:pl-12">
                   {/* Timeline dot */}
-                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-accent z-10 hidden md:block mt-8 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
-                  
+                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-accent z-10 hidden md:block mt-8"></div>
+
                   <div className="w-full">
-                    <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 group relative overflow-hidden rounded-2xl">
-                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                      
+                    <Card className="p-6 md:p-8 bg-card border-border/60 hover:border-accent/40 transition-colors duration-300 group relative overflow-hidden">
                       <div className="flex flex-col md:flex-row items-start gap-5">
                         <div className="flex-shrink-0 mt-1">
                           <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform duration-300">
@@ -251,7 +246,7 @@ const WorkExperience = () => {
                       </div>
                     </Card>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>

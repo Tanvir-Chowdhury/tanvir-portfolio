@@ -39,8 +39,8 @@ const Footer = () => {
         <div className="grid md:grid-cols-12 gap-8 lg:gap-12 mb-12">
           {/* Brand Section */}
           <div className="space-y-6 md:col-span-4">
-            <h3 className="text-2xl font-bold tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Md Tanvir</span> Chowdhury
+            <h3 className="text-2xl font-display font-semibold tracking-tight">
+              <span className="text-gradient">Md Tanvir</span> Chowdhury
             </h3>
             <p className="text-muted-foreground leading-relaxed max-w-sm">
               Software Engineer & Marketing Strategist passionate about creating solutions 

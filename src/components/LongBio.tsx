@@ -1,31 +1,25 @@
 ﻿import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import bioImage from '@/assets/tanvir-bio.jpg';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const LongBio = () => {
   return (
     <section id='about_me' className="py-16 lg:px-6 bg-secondary/10 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-accent/5 to-transparent pointer-events-none"></div>
-
       <div className="container max-w-5xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-start">
-          
+
           {/* Bio Content */}
           <div className="lg:col-span-12 space-y-8">
-            <div className="space-y-6 text-center lg:text-left">
-              <Badge variant="outline" className="px-4 py-1 text-sm border-accent/50 text-accent bg-accent/10 backdrop-blur-sm">
-                About Me
-              </Badge>
-              <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-                My Journey & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Vision</span>
-              </h2>
-            </div>
+            <SectionHeading
+              index="01"
+              eyebrow="About Me"
+              title={<>My Journey &amp; <span className="text-gradient">Vision</span></>}
+            />
 
-            <Card className="p-4 lg:p-10 bg-card/40 backdrop-blur-md border-border/50 shadow-xl relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
+            <Reveal>
+            <Card className="p-6 lg:p-10 bg-card border-border/60 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-primary"></div>
+
               <div className="space-y-6 text-lg leading-relaxed text-muted-foreground">
                 <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
                   I am Tanvir Chowdhury, a programmer, marketing & branding strategist who loves solving problems and creating solutions that make an impact. I founded <span className="text-foreground font-semibold">Ask for Branding</span>, where I help businesses grow through creative branding, marketing, digital strategies and custom software development solutions. Every project I take on is an opportunity to learn, improve and deliver value to the people I work with.
@@ -59,6 +53,7 @@ const LongBio = () => {
                 </p>
               </div>
             </Card>
+            </Reveal>
           </div>
         </div>
       </div>

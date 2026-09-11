@@ -1,8 +1,9 @@
 ﻿import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Heart, Users, Globe, Award } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const Volunteering = () => {
   const [fetchedVolunteeringData, setFetchedVolunteeringData] = useState<any[]>([]);
@@ -75,26 +76,19 @@ const Volunteering = () => {
   return (
     <section className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Community Impact
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Volunteering <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Experience</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Giving back to the community through mentorship, education and tech initiatives.
-          </p>
-        </div>
+        <SectionHeading
+          index="05"
+          eyebrow="Community Impact"
+          title={<>Volunteering <span className="text-gradient">Experience</span></>}
+          description="Giving back to the community through mentorship, education and tech initiatives."
+        />
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {volunteeringData.map((volunteer, index) => (
-            <Card 
-              key={index} 
-              className="p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl"
+            <Reveal key={index} delay={Math.min(index, 3) * 80}>
+            <Card
+              className="p-8 h-full bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-all group-hover:scale-150 duration-500"></div>
-              
               <div className="space-y-6 relative z-10">
                 <div className="flex flex-col md:flex-row items-start gap-5">
                   <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${volunteer.color} group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
@@ -128,6 +122,7 @@ const Volunteering = () => {
                 </div>
               </div>
             </Card>
+            </Reveal>
           ))}
         </div>
       </div>

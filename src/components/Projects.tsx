@@ -6,6 +6,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ExternalLink, Github, Eye, Code, Database, Palette, BarChart3, Globe, Smartphone, CodeXml, Layers, CheckCircle2 } from 'lucide-react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const Projects = () => {
   const [projectsData, setProjectsData] = useState<any[]>([]);
@@ -243,28 +245,17 @@ const Projects = () => {
 
   return (
     <section id='projects' className="py-16 px-2 md:px-6 bg-background relative">
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px]"></div>
-      </div>
-
       <div className="container max-w-7xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Portfolio
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Projects</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Explore a collection of my work across web development, marketing strategies and data analytics.
-          </p>
-        </div>
+        <SectionHeading
+          index="03"
+          eyebrow="Portfolio"
+          title={<>Featured <span className="text-gradient">Projects</span></>}
+          description="Explore a collection of my work across web development, marketing strategies and data analytics."
+        />
 
         <Tabs defaultValue="fullstack" className="w-full">
           <div className="flex justify-center mb-12">
-            <TabsList className="inline-flex h-auto p-1 bg-secondary/30 backdrop-blur-md rounded-full border border-border/40">
+            <TabsList className="inline-flex h-auto p-1 bg-secondary/50 rounded-full border border-border/60">
               {Object.entries(projectCategories).map(([key, category]: [string, any]) => (
                 <TabsTrigger 
                   key={key} 
@@ -280,10 +271,10 @@ const Projects = () => {
 
           {Object.entries(projectCategories).map(([key, category]: [string, any]) => (
             <TabsContent key={key} value={key} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {category.projects.map((project, index) => (
-                  <div key={index} className="h-full">
-                    <Card className="group h-full flex flex-col bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 overflow-hidden rounded-2xl">
+                  <Reveal key={index} delay={Math.min(index, 5) * 60} className="h-full">
+                    <Card className="group h-full flex flex-col bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 overflow-hidden">
                       <div className="p-6 flex flex-col h-full">
                         <div className="mb-4 flex justify-between items-start">
                           <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
@@ -329,9 +320,9 @@ const Projects = () => {
                                 <Eye className="w-4 h-4 ml-2" />
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-3xl max-h-[85vh] w-[90vw] overflow-y-auto bg-card/95 backdrop-blur-xl border-border/50 rounded-2xl p-6 sm:p-8">
+                            <DialogContent className="max-w-3xl max-h-[85vh] w-[90vw] overflow-y-auto bg-card/95 backdrop-blur-xl border-border/60 rounded-2xl p-6 sm:p-8">
                               <DialogHeader className="mb-6 mt-4 space-y-4">
-                                <DialogTitle className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 pr-8">
+                                <DialogTitle className="text-2xl sm:text-3xl font-display font-semibold pr-8">
                                   {project.title}
                                 </DialogTitle>
                                 {project.image && (
@@ -405,7 +396,7 @@ const Projects = () => {
                                 {/* Action Buttons */}
                                 <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-border/50 mt-8">
                                   {project.demo && project.demo !== '#' ? (
-                                    <Button asChild size="lg" className="flex-1 h-16 sm:h-14 bg-gradient-to-r from-primary to-accent hover:opacity-90 shadow-lg shadow-primary/20 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
+                                    <Button asChild size="lg" className="flex-1 h-16 sm:h-14 shadow-lg shadow-primary/20 text-lg sm:text-base font-semibold tracking-wide rounded-xl">
                                       <a href={project.demo} target="_blank" rel="noopener noreferrer">
                                         <ExternalLink className="w-5 h-5 mr-2" />
                                         Live Demo
@@ -438,7 +429,7 @@ const Projects = () => {
                         </div>
                       </div>
                     </Card>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
             </TabsContent>

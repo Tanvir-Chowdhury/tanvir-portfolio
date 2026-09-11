@@ -1,10 +1,10 @@
 ﻿import { useState, useEffect, useMemo, useRef } from 'react';
-import { Badge } from '@/components/ui/badge';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
 
 const SkillCard = ({ skill }: { skill: any }) => (
-  <div 
-    className="flex flex-col items-center justify-center p-6 border border-border/40 bg-card/40 backdrop-blur-md rounded-2xl hover:border-primary/50 hover:bg-primary/5 transition-all duration-500 group/card min-w-[140px] md:min-w-[180px] select-none"
+  <div
+    className="flex flex-col items-center justify-center p-6 border border-border/60 bg-card rounded-2xl hover:border-primary/40 transition-colors duration-300 group/card min-w-[140px] md:min-w-[180px] select-none"
   >
     <span className={`text-lg md:text-xl font-bold tracking-tight mb-1 ${skill.color} group-hover/card:scale-110 transition-transform duration-300`}>
       {skill.name}
@@ -220,22 +220,17 @@ const Skills = () => {
 
   return (
     <section id='skills' className="py-24 bg-secondary/5 overflow-hidden relative">
-      <div className="container max-w-6xl mx-auto relative z-10 mb-16 px-6">
-        <div className="text-center space-y-6">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Technical Expertise
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Skills</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-             A blend of creative design, robust engineering, and strategic thinking.
-          </p>
-        </div>
+      <div className="container max-w-6xl mx-auto relative z-10 px-6">
+        <SectionHeading
+          index="08"
+          eyebrow="Technical Expertise"
+          title={<>My <span className="text-gradient">Skills</span></>}
+          description="A blend of creative design, robust engineering, and strategic thinking."
+        />
       </div>
 
       {/* Marquee Section */}
-      <div className="relative w-full overflow-hidden bg-background/50 backdrop-blur-sm border-y border-border/30 py-10 group">
+      <div className="relative w-full overflow-hidden bg-background border-y border-border/60 py-10 group">
         <div className="pointer-events-none absolute z-10 box-border grid h-full w-full grid-cols-2 overflow-hidden bg-transparent inset-0 mixed-blend-overlay">
              <div className="w-20 md:w-40 bg-gradient-to-r from-background to-transparent h-full absolute left-0 top-0 z-20"></div>
              <div className="w-20 md:w-40 bg-gradient-to-l from-background to-transparent h-full absolute right-0 top-0 z-20"></div>

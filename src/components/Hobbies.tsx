@@ -1,9 +1,9 @@
 ﻿import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball} from 'lucide-react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
 
 const Hobbies = () => {
   const [hobbiesData, setHobbiesData] = useState<any[]>([]);
@@ -112,19 +112,14 @@ const Hobbies = () => {
   return (
     <section id="hobbies" className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Personal Interests
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Hobbies & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Passions</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Life beyond coding - exploring creativity, learning, and building connections.
-          </p>
-        </div>
+        <SectionHeading
+          index="09"
+          eyebrow="Personal Interests"
+          title={<>Hobbies &amp; <span className="text-gradient">Passions</span></>}
+          description="Life beyond coding - exploring creativity, learning, and building connections."
+        />
 
-        <Carousel 
+        <Carousel
           opts={{
             align: "start",
             loop: true,
@@ -134,11 +129,9 @@ const Hobbies = () => {
           <CarouselContent className="-ml-2 md:-ml-4 pt-4">
             {itemsToDisplay.map((hobby, index) => (
               <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/4">
-                <Card 
-                  className="py-3 px-1 md:p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl h-full"
+                <Card
+                  className="py-3 px-1 md:p-6 bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group relative overflow-hidden h-full"
                 >
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-6 -mt-6 transition-all group-hover:scale-150 duration-500"></div>
-                  
                   <div className="space-y-4 text-center relative z-10 flex flex-col h-full">
                     <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center ${hobby.color_class} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                       {hobby.icon_name}

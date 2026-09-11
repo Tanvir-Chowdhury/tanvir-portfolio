@@ -5,6 +5,7 @@ import { Award, ExternalLink, Calendar, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
 
 const Certificates = () => {
   const [certificatesData, setCertificatesData] = useState<any[]>([]);
@@ -135,19 +136,14 @@ const Certificates = () => {
   return (
     <section id='certificates' className="py-16 px-6 bg-secondary/5 relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Continuous Learning
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Certifications</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Validating skills and expertise through recognized industry certifications.
-          </p>
-        </div>
+        <SectionHeading
+          index="06"
+          eyebrow="Continuous Learning"
+          title={<>Professional <span className="text-gradient">Certifications</span></>}
+          description="Validating skills and expertise through recognized industry certifications."
+        />
 
-        <Carousel 
+        <Carousel
           opts={{
             align: "start",
             loop: true,
@@ -157,11 +153,9 @@ const Certificates = () => {
           <CarouselContent className="-ml-2 md:-ml-4">
             {certificates.map((cert, index) => (
               <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/4">
-                <Card 
-                  className="p-6 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden flex flex-col h-full"
+                <Card
+                  className="p-6 bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group relative overflow-hidden flex flex-col h-full"
                 >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-8 -mt-8 transition-all group-hover:scale-150 duration-500"></div>
-                  
                   <div className="flex items-start justify-between mb-4 relative z-10">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                       <Award className="w-6 h-6" />

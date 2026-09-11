@@ -1,7 +1,8 @@
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle, Send, Calendar } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const Contact = () => {
   const contactInfo = [
@@ -77,33 +78,28 @@ const Contact = () => {
       </div>
 
       <div className="container max-w-5xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Start Your Growth Journey
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Scale?</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            I help founders and businesses scale efficiently by integrating custom websites, AI agents, and strategic marketing. Let's discuss your growth goals.
-          </p>
-        </div>
+        <SectionHeading
+          index="10"
+          eyebrow="Start Your Growth Journey"
+          title={<>Ready to <span className="text-gradient">Scale?</span></>}
+          description="I help founders and businesses scale efficiently by integrating custom websites, AI agents, and strategic marketing. Let's discuss your growth goals."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-2xl text-center md:text-left font-bold">Contact Information</h3>
+              <h3 className="text-2xl text-center md:text-left font-display font-semibold">Contact Information</h3>
               <p className="text-center md:text-left text-muted-foreground">
                 Reach out directly to discuss how we can automate your operations and increase revenue.
               </p>
             </div>
-            
+
             <div className="space-y-4">
               {contactInfo.map((contact, index) => (
-                <Card 
-                  key={index} 
-                  className="p-4 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-lg hover:shadow-primary/5"
+                <Card
+                  key={index}
+                  className="p-4 bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group"
                 >
                   <a 
                     href={contact.href}
@@ -126,12 +122,12 @@ const Contact = () => {
           </div>
 
           
-          <Card className="p-8 bg-card/40 backdrop-blur-sm border-border/50 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none"></div>
-            
+          <Card className="p-8 bg-card border-border/60 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
+            <div className="absolute inset-0 bg-gradient-hero pointer-events-none"></div>
+
             <div className="relative z-10 space-y-6 w-full">
               <div className="space-y-2">
-                <h3 className="text-2xl font-bold">Let's Discuss</h3>
+                <h3 className="text-2xl font-display font-semibold">Let's Discuss</h3>
                 <p className="text-muted-foreground">
                   Identify bottlenecks, discover opportunities, and map out a strategy to scale your business.
                 </p>

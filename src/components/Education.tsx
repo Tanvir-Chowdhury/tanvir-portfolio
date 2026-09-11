@@ -5,6 +5,8 @@ import { GraduationCap, Award, CalendarDays, ChevronDown, ChevronUp } from 'luci
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useState, useEffect } from 'react';
 import * as api from '@/api';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const Education = () => {
   const isMobile = useIsMobile();
@@ -63,38 +65,31 @@ const Education = () => {
   return (
     <section id='education' className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-5xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Academic Journey
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Education</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            The academic milestones that have shaped my technical foundation and problem-solving mindset.
-          </p>
-        </div>
+        <SectionHeading
+          index="02"
+          eyebrow="Academic Journey"
+          title={<>My <span className="text-gradient">Education</span></>}
+          description="The academic milestones that have shaped my technical foundation and problem-solving mindset."
+        />
 
         <div className="relative md:ml-6">
           {/* Timeline line */}
-          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary/50 via-accent/50 to-transparent hidden md:block"></div>
-          
-          <div className="space-y-12">
+          <div className="absolute md:left-0 top-0 bottom-0 w-px bg-border hidden md:block"></div>
+
+          <div className="space-y-8">
             {education.map((edu, index) => {
               const isExpanded = expandedCards.includes(index);
               const shouldTruncate = isMobile && !isExpanded;
               const icon = <GraduationCap className="w-6 h-6" />;
               const status = edu.duration?.toLowerCase().includes('present') ? 'Current' : 'Completed';
-              
+
               return (
-                <div key={edu.id || index} className="relative md:pl-12">
+                <Reveal key={edu.id || index} delay={Math.min(index, 3) * 80} className="relative md:pl-12">
                   {/* Timeline dot */}
-                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-primary z-10 hidden md:block mt-8 shadow-[0_0_10px_rgba(124,58,237,0.5)]"></div>
-                  
+                  <div className="absolute md:left-[-8px] w-4 h-4 bg-background rounded-full border-4 border-primary z-10 hidden md:block mt-8"></div>
+
                   <div className="w-full">
-                    <Card className="p-6 md:p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 group relative overflow-hidden rounded-2xl">
-                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-accent opacity-50 group-hover:opacity-100 transition-opacity"></div>
-                      
+                    <Card className="p-6 md:p-8 bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group relative overflow-hidden">
                       <div className="flex flex-col md:flex-row items-start gap-5">
                         <div className="flex-shrink-0 mt-1">
                           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
@@ -153,7 +148,7 @@ const Education = () => {
                       </div>
                     </Card>
                   </div>
-                </div>
+                </Reveal>
               );
             })}
           </div>

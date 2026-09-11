@@ -8,6 +8,8 @@ import * as api from '@/api';
 import csoImg from '@/assets/awards/cso.jpg';
 import hultImg from '@/assets/awards/hult_prize_semifinal.jpg';
 import hultCampus from '@/assets/awards/hultprize_on_campus.png';
+import SectionHeading from '@/components/SectionHeading';
+import Reveal from '@/components/Reveal';
 
 const Awards = () => {
   const [awardsData, setAwardsData] = useState<any[]>([]);
@@ -84,28 +86,21 @@ const Awards = () => {
   return (
     <section id='awards' className="py-16 px-2 md:px-6 bg-background relative overflow-hidden">
       <div className="container max-w-6xl mx-auto relative z-10">
-        <div className="text-center space-y-6 mb-12">
-          <Badge variant="outline" className="px-4 py-1 text-sm border-primary/50 text-primary bg-primary/10 backdrop-blur-sm">
-            Achievements
-          </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
-            Honors & <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Awards</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Recognition for excellence in competitions, innovation, and academic achievements.
-          </p>
-        </div>
+        <SectionHeading
+          index="07"
+          eyebrow="Achievements"
+          title={<>Honors &amp; <span className="text-gradient">Awards</span></>}
+          description="Recognition for excellence in competitions, innovation, and academic achievements."
+        />
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           {awards.map((award, index) => {
             const hasLink = !!award.link && award.link !== '#' && award.link.trim() !== '';
             return (
-              <Card 
-                key={index} 
-                className="p-8 bg-card/40 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 group hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1 relative overflow-hidden rounded-2xl flex flex-col h-full"
+              <Reveal key={index} delay={Math.min(index, 3) * 80}>
+              <Card
+                className="p-8 h-full bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group relative overflow-hidden flex flex-col"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full -mr-10 -mt-10 transition-all group-hover:scale-150 duration-500"></div>
-                
                 <div className="flex flex-col h-full relative z-10">
                   <div className="flex flex-col md:flex-row items-start gap-5 mb-6">
                     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${award.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
@@ -157,6 +152,7 @@ const Awards = () => {
                   </div>
                 </div>
               </Card>
+              </Reveal>
             );
           })}
         </div>
