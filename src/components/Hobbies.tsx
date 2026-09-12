@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball} from 'lucide-react';
+import { BookOpen, Tv, Users, Activity, Gamepad2, Camera, Music, Plane, Star , Code, CpuIcon, PencilRuler, Lightbulb, CodeXml, Volleyball, Utensils} from 'lucide-react';
 import * as api from '@/api';
 import SectionHeading from '@/components/SectionHeading';
 
@@ -12,10 +12,27 @@ const Hobbies = () => {
     {
       title: "Reading",
       description: "Love reading books on business, technology and personal development.",
-      icon: <BookOpen className="w-6 h-6" />,
-      color: "bg-blue-500/10 text-blue-500"
+      icon_name: <BookOpen className="w-6 h-6" />,
+      color_class: "bg-blue-500/10 text-blue-500"
     },
-    // ... (rest of the dummy data)
+    {
+      title: "Problem Solving",
+      description: "Enjoy tackling coding challenges and puzzles that sharpen logical thinking.",
+      icon_name: <Lightbulb className="w-6 h-6" />,
+      color_class: "bg-yellow-500/10 text-yellow-500"
+    },
+    {
+      title: "Traveling",
+      description: "Love exploring new places and experiencing different cultures.",
+      icon_name: <Plane className="w-6 h-6" />,
+      color_class: "bg-teal-500/10 text-teal-500"
+    },
+    {
+      title: "Eating",
+      description: "Enjoy trying out new foods and exploring different cuisines.",
+      icon_name: <Utensils className="w-6 h-6" />,
+      color_class: "bg-orange-500/10 text-orange-500"
+    }
   ];
 
   useEffect(() => {
@@ -24,15 +41,6 @@ const Hobbies = () => {
         const response = await api.getHobbies();
         if (response.data && response.data.length > 0) {
           setHobbiesData(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
-        } else {
-           // If no data from API, we could fallback to initialHobbies, 
-           // but usually we want to show empty or what's in DB.
-           // For now, let's just set it to empty if API returns empty, 
-           // or maybe the user wants to see dummy data if DB is empty?
-           // The user said "make sure the dummy json variabes are not removed and there as it is since I will need it later".
-           // I will keep the variable but render from state.
-           // If state is empty, I won't render anything or I could render dummy.
-           // I'll assume if API succeeds but returns empty, we show empty.
         }
       } catch (error) {
         console.error("Failed to fetch hobbies:", error);
@@ -46,61 +54,6 @@ const Hobbies = () => {
     const IconComponent = icons[iconName] || Star;
     return <IconComponent className="w-6 h-6" />;
   };
-
-  // Use API data if available, otherwise fallback to initialHobbies (optional, but user asked to keep dummy data)
-  // I will prioritize API data.
-  const displayHobbies = hobbiesData.length > 0 ? hobbiesData : initialHobbies;
-
-  const hobbies = [
-    {
-      title: "Reading",
-      description: "Love reading books on business, technology and personal development. Currently exploring 'Building a Story Brand' by Donald Miller.",
-      icon_name: <BookOpen className="w-6 h-6" />,
-      color_class: "bg-blue-500/10 text-blue-500"
-    },
-    {
-      title: "Korean Dramas",
-      description: "Enjoy watching Korean dramas in my free time. Recent favorites include 'Business Proposal' and 'Queen of Tears'.",
-      icon: <Tv className="w-6 h-6" />,
-      color: "bg-red-500/10 text-red-500"
-    },
-    {
-      title: "Teaching & Mentoring",
-      description: "Passionate about sharing knowledge and helping others grow. Regularly mentor students in programming and career development.",
-      icon: <Users className="w-6 h-6" />,
-      color: "bg-green-500/10 text-green-500"
-    },
-    {
-      title: "Football",
-      description: "Occasionally play football with friends. It's a great way to stay active and build team spirit.",
-      icon: <Activity className="w-6 h-6" />,
-      color: "bg-orange-500/10 text-orange-500"
-    },
-    {
-      title: "Gaming",
-      description: "Enjoy strategy and puzzle games that challenge problem-solving skills. Great for relaxation and mental exercise.",
-      icon: <Gamepad2 className="w-6 h-6" />,
-      color: "bg-purple-500/10 text-purple-500"
-    },
-    {
-      title: "Photography",
-      description: "Love capturing moments and exploring creative perspectives. Especially enjoy landscape and street photography.",
-      icon: <Camera className="w-6 h-6" />,
-      color: "bg-pink-500/10 text-pink-500"
-    },
-    {
-      title: "Music",
-      description: "Listen to various genres while coding and working. Music helps maintain focus and creativity during long projects.",
-      icon: <Music className="w-6 h-6" />,
-      color: "bg-indigo-500/10 text-indigo-500"
-    },
-    {
-      title: "Travel Planning",
-      description: "Enjoy researching and planning future travel destinations. Fascinated by different cultures and technological innovations worldwide.",
-      icon: <Plane className="w-6 h-6" />,
-      color: "bg-teal-500/10 text-teal-500"
-    }
-  ];
 
   const itemsToDisplay = hobbiesData.length > 0 ? hobbiesData.map((h, index) => ({
     title: h.title,
