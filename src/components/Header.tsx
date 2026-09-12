@@ -49,6 +49,14 @@ const Header = () => {
 
   const displaySocialLinks = socialLinks.length > 0 ? socialLinks : fallbackSocialLinks;
 
+  const fallbackCompetitiveProfiles = [
+    { platform: 'Codeforces', profile_link: 'https://codeforces.com/profile/tanvir11744' },
+    { platform: 'LeetCode', profile_link: 'https://leetcode.com/u/Your_Vir/' },
+    { platform: 'HackerRank', profile_link: 'https://www.hackerrank.com/profile/codinxter' },
+  ];
+
+  const displayCompetitiveProfiles = competitiveProfiles.length > 0 ? competitiveProfiles : fallbackCompetitiveProfiles;
+
 
   return (
     <header className="min-h-screen flex items-center justify-center px-2 lg:px-6 py-24 bg-gradient-hero relative overflow-hidden">
@@ -151,13 +159,13 @@ const Header = () => {
             </div>
 
             {/* Programming Profiles */}
-            {competitiveProfiles.length > 0 && (
+            {displayCompetitiveProfiles.length > 0 && (
               <div className="space-y-4 slide-up pt-6 border-t border-border/50" style={{ animationDelay: '0.45s' }}>
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
                   Competitive Coding Profiles
                 </h3>
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                  {competitiveProfiles.map((profile) => (
+                  {displayCompetitiveProfiles.map((profile) => (
                     <a
                       key={profile.platform}
                       href={profile.profile_link}
