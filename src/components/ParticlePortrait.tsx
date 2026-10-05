@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import profilePic from '@/assets/profile.png';
+import profilePic from '@/assets/profile.webp';
 
 interface ParticlePortraitProps {
   className?: string;
@@ -41,7 +41,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     if (!ctx) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let dots: Dot[] = [];
+    const dots: Dot[] = [];
     let raf = 0;
     let autoTimer = 0;
     let disposed = false;
@@ -196,6 +196,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         src={profilePic}
         alt=""
         className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
+        fetchpriority="high"
         draggable={false}
       />
       {/* The ink-dot portrait */}

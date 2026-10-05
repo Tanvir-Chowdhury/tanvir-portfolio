@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import profilePic from '@/assets/profile.png';
+import profilePic from '@/assets/profile.webp';
 import { PROFILE } from '@/data/content';
 
 /**
