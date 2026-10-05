@@ -11,7 +11,7 @@ export const PROFILE = {
     "I design and build websites, AI automations and marketing engines for founders and small businesses — so you can grow without hiring a whole team.",
   location: "Dhaka, Bangladesh",
   timezone: "GMT+6",
-  email: "tanvir.chowdhury.us@gmail.com",
+  email: "contact.tanvir.chowdhury@gmail.com",
   phone: "+8801644916069",
   whatsapp: "https://wa.me/+8801644916069",
   calendly: "https://calendly.com/tanvir-chowdhury-us/meet",
@@ -23,7 +23,7 @@ export const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/grow-with-vir/" },
   { label: "Facebook", href: "https://www.facebook.com/tanvir.11744" },
   { label: "WhatsApp", href: "https://wa.me/+8801644916069" },
-  { label: "Email", href: "mailto:tanvir.chowdhury.us@gmail.com" },
+  { label: "Email", href: "mailto:contact.tanvir.chowdhury@gmail.com" },
 ];
 
 export const STATS = [
