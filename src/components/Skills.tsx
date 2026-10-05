@@ -1,253 +1,201 @@
-﻿import { useState, useEffect, useMemo, useRef } from 'react';
-import * as api from '@/api';
-import SectionHeading from '@/components/SectionHeading';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import SectionHead from '@/components/SectionHead';
+import { SKILL_GROUPS } from '@/data/content';
 
-const SkillCard = ({ skill }: { skill: any }) => (
-  <div
-    className="flex flex-col items-center justify-center p-6 border border-border/60 bg-card rounded-2xl hover:border-primary/40 transition-colors duration-300 group/card min-w-[140px] md:min-w-[180px] select-none"
-  >
-    <span className={`text-lg md:text-xl font-bold tracking-tight mb-1 ${skill.color} group-hover/card:scale-110 transition-transform duration-300`}>
-      {skill.name}
-    </span>
-    <span className="text-[10px] md:text-xs font-medium text-muted-foreground uppercase tracking-widest bg-secondary/50 px-2 py-0.5 rounded-full">
-      {skill.category}
-    </span>
-  </div>
-);
-
-const DraggableMarquee = ({ skills, isMobile }: { skills: any[], isMobile: boolean }) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isPaused, setIsPaused] = useState(false);
-    const [isDragging, setIsDragging] = useState(false);
-    const startX = useRef(0);
-    const scrollLeft = useRef(0);
-    const animationFrameId = useRef<number>(0);
-
-    useEffect(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
-        // Speed variable (slower than original 50s animation which is roughly 1-2px per frame depending on screen width, we explicitly set a slow pixel speed)
-        const speed = 0.5;
-
-        const animate = () => {
-             if (!isDragging && !isPaused) {
-                 container.scrollLeft += speed;
-             }
-             
-             // Wrap logic
-             if (container.children.length > 0) {
-                 const firstSet = container.children[0] as HTMLElement;
-                 const setWidth = firstSet.offsetWidth;
-                 
-                 // If the first set has effectively scrolled out of view, we reset by subtracting its width
-                 // This effectively jumps "back" to the start of the second set which looks identical to the start of the first set
-                 if (setWidth > 0) {
-                      if (container.scrollLeft >= setWidth) {
-                          container.scrollLeft -= setWidth;
-                      } else if (container.scrollLeft <= 0) {
-                           // If dragged too far left (negative scroll not possible usually, but if logic pushed it)
-                           // Or if we want to allow left dragging into "previous" loop
-                           container.scrollLeft += setWidth;
-                      }
-                 }
-             }
-             
-             animationFrameId.current = requestAnimationFrame(animate);
-        }
-        
-        animationFrameId.current = requestAnimationFrame(animate);
-        
-        return () => cancelAnimationFrame(animationFrameId.current);
-    }, [isPaused, isDragging]);
-    
-    // Mouse Events
-    const onMouseDown = (e: React.MouseEvent) => {
-        setIsDragging(true);
-        startX.current = e.pageX;
-        if (containerRef.current) {
-            scrollLeft.current = containerRef.current.scrollLeft;
-        }
-    }
-    
-    const onMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging || !containerRef.current) return;
-        e.preventDefault();
-        const x = e.pageX;
-        const walk = (x - startX.current) * 1.5; // Drag multiplier
-        containerRef.current.scrollLeft = scrollLeft.current - walk;
-    }
-    
-    const onMouseUp = () => {
-        setIsDragging(false);
-    }
-    
-    const onMouseLeave = () => {
-        setIsDragging(false);
-        setIsPaused(false);
-    }
-
-    // Touch Events
-    const onTouchStart = (e: React.TouchEvent) => {
-        setIsDragging(true);
-        startX.current = e.touches[0].pageX;
-        if (containerRef.current) {
-            scrollLeft.current = containerRef.current.scrollLeft;
-        }
-    }
-
-    const onTouchMove = (e: React.TouchEvent) => {
-        if (!isDragging || !containerRef.current) return;
-        const x = e.touches[0].pageX;
-        const walk = (x - startX.current) * 1.5;
-        containerRef.current.scrollLeft = scrollLeft.current - walk;
-    }
-
-    const onTouchEnd = () => {
-        setIsDragging(false);
-        setIsPaused(false);
-    }
-
-    return (
-        <div 
-           ref={containerRef}
-           className="flex w-full overflow-hidden cursor-grab active:cursor-grabbing no-scrollbar touch-pan-y"
-           onMouseDown={onMouseDown}
-           onMouseMove={onMouseMove}
-           onMouseUp={onMouseUp}
-           onMouseLeave={onMouseLeave}
-           onMouseEnter={() => !isMobile && setIsPaused(true)}
-           onTouchStart={onTouchStart}
-           onTouchMove={onTouchMove}
-           onTouchEnd={onTouchEnd}
-        >
-            {/* Render 4 sets to allow seamless wrapping and wide screens coverage */}
-            {[...Array(4)].map((_, idx) => (
-                <div key={idx} className="flex shrink-0 items-center gap-6 px-3">
-                    {skills.map((skill, i) => <SkillCard key={`s${idx}-${i}`} skill={skill} />)}
-                </div>
-            ))}
-        </div>
-    )
+interface SphereTag {
+  name: string;
+  area: string;
+  weight: number;
+  x: number;
+  y: number;
+  z: number;
 }
 
-const Skills = () => {
-  const [skillsData, setSkillsData] = useState<any[]>([]);
-  const [isMobile, setIsMobile] = useState(false);
+const Toolkit = () => {
+  const [activeArea, setActiveArea] = useState<string>('all');
+  const containerRef = useRef<HTMLDivElement>(null);
+  const tagRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const rotation = useRef({ ry: 0, vel: 0.0022, dragging: false, lastX: 0 });
+  const radiusRef = useRef(200);
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+  const tags = useMemo<SphereTag[]>(() => {
+    const all = SKILL_GROUPS.flatMap((g) => g.skills.map((s) => ({ ...s, area: g.area })));
+    // Fibonacci sphere distribution
+    return all.map((tag, i) => {
+      const n = all.length;
+      const y = 1 - (i / (n - 1)) * 2;
+      const r = Math.sqrt(Math.max(0, 1 - y * y));
+      const theta = i * 2.399963; // golden angle
+      return { ...tag, x: Math.cos(theta) * r, y, z: Math.sin(theta) * r };
+    });
   }, []);
 
+  const totalSkills = tags.length;
+
   useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const response = await api.getSkills();
-        if (response.data && response.data.length > 0) {
-          setSkillsData(response.data.sort((a: any, b: any) => (a.order || 0) - (b.order || 0)));
-        }
-      } catch (error) {
-        console.error("Failed to fetch skills:", error);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const resize = () => {
+      radiusRef.current = Math.max(120, Math.min(container.clientWidth, container.clientHeight) / 2 - 50);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0;
+
+    const step = () => {
+      const rot = rotation.current;
+      if (!rot.dragging) {
+        rot.vel += (0.0022 - rot.vel) * 0.02; // ease back to base speed
+        rot.ry += reduce ? 0 : rot.vel;
       }
-    };
-    fetchSkills();
-  }, []);
+      const R = radiusRef.current;
+      const cos = Math.cos(rot.ry);
+      const sin = Math.sin(rot.ry);
 
-  const getCategoryColor = (category: string) => {
-    const colors: any = {
-      Frontend: "text-blue-400",
-      Backend: "text-green-400",
-      Database: "text-purple-400",
-      DevOps: "text-orange-400",
-      Mobile: "text-cyan-400",
-      Design: "text-pink-400",
-      AI: "text-yellow-400",
-      Tools: "text-gray-400"
+      tags.forEach((tag, i) => {
+        const el = tagRefs.current[i];
+        if (!el) return;
+        const x = tag.x * cos + tag.z * sin;
+        const z = -tag.x * sin + tag.z * cos;
+        const y = tag.y;
+        const depth = (z + 1) / 2; // 0 back → 1 front
+        let opacity = 0.3 + depth * 0.7;
+        if (activeArea !== 'all' && tag.area !== activeArea) opacity *= 0.14;
+        const scale = 0.62 + depth * 0.55 * tag.weight;
+        el.style.transform = `translate(-50%, -50%) translate3d(${x * R}px, ${y * R}px, 0) scale(${scale})`;
+        el.style.opacity = String(opacity);
+        el.style.zIndex = String(Math.round(depth * 100));
+      });
+      raf = requestAnimationFrame(step);
     };
-    return colors[category] || "text-foreground";
+    raf = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
+  }, [tags, activeArea]);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    const rot = rotation.current;
+    rot.dragging = true;
+    rot.lastX = e.clientX;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const skillsWithCategories = useMemo(() => {
-    const initialSkills = [
-      // Frontend
-      { name: "React", category: "Frontend", color: "text-blue-400" },
-      { name: "Next.js", category: "Frontend", color: "text-blue-400" },
-      { name: "Vue.js", category: "Frontend", color: "text-blue-400" },
-      { name: "HTML/CSS", category: "Frontend", color: "text-blue-400" },
-      { name: "Tailwind CSS", category: "Frontend", color: "text-blue-400" },
-      { name: "JavaScript", category: "Frontend", color: "text-blue-400" },
-      { name: "TypeScript", category: "Frontend", color: "text-blue-400" },
-      
-      // Backend
-      { name: "Node.js", category: "Backend", color: "text-green-400" },
-      { name: "Python", category: "Backend", color: "text-green-400" },
-      { name: "FastAPI", category: "Backend", color: "text-green-400" },
-      { name: "Django", category: "Backend", color: "text-green-400" },
-      { name: "PHP", category: "Backend", color: "text-green-400" },
-      { name: "MongoDB", category: "Database", color: "text-purple-400" },
-      { name: "PostgreSQL", category: "Database", color: "text-purple-400" },
-      { name: "MySQL", category: "Database", color: "text-purple-400" },
-      { name: "Pinecone", category: "Database", color: "text-purple-400" },
-      
-      // DevOps & Cloud
-      { name: "Docker", category: "DevOps", color: "text-orange-400" },
-      { name: "AWS", category: "DevOps", color: "text-orange-400" },
-      { name: "Git", category: "Tools", color: "text-gray-400" },
-      
-      // Mobile & Design
-      { name: "Flutter", category: "Mobile", color: "text-cyan-400" },
-      { name: "Figma", category: "Design", color: "text-pink-400" },
-      
-      // AI & Tools
-      { name: "Machine Learning", category: "AI", color: "text-yellow-400" },
-      { name: "RAG / LLMs", category: "AI", color: "text-yellow-400" },
+  const onPointerMove = (e: React.PointerEvent) => {
+    const rot = rotation.current;
+    if (!rot.dragging) return;
+    const dx = e.clientX - rot.lastX;
+    rot.lastX = e.clientX;
+    rot.ry += dx * 0.006;
+    rot.vel = dx * 0.004;
+  };
 
-      { name: "Angular", category: "Frontend", color: "text-blue-400" },
-      { name: "Express.js", category: "Backend", color: "text-green-400" },
-      { name: "UI/UX Design", category: "Design", color: "text-pink-400" },
-      { name: "TensorFlow", category: "AI", color: "text-yellow-400" },
-      { name: "WordPress", category: "Tools", color: "text-gray-400" }
-    ];
+  const onPointerUp = () => {
+    rotation.current.dragging = false;
+  };
 
-    if (skillsData.length > 0) {
-      return skillsData.map(s => ({
-        name: s.name,
-        category: s.category,
-        color: getCategoryColor(s.category)
-      }));
-    }
-    
-    return initialSkills;
-  }, [skillsData]);
+  const areaCount = (area: string) => SKILL_GROUPS.find((g) => g.area === area)?.skills.length ?? 0;
 
   return (
-    <section id='skills' className="py-24 bg-secondary/5 overflow-hidden relative">
-      <div className="container max-w-6xl mx-auto relative z-10 px-6">
-        <SectionHeading
-          index="08"
-          eyebrow="Technical Expertise"
-          title={<>My <span className="text-gradient">Skills</span></>}
-          description="A blend of creative design, robust engineering, and strategic thinking."
+    <section id="toolkit" className="relative px-4 md:px-8 py-24 md:py-32 bg-secondary/30 overflow-hidden">
+      <div className="mx-auto max-w-7xl">
+        <SectionHead
+          num="05"
+          label="Toolkit"
+          title={
+            <>
+              The <span className="serif-accent normal-case">toolkit.</span>
+            </>
+          }
         />
-      </div>
 
-      {/* Marquee Section */}
-      <div className="relative w-full overflow-hidden bg-background border-y border-border/60 py-10 group">
-        <div className="pointer-events-none absolute z-10 box-border grid h-full w-full grid-cols-2 overflow-hidden bg-transparent inset-0 mixed-blend-overlay">
-             <div className="w-20 md:w-40 bg-gradient-to-r from-background to-transparent h-full absolute left-0 top-0 z-20"></div>
-             <div className="w-20 md:w-40 bg-gradient-to-l from-background to-transparent h-full absolute right-0 top-0 z-20"></div>
+        <div className="grid gap-10 lg:grid-cols-[360px_1fr] items-center">
+          {/* Left: filters + helper card */}
+          <div className="space-y-6">
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setActiveArea('all')}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                  activeArea === 'all'
+                    ? 'bg-foreground text-background'
+                    : 'border border-border bg-card/60 hover:border-primary/40 hover:text-primary'
+                }`}
+              >
+                All <sup className="font-mono text-[10px] opacity-70">{totalSkills}</sup>
+              </button>
+              {SKILL_GROUPS.map((g) => (
+                <button
+                  key={g.area}
+                  onClick={() => setActiveArea(activeArea === g.area ? 'all' : g.area)}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                    activeArea === g.area
+                      ? 'bg-foreground text-background'
+                      : 'border border-border bg-card/60 hover:border-primary/40 hover:text-primary'
+                  }`}
+                >
+                  {g.area} <sup className="font-mono text-[10px] opacity-70">{areaCount(g.area)}</sup>
+                </button>
+              ))}
+            </div>
+
+            <div className="rounded-3xl border border-border bg-card p-6 md:p-7">
+              <div className="mono-label">
+                {totalSkills} tools · {SKILL_GROUPS.length} areas
+              </div>
+              <p className="mt-3 text-lg font-medium leading-snug">
+                Pick an area — or tap any tag in the sphere — to bring it to the front.
+              </p>
+              <div className="mt-5">
+                {SKILL_GROUPS.map((g) => (
+                  <button
+                    key={g.area}
+                    onClick={() => setActiveArea(activeArea === g.area ? 'all' : g.area)}
+                    className={`flex w-full items-center justify-between border-t border-border py-3 text-left text-sm transition-colors ${
+                      activeArea === g.area ? 'text-accent' : 'text-foreground/85 hover:text-primary'
+                    }`}
+                  >
+                    <span className="font-medium">{g.area}</span>
+                    <span className="font-mono text-xs text-muted-foreground">{g.skills.length}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: the sphere */}
+          <div
+            ref={containerRef}
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerLeave={onPointerUp}
+            className="relative h-[420px] md:h-[520px] cursor-grab touch-none active:cursor-grabbing select-none"
+            aria-label="Rotating sphere of tools — drag to spin, tap a tag to filter"
+          >
+            {tags.map((tag, i) => (
+              <button
+                key={tag.name}
+                ref={(el) => (tagRefs.current[i] = el)}
+                onClick={() => setActiveArea(activeArea === tag.area ? 'all' : tag.area)}
+                className="absolute left-1/2 top-1/2 whitespace-nowrap rounded-full border border-border bg-card px-3 py-1.5 font-mono text-[11px] md:text-xs text-foreground shadow-sm transition-colors hover:border-accent hover:text-accent will-change-transform"
+                style={{ transform: 'translate(-50%, -50%)' }}
+              >
+                {tag.name}
+              </button>
+            ))}
+            <div className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 mono-label">
+              Drag to spin
+            </div>
+          </div>
         </div>
-
-        <div className="flex w-full group-hover:[animation-play-state:paused]">
-            <DraggableMarquee skills={skillsWithCategories} isMobile={isMobile} />
-        </div>
-
       </div>
     </section>
   );
 };
 
-export default Skills;
+export default Toolkit;

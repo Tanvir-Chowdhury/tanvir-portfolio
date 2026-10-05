@@ -20,9 +20,10 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-        display: ["Bricolage Grotesque", "Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+        sans: ["Geist", "system-ui", "-apple-system", "sans-serif"],
+        display: ["Archivo", "Geist", "system-ui", "sans-serif"],
+        serif: ["\"Libre Caslon Text\"", "Georgia", "serif"],
+        mono: ["\"Geist Mono\"", "ui-monospace", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -68,16 +69,23 @@ const config: Config = {
       keyframes: {
         "accordion-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
         "accordion-up": { from: { height: "var(--radix-accordion-content-height)" }, to: { height: "0" } },
-        "marquee": { from: { transform: "translateX(0)" }, to: { transform: "translateX(-100%)" } },
         "fade-up": { from: { opacity: "0", transform: "translateY(24px)" }, to: { opacity: "1", transform: "translateY(0)" } },
         "fade-in": { from: { opacity: "0" }, to: { opacity: "1" } },
+        "marquee-x": { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        "spin-slow": { from: { transform: "rotate(0deg)" }, to: { transform: "rotate(360deg)" } },
+        "pulse-dot": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.45", transform: "scale(0.8)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "marquee": "marquee 50s linear infinite",
         "fade-up": "fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "fade-in": "fade-in 0.8s ease-out forwards",
+        "marquee-x": "marquee-x 40s linear infinite",
+        "spin-slow": "spin-slow 14s linear infinite",
+        "pulse-dot": "pulse-dot 1.6s ease-in-out infinite",
       },
     },
   },

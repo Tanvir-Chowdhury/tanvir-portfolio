@@ -1,129 +1,119 @@
-import { Button } from '@/components/ui/button';
-import { Heart, ArrowUp, Mail, Github, Linkedin, Facebook, MessageCircle, MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowUp, ArrowUpRight, Mail } from 'lucide-react';
+import { PROFILE, SOCIALS } from '@/data/content';
+
+/** Circular rotating badge — "open for projects" stamp linking to contact. */
+const RotatingBadge = () => (
+  <a
+    href="#contact"
+    aria-label="Open for projects — start a project"
+    className="group relative grid h-32 w-32 shrink-0 place-items-center md:h-40 md:w-40"
+  >
+    <svg viewBox="0 0 100 100" className="art-spin absolute inset-0 h-full w-full">
+      <defs>
+        <path id="badge-circle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
+      </defs>
+      <text className="fill-foreground font-mono text-[8.2px] uppercase" style={{ letterSpacing: '0.24em' }}>
+        <textPath href="#badge-circle">Open for projects · say hello ·</textPath>
+      </text>
+    </svg>
+    <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-accent-foreground transition-transform duration-500 group-hover:scale-110 md:h-16 md:w-16">
+      <ArrowUpRight className="h-6 w-6" />
+    </span>
+  </a>
+);
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [time, setTime] = useState('');
 
-  const socialLinks = [
-    { icon: <Facebook className="w-4 h-4" />, href: "https://www.facebook.com/tanvir.11744", label: "Facebook" },
-    { icon: <Linkedin className="w-4 h-4" />, href: "https://www.linkedin.com/in/grow-with-vir/", label: "LinkedIn" },
-    { icon: <Github className="w-4 h-4" />, href: "https://github.com/Tanvir-Chowdhury", label: "GitHub" },
-    { icon: <Mail className="w-4 h-4" />, href: "mailto:tanvir.chowdhury.us@gmail.com", label: "Email" },
-    { icon: <MessageCircle className="w-4 h-4" />, href: "https://wa.me/+8801644916069", label: "WhatsApp" }
-  ];
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Dhaka',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    const update = () => setTime(fmt.format(new Date()));
+    update();
+    const id = window.setInterval(update, 1000);
+    return () => window.clearInterval(id);
+  }, []);
 
-  const quickLinks = [
-    { name: "About", href: "#about_me" },
-    { name: "Projects", href: "#projects" },
-    { name: "Skills", href: "#skills" },
-    { name: "Contact", href: "#contact" }
-  ];
-
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const marqueeWords = ['Have an idea?', 'Let\u2019s build it', 'Start a project', 'Say hello'];
 
   return (
-    <footer className="bg-secondary/30 border-t border-border/50 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none"></div>
-      
-      <div className="container max-w-6xl mx-auto px-6 pt-16 pb-8 relative z-10">
-        <div className="grid md:grid-cols-12 gap-8 lg:gap-12 mb-12">
-          {/* Brand Section */}
-          <div className="space-y-6 md:col-span-4">
-            <h3 className="text-2xl font-display font-semibold tracking-tight">
-              <span className="text-gradient">Md Tanvir</span> Chowdhury
-            </h3>
-            <p className="text-muted-foreground leading-relaxed max-w-sm">
-              Software Engineer & Marketing Strategist passionate about creating solutions 
-              that make a real impact. Always ready for new challenges and opportunities.
-            </p>
-            <div className="flex gap-3">
-              {socialLinks.map((social, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  size="icon"
-                  className="w-10 h-10 rounded-full border-border/50 bg-card/50 backdrop-blur-sm hover:scale-110 hover:border-primary/50 hover:text-primary transition-all duration-300"
-                  asChild
-                >
-                  <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-                    {social.icon}
-                  </a>
-                </Button>
+    <footer className="relative overflow-hidden border-t border-border">
+      {/* Call-to-action marquee — the whole strip is a link */}
+      <a href="#contact" aria-label="Start a project" className="group block select-none border-b border-border py-10 md:py-14">
+        <div className="marquee-track items-center">
+          {[0, 1, 2, 3].map((row) => (
+            <div key={row} className="flex shrink-0 items-center" aria-hidden={row > 0}>
+              {marqueeWords.map((word, i) => (
+                <span key={`${row}-${i}`} className="flex items-center">
+                  <span
+                    className={`font-wide font-extrabold uppercase whitespace-nowrap leading-none text-5xl md:text-8xl px-5 md:px-8 transition-colors duration-300 ${
+                      i % 4 === 1
+                        ? 'text-outline group-hover:text-accent group-hover:[-webkit-text-stroke-width:0px]'
+                        : i % 4 === 3
+                          ? 'serif-accent normal-case'
+                          : 'text-foreground'
+                    }`}
+                  >
+                    {word}
+                  </span>
+                  <span className="text-accent text-4xl md:text-6xl leading-none select-none">✳</span>
+                </span>
               ))}
             </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-6 md:col-span-3">
-            <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
-            <nav className="flex flex-col space-y-3">
-              {quickLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  onClick={(e) => handleScroll(e, link.href)}
-                  className="text-muted-foreground hover:text-primary transition-colors hover:translate-x-1 transform duration-200 flex items-center gap-2 w-fit"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-                  {link.name}
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-6 md:col-span-5">
-            <h4 className="text-lg font-semibold text-foreground">Contact</h4>
-            <div className="space-y-4 text-muted-foreground">
-              <a href="mailto:tanvir.chowdhury.us@gmail.com" className="flex items-center gap-3 hover:text-primary transition-colors group">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <Mail className="w-4 h-4" />
-                </div>
-                tanvir.chowdhury.us@gmail.com
-              </a>
-              <a href="tel:+8801644916069" className="flex items-center gap-3 hover:text-primary transition-colors group">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <MessageCircle className="w-4 h-4" />
-                </div>
-                +8801644916069
-              </a>
-              <div className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform p-auto">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                Bashundhara R/A, Dhaka, Bangladesh
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent" />
+      </a>
 
-        {/* Bottom Section */}
-        <div className="border-t border-border/30 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-muted-foreground text-center md:text-left">
-              &copy; {currentYear} Md Tanvir Chowdhury. All rights reserved.
-            </div>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={scrollToTop}
-              className="text-muted-foreground hover:text-primary hover:bg-primary/5 gap-2 group"
+      {/* Middle: email + badge */}
+      <div className="mx-auto max-w-7xl px-4 md:px-8 py-14 md:py-20">
+        <div className="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-5">
+            <span className="mono-label block">The fastest way to reach me</span>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="group inline-flex flex-wrap items-center gap-3 font-wide text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl"
             >
-              Back to Top
-              <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
-            </Button>
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-accent/15 text-accent transition-transform duration-300 group-hover:-rotate-12 md:h-14 md:w-14">
+                <Mail className="h-5 w-5 md:h-6 md:w-6" />
+              </span>
+              <span className="relative">
+                {PROFILE.email}
+                <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100" />
+              </span>
+            </a>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+              One message is enough — tell me what you&apos;re building and I&apos;ll reply
+              within 24 hours with how I&apos;d approach it.
+            </p>
           </div>
+          <RotatingBadge />
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div className="border-t border-border">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
+          <span>© {new Date().getFullYear()} {PROFILE.fullName} · {PROFILE.location}</span>
+          <span className="tabular-nums">Dhaka {time} {PROFILE.timezone}</span>
+          <span className="hidden gap-4 md:flex">
+            {SOCIALS.filter((s) => s.label !== 'Email').map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
+                {s.label}
+              </a>
+            ))}
+          </span>
+          <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground">
+            Back to top
+            <ArrowUp className="h-3.5 w-3.5" />
+          </a>
         </div>
       </div>
     </footer>

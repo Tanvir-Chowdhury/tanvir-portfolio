@@ -1,165 +1,202 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Linkedin, Github, Facebook, MessageCircle, Send, Calendar } from 'lucide-react';
-import SectionHeading from '@/components/SectionHeading';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import {
+  ArrowUpRight,
+  Calendar,
+  Copy,
+  Facebook,
+  Github,
+  Globe,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Send,
+} from 'lucide-react';
+import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
+import * as api from '@/api';
+import { PROFILE, SOCIALS } from '@/data/content';
+
+const SOCIAL_ICONS: Record<string, any> = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+  Facebook: Facebook,
+  WhatsApp: MessageCircle,
+  Email: Mail,
+};
 
 const Contact = () => {
-  const contactInfo = [
-    {
-      icon: <Mail className="w-6 h-6" />,
-      label: "Email",
-      value: "tanvir.chowdhury.us@gmail.com",
-      href: "mailto:tanvir.chowdhury.us@gmail.com",
-      color: "bg-red-500/10 text-red-500"
-    },
-    {
-      icon: <Phone className="w-6 h-6" />,
-      label: "Phone",
-      value: "+8801644916069",
-      href: "tel:+8801644916069",
-      color: "bg-green-500/10 text-green-500"
-    },
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      label: "Location",
-      value: "Bashundhara R/A, Dhaka, Bangladesh",
-      href: "#",
-      color: "bg-blue-500/10 text-blue-500"
-    },
-    {
-      icon: <Linkedin className="w-6 h-6" />,
-      label: "LinkedIn",
-      value: "linkedin.com/in/grow-with-vir",
-      href: "https://www.linkedin.com/in/grow-with-vir/",
-      color: "bg-blue-600/10 text-blue-600"
-    }
-  ];
+  const { toast } = useToast();
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [sending, setSending] = useState(false);
 
-  const socialLinks = [
-    {
-      icon: <Facebook className="w-5 h-5" />,
-      label: "Facebook",
-      href: "https://www.facebook.com/tanvir.11744",
-      color: "hover:text-[#1877F2] hover:bg-[#1877F2]/10"
-    },
-    {
-      icon: <Linkedin className="w-5 h-5" />,
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/grow-with-vir/",
-      color: "hover:text-[#0A66C2] hover:bg-[#0A66C2]/10"
-    },
-    {
-      icon: <Github className="w-5 h-5" />,
-      label: "GitHub",
-      href: "https://github.com/Tanvir-Chowdhury",
-      color: "hover:text-white hover:bg-white/10"
-    },
-    {
-      icon: <Mail className="w-5 h-5" />,
-      label: "Email",
-      href: "mailto:tanvir.chowdhury.us@gmail.com",
-      color: "hover:text-red-500 hover:bg-red-500/10"
-    },
-    {
-      icon: <MessageCircle className="w-5 h-5" />,
-      label: "WhatsApp",
-      href: "https://wa.me/+8801644916069",
-      color: "hover:text-green-500 hover:bg-green-500/10"
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(PROFILE.email);
+      toast({ title: 'Copied', description: PROFILE.email });
+    } catch {
+      toast({ title: 'Copy failed', description: PROFILE.email });
     }
-  ];
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    try {
+      await api.sendContactEmail(form);
+      toast({ title: 'Message sent', description: "It's in my inbox — I'll reply within 24 hours." });
+      setForm({ name: '', email: '', message: '' });
+    } catch {
+      // Backend cold or down — fall back to the visitor's mail app
+      const subject = encodeURIComponent(`Project inquiry from ${form.name || 'your website'}`);
+      const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
+      window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`;
+      toast({ title: 'Opening your mail app', description: 'The form backend is waking up — your draft is ready to send.' });
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
-    <section className="py-16 px-2 md:px-6 bg-secondary/5 relative overflow-hidden" id="contact">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="container max-w-5xl mx-auto relative z-10">
-        <SectionHeading
-          index="10"
-          eyebrow="Start Your Growth Journey"
-          title={<>Ready to <span className="text-gradient">Scale?</span></>}
-          description="I help founders and businesses scale efficiently by integrating custom websites, AI agents, and strategic marketing. Let's discuss your growth goals."
+    <section id="contact" className="relative px-4 md:px-8 py-24 md:py-32 bg-secondary/30">
+      <div className="mx-auto max-w-7xl">
+        <SectionHead
+          num="08"
+          label="Contact"
+          title={
+            <>
+              <span className="block">Let&apos;s build</span>
+              <span className="block text-outline">something</span>
+              <span className="block serif-accent normal-case">real.</span>
+            </>
+          }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h3 className="text-2xl text-center md:text-left font-display font-semibold">Contact Information</h3>
-              <p className="text-center md:text-left text-muted-foreground">
-                Reach out directly to discuss how we can automate your operations and increase revenue.
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* Left: copy + channels */}
+          <Reveal>
+            <div className="space-y-8">
+              <p className="max-w-md text-lg leading-relaxed text-muted-foreground">
+                A website, an automation, a campaign — or all three. Tell me what you&apos;re working
+                on and I&apos;ll reply within 24 hours.
               </p>
-            </div>
 
-            <div className="space-y-4">
-              {contactInfo.map((contact, index) => (
-                <Card
-                  key={index}
-                  className="p-4 bg-card border-border/60 hover:border-primary/40 transition-colors duration-300 group"
-                >
-                  <a 
-                    href={contact.href}
-                    className="flex items-center gap-4 group-hover:translate-x-1 transition-transform"
-                  >
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${contact.color} bg-background/50 backdrop-blur-sm shadow-sm group-hover:scale-110 transition-transform duration-300`}>
-                      {contact.icon}
-                    </div>
-                    
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm text-muted-foreground font-medium mb-0.5">{contact.label}</p>
-                      <p className="text-foreground font-semibold truncate group-hover:text-primary transition-colors">
-                        {contact.value}
-                      </p>
-                    </div>
-                  </a>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          
-          <Card className="p-8 bg-card border-border/60 relative overflow-hidden flex flex-col justify-center items-center text-center space-y-6">
-            <div className="absolute inset-0 bg-gradient-hero pointer-events-none"></div>
-
-            <div className="relative z-10 space-y-6 w-full">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-display font-semibold">Let's Discuss</h3>
-                <p className="text-muted-foreground">
-                  Identify bottlenecks, discover opportunities, and map out a strategy to scale your business.
-                </p>
-              </div>
-              
-              <Button className="w-full max-w-xs mx-auto group" size="lg" asChild>
-                <a href="https://calendly.com/tanvir-chowdhury-us/meet" target="_blank" rel="noopener noreferrer" >
-                  Book A Discovery Call
-                  <Calendar className="w-4 h-4 ml-2" />
+              <div className="flex flex-wrap items-center gap-3">
+                <a href={`mailto:${PROFILE.email}`} className="pill-outline h-12 px-6">
+                  <Mail className="h-4 w-4 text-accent" />
+                  {PROFILE.email}
                 </a>
-              </Button>
+                <button onClick={copyEmail} className="pill-outline h-12 px-5 uppercase tracking-wider">
+                  <Copy className="h-4 w-4" />
+                  Copy
+                </button>
+              </div>
 
-              <div className="pt-8 border-t border-border/30">
-                <h4 className="text-lg font-semibold mb-4">Follow Me</h4>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {socialLinks.map((social, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="icon"
-                      className={`w-12 h-12 rounded-xl border-border/50 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-primary/50 ${social.color}`}
-                      asChild
+              <div className="flex flex-wrap gap-3">
+                <a href={PROFILE.whatsapp} target="_blank" rel="noopener noreferrer" className="pill-outline h-11 px-5">
+                  <MessageCircle className="h-4 w-4 text-green-500" />
+                  WhatsApp
+                </a>
+                <a href={PROFILE.calendly} target="_blank" rel="noopener noreferrer" className="pill-outline h-11 px-5">
+                  <Calendar className="h-4 w-4 text-accent" />
+                  Book a free call
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+
+              <div className="flex flex-wrap gap-2.5 pt-2">
+                {SOCIALS.map((social) => {
+                  const Icon = SOCIAL_ICONS[social.label] || Globe;
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="grid h-11 w-11 place-items-center rounded-full border border-border bg-card/60 text-muted-foreground transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary"
                     >
-                      <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
-                        {social.icon}
-                      </a>
-                    </Button>
-                  ))}
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Right: email-style form */}
+          <Reveal delay={100}>
+            <form
+              onSubmit={onSubmit}
+              className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl shadow-black/5"
+            >
+              <div className="flex items-center justify-between border-b border-border px-6 py-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  New message
+                </span>
+                <div className="flex gap-1.5" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-accent" />
                 </div>
               </div>
-            </div>
-          </Card>
+
+              <div className="divide-y divide-border">
+                <div className="flex items-center gap-4 px-6 py-3.5">
+                  <span className="w-12 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    To
+                  </span>
+                  <span className="rounded-full bg-secondary px-3.5 py-1.5 text-sm">
+                    Tanvir &lt;{PROFILE.email}&gt;
+                  </span>
+                </div>
+                <div className="flex items-center gap-4 px-6 py-3.5">
+                  <label htmlFor="contact-name" className="w-12 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    From
+                  </label>
+                  <input
+                    id="contact-name"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Your name"
+                    className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+                  />
+                </div>
+                <div className="flex items-center gap-4 px-6 py-3.5">
+                  <label htmlFor="contact-email" className="w-12 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="you@company.com"
+                    className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+                  />
+                </div>
+                <textarea
+                  required
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  placeholder={"Hi Tanvir,\n\nI'm working on…"}
+                  rows={5}
+                  className="w-full resize-none bg-transparent px-6 py-4 text-sm outline-none placeholder:text-muted-foreground/50"
+                />
+              </div>
+
+              <div className="flex items-center justify-between border-t border-border px-6 py-4">
+                <span className="text-xs text-muted-foreground">Goes straight to my inbox.</span>
+                <button type="submit" disabled={sending} className="pill-solid h-11 px-6 disabled:opacity-60">
+                  {sending ? 'Sending…' : 'Send'}
+                  <Send className="h-4 w-4" />
+                </button>
+              </div>
+            </form>
+          </Reveal>
         </div>
       </div>
     </section>
