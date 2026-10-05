@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import profilePic from '@/assets/profile.png';
 
 interface ParticlePortraitProps {
-  start: boolean;
   className?: string;
 }
 
@@ -28,7 +27,7 @@ const COLORS = [
  * The portrait as a field of ink dots (omikhan-style).
  * Desktop: hovering assembles the real photo. Touch: it auto-reveals in a loop.
  */
-const ParticlePortrait = ({ start, className = '' }: ParticlePortraitProps) => {
+const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const photoRef = useRef<HTMLImageElement>(null);
@@ -189,7 +188,7 @@ const ParticlePortrait = ({ start, className = '' }: ParticlePortraitProps) => {
   return (
     <div
       ref={wrapRef}
-      className={`relative aspect-square max-w-full transition-opacity duration-1000 ${start ? 'opacity-100' : 'opacity-0'} ${className}`}
+      className={`relative aspect-square max-w-full opacity-100 ${className}`}
     >
       {/* The real photo — revealed over the dots */}
       <img

@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import Preloader from '@/components/Preloader';
+import { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -13,7 +12,6 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 const Index = () => {
-  const [loaded, setLoaded] = useState(false);
 
   // The app routes through HashRouter, so in-page anchors must scroll manually
   // instead of letting the browser rewrite location.hash.
@@ -35,11 +33,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Preloader onDone={() => setLoaded(true)} />
-      <div className="grain" aria-hidden="true" />
+<div className="grain" aria-hidden="true" />
       <Navbar />
       <main>
-        <Hero start={loaded} />
+        <Hero />
         <About />
         <Services />
         <Projects />

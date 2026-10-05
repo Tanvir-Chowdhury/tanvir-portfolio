@@ -2,11 +2,6 @@ import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import ParticlePortrait from '@/components/ParticlePortrait';
 import { PROFILE } from '@/data/content';
 
-interface HeroProps {
-  /** Flips true when the preloader finishes — fades the hero content in. */
-  start: boolean;
-}
-
 const RollWord = ({ word, className }: { word: string; className: string }) => (
   <span className={`inline-flex ${className}`} aria-label={word}>
     {word.split('').map((ch, i) => (
@@ -22,7 +17,7 @@ const RollWord = ({ word, className }: { word: string; className: string }) => (
   </span>
 );
 
-const Hero = ({ start }: HeroProps) => {
+const Hero = () => {
   return (
     <section
       id="top"
@@ -35,23 +30,17 @@ const Hero = ({ start }: HeroProps) => {
 
       {/* Particle portrait — right side, behind the text layer */}
       <div className="absolute bottom-0 right-0 z-0 hidden lg:block lg:pr-4 xl:pr-10">
-        <ParticlePortrait start={start} className="h-[74vh] xl:h-[80vh]" />
+        <ParticlePortrait className="h-[74vh] xl:h-[80vh]" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
-        <div
-          className={`mb-8 transition-all delay-500 duration-700 ${
-            start ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-          }`}
-        >
+        <div className="mb-8">
           <span className="mono-label">{PROFILE.location} · {PROFILE.timezone}</span>
         </div>
 
         {/* Giant name — left */}
         <h1
-          className={`font-wide font-extrabold uppercase leading-[0.9] tracking-tight max-w-[12ch] ${
-            start ? 'letters-in' : ''
-          }`}
+          className="letters-in font-wide font-extrabold uppercase leading-[0.9] tracking-tight max-w-[12ch]"
         >
           <span className="block text-outline-accent text-[clamp(2.6rem,9vw,8.8rem)] lg:text-[7.8vw]">
             <RollWord word={PROFILE.firstName} className="" />
@@ -62,11 +51,7 @@ const Hero = ({ start }: HeroProps) => {
         </h1>
 
         {/* Tagline + CTAs */}
-        <div
-          className={`mt-10 max-w-xl md:mt-14 transition-all delay-700 duration-700 ${
-            start ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
-          }`}
-        >
+        <div className="mt-10 max-w-xl md:mt-14">
           <p className="text-lg md:text-xl leading-relaxed text-muted-foreground">
             {PROFILE.tagline}
           </p>
@@ -82,11 +67,7 @@ const Hero = ({ start }: HeroProps) => {
           </div>
         </div>
 
-        <div
-          className={`mt-12 flex items-center gap-3 lg:max-w-[50%] transition-all delay-1000 duration-700 ${
-            start ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
+        <div className="mt-12 flex items-center gap-3 lg:max-w-[50%]">
           <span className="mono-label shrink-0">(Scroll)</span>
           <span className="h-px flex-1 bg-border" aria-hidden="true" />
           <span className="mono-label shrink-0 whitespace-nowrap">Web · AI · Marketing</span>
@@ -94,7 +75,7 @@ const Hero = ({ start }: HeroProps) => {
 
         {/* Particle portrait in the flow on mobile / tablet */}
         <div className="mt-10 flex justify-end lg:hidden">
-          <ParticlePortrait start={start} className="h-[52vh] -mr-4" />
+          <ParticlePortrait className="h-[52vh] -mr-4" />
         </div>
       </div>
     </section>
