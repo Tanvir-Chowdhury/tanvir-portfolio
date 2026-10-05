@@ -72,7 +72,7 @@ const IdCard = () => {
       <div className="idcard-swing">
         {/* Lanyard strap */}
         <div className="relative mx-auto flex w-14 flex-col items-center" aria-hidden="true">
-          <div className="flex h-24 md:h-28 w-9 items-start justify-center bg-accent rounded-b-md shadow-md">
+          <div className="flex h-28 md:h-32 w-10 items-start justify-center bg-accent rounded-b-md shadow-md">
             <span
               className="mt-3 font-mono text-[9px] font-bold uppercase tracking-[0.3em] text-accent-foreground"
               style={{ writingMode: 'vertical-rl' }}
@@ -97,7 +97,7 @@ const IdCard = () => {
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && setFlipped((v) => !v)}
           aria-label="Identity card — activate to flip"
-          className="mt-1 h-[400px] w-[290px] cursor-grab active:cursor-grabbing [perspective:1200px]"
+          className="mt-1 h-[470px] w-[340px] cursor-grab active:cursor-grabbing [perspective:1200px]"
         >
           <div className={`card-flipper relative h-full w-full ${flipped ? 'card-flipped' : ''}`}>
             {/* Front */}
@@ -120,14 +120,14 @@ const IdCard = () => {
                 />
               </div>
               <div className="px-5 pb-4 pt-3">
-                <div className="font-wide text-xl font-extrabold uppercase leading-none">
+                <div className="font-wide text-2xl font-extrabold uppercase leading-none">
                   Tanvir <span className="text-accent">Chowdhury</span>
                 </div>
                 <div className="mt-1.5 text-sm font-medium text-muted-foreground">
                   Developer · Automation · Marketing
                 </div>
                 <div className="mt-3 flex items-end justify-between">
-                  <div className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-muted-foreground leading-relaxed">
+                  <div className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground leading-relaxed">
                     Founder · Ask for Branding
                     <br />
                     Dhaka, Bangladesh

@@ -117,29 +117,34 @@ const About = () => {
   return (
     <section id="about" className="relative px-4 md:px-8 py-24 md:py-32">
       <div className="mx-auto max-w-7xl">
-        <SectionHead
-          num="01"
-          label="About"
-          title={
-            <>
-              Hi, I&apos;m <span className="serif-accent normal-case">Tanvir.</span>
-            </>
-          }
-        />
-
-        <div className="grid gap-14 lg:grid-cols-[1fr_340px] lg:gap-10 items-start">
-          <div className="space-y-8">
-            <p className="text-2xl md:text-3xl font-wide font-semibold leading-snug tracking-tight max-w-2xl">
-              I help founders and small businesses turn ideas into working products and growing
-              brands — one person for the whole stack.
-            </p>
-            <div className="max-w-2xl pt-2">
-              <HighlightParagraph />
+        <div className="grid gap-14 lg:grid-cols-[1fr_400px] lg:gap-12 items-start">
+          {/* Left: heading + bio */}
+          <div>
+            <SectionHead
+              num="01"
+              label="About"
+              title={
+                <>
+                  Hi, I&apos;m <span className="serif-accent normal-case">Tanvir.</span>
+                </>
+              }
+            />
+            <div className="space-y-8 -mt-4 md:-mt-8">
+              <p className="text-2xl md:text-3xl font-wide font-semibold leading-snug tracking-tight max-w-2xl">
+                I help founders and small businesses turn ideas into working products and growing
+                brands — one person for the whole stack.
+              </p>
+              <div className="max-w-2xl pt-2">
+                <HighlightParagraph />
+              </div>
+              <div className="mono-label pt-2">Speaks · English &amp; বাংলা</div>
             </div>
-            <div className="mono-label pt-2">Speaks · English &amp; বাংলা</div>
           </div>
 
-          <IdCard />
+          {/* Right: ID card, starting at the very top of the section */}
+          <div className="lg:pt-2">
+            <IdCard />
+          </div>
         </div>
 
         {/* Stats */}
