@@ -53,10 +53,10 @@ const Hero = ({ start }: HeroProps) => {
             start ? 'letters-in' : ''
           }`}
         >
-          <span className="block text-outline-accent text-[clamp(2.8rem,10vw,9.5rem)] lg:text-[8.8vw]">
+          <span className="block text-outline-accent text-[clamp(2.6rem,9vw,8.8rem)] lg:text-[7.8vw]">
             <RollWord word={PROFILE.firstName} className="" />
           </span>
-          <span className="block text-foreground text-[clamp(2.2rem,7.6vw,7rem)] lg:text-[6.6vw]">
+          <span className="block text-foreground text-[clamp(2rem,6.8vw,6.4rem)] lg:text-[5.8vw]">
             <RollWord word={PROFILE.lastName} className="" />
           </span>
         </h1>

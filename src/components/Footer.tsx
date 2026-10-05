@@ -45,14 +45,14 @@ const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-t border-border">
       {/* Call-to-action marquee — the whole strip is a link */}
-      <a href="#contact" aria-label="Start a project" className="group block select-none border-b border-border py-10 md:py-14">
+      <a href="#contact" aria-label="Start a project" className="group block select-none border-b border-border py-8 md:py-11">
         <div className="marquee-track items-center">
           {[0, 1, 2, 3].map((row) => (
             <div key={row} className="flex shrink-0 items-center" aria-hidden={row > 0}>
               {marqueeWords.map((word, i) => (
                 <span key={`${row}-${i}`} className="flex items-center">
                   <span
-                    className={`font-wide font-extrabold uppercase whitespace-nowrap leading-none text-5xl md:text-8xl px-5 md:px-8 transition-colors duration-300 ${
+                    className={`font-wide font-extrabold uppercase whitespace-nowrap leading-none text-4xl md:text-6xl px-5 md:px-7 transition-colors duration-300 ${
                       i % 4 === 1
                         ? 'text-outline group-hover:text-accent group-hover:[-webkit-text-stroke-width:0px]'
                         : i % 4 === 3
@@ -62,7 +62,7 @@ const Footer = () => {
                   >
                     {word}
                   </span>
-                  <span className="text-accent text-4xl md:text-6xl leading-none select-none">✳</span>
+                  <span className="text-accent text-3xl md:text-5xl leading-none select-none">✳</span>
                 </span>
               ))}
             </div>
