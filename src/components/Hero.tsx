@@ -83,13 +83,13 @@ const Hero = ({ start }: HeroProps) => {
         </div>
 
         <div
-          className={`mt-12 flex items-center gap-3 transition-all delay-1000 duration-700 ${
+          className={`mt-12 flex items-center gap-3 lg:max-w-[50%] transition-all delay-1000 duration-700 ${
             start ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <span className="mono-label">(Scroll)</span>
-          <span className="h-px max-w-[46%] flex-1 bg-border" aria-hidden="true" />
-          <span className="mono-label">Web · AI · Marketing</span>
+          <span className="mono-label shrink-0">(Scroll)</span>
+          <span className="h-px flex-1 bg-border" aria-hidden="true" />
+          <span className="mono-label shrink-0 whitespace-nowrap">Web · AI · Marketing</span>
         </div>
 
         {/* Particle portrait in the flow on mobile / tablet */}
