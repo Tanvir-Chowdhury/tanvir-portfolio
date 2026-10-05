@@ -97,7 +97,7 @@ const IdCard = () => {
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && setFlipped((v) => !v)}
           aria-label="Identity card — activate to flip"
-          className="mt-1 h-[470px] w-[340px] cursor-grab active:cursor-grabbing [perspective:1200px]"
+          className="mt-1 h-[400px] w-[290px] md:h-[470px] md:w-[340px] cursor-grab active:cursor-grabbing [perspective:1200px]"
         >
           <div className={`card-flipper relative h-full w-full ${flipped ? 'card-flipped' : ''}`}>
             {/* Front */}

@@ -22,7 +22,7 @@ const Marquee = ({ items }: MarqueeProps) => {
   );
 
   return (
-    <div className="relative w-full overflow-hidden border-y border-border py-6 md:py-8 select-none">
+    <div className="relative w-full overflow-hidden border-y border-border py-5 md:py-8 select-none">
       <div className="marquee-track">
         {row('a')}
         {row('b')}

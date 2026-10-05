@@ -73,7 +73,7 @@ const Contact = () => {
           }
         />
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 [&>*]:min-w-0">
           {/* Left: copy + channels */}
           <Reveal>
             <div className="space-y-8">
@@ -147,7 +147,7 @@ const Contact = () => {
                   <span className="w-12 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                     To
                   </span>
-                  <span className="rounded-full bg-secondary px-3.5 py-1.5 text-sm">
+                  <span className="min-w-0 break-all rounded-full bg-secondary px-3.5 py-1.5 text-xs sm:text-sm">
                     Tanvir &lt;{PROFILE.email}&gt;
                   </span>
                 </div>

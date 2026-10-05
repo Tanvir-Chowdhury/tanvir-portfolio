@@ -79,12 +79,12 @@ const Footer = () => {
             <span className="mono-label block">The fastest way to reach me</span>
             <a
               href={`mailto:${PROFILE.email}`}
-              className="group inline-flex flex-wrap items-center gap-3 font-wide text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl"
+              className="group inline-flex flex-wrap items-center gap-3 font-wide text-xl font-extrabold tracking-tight sm:text-2xl md:text-3xl"
             >
               <span className="grid h-11 w-11 place-items-center rounded-full bg-accent/15 text-accent transition-transform duration-300 group-hover:-rotate-12 md:h-14 md:w-14">
                 <Mail className="h-5 w-5 md:h-6 md:w-6" />
               </span>
-              <span className="relative">
+              <span className="relative break-all">
                 {PROFILE.email}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100" />
               </span>

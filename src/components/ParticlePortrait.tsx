@@ -189,7 +189,7 @@ const ParticlePortrait = ({ start, className = '' }: ParticlePortraitProps) => {
   return (
     <div
       ref={wrapRef}
-      className={`relative aspect-square transition-opacity duration-1000 ${start ? 'opacity-100' : 'opacity-0'} ${className}`}
+      className={`relative aspect-square max-w-full transition-opacity duration-1000 ${start ? 'opacity-100' : 'opacity-0'} ${className}`}
     >
       {/* The real photo — revealed over the dots */}
       <img
