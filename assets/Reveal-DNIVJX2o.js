@@ -1,0 +1,1 @@
+import{B as r,j as n}from"./index-CGrwQzSo.js";const l=({children:i,className:t="",delay:e=0})=>{const{ref:a,inView:s}=r();return n.jsx("div",{ref:a,className:`${s?"reveal-in":"reveal-init"} ${t}`,style:s&&e?{transitionDelay:`${e}ms`}:void 0,children:i})};export{l as R};
