@@ -8,8 +8,8 @@ interface ParticlePortraitProps {
 interface Dot {
   x: number;
   y: number;
-  r: number;   // radius multiplier from the pixel's luminance
-  hue: number; // 0-3 luminance ink levels · 4 amber edge · 5 purple edge
+  sizeMul: number; // dot radius as a fraction of the sampling pitch, from luminance
+  hue: number;     // 0-3 luminance ink levels · 4 amber edge · 5 purple edge
   phase: number;
   speed: number;
 }
@@ -80,7 +80,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
           dots.push({
             x,
             y,
-            r: 0.5 + level * 0.85 + Math.random() * 0.5,
+            sizeMul: 0.1 + level * 0.075 + Math.random() * 0.06,
             hue: edge ? (x < cx ? 4 : 5) : level,
             phase: Math.random() * Math.PI * 2,
             speed: 0.6 + Math.random() * 1.2,
@@ -150,6 +150,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         }
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const scale = canvas.height / N;
+        const pitch = step * scale;
         const t = (now - t0) / 1000;
         const jitterScale = 2.4 * scale * (1 - p.v);
         const scatterScale = 0.45 * p.v * scale;
@@ -163,7 +164,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
             const dot = dots[i];
             const jx = Math.sin(t * dot.speed + dot.phase) * jitterScale;
             const jy = Math.cos(t * dot.speed * 0.9 + dot.phase) * jitterScale;
-            const r = dot.r * scale * (1 - p.v * 0.92);
+            const r = pitch * dot.sizeMul * (1 - p.v * 0.92);
             if (r < 0.08) continue;
             const px = (dot.x + jx + (dot.x - cx) * scatterScale) * scale;
             const py = (dot.y + jy) * scale;
