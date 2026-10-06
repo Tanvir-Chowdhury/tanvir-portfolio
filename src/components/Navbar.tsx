@@ -23,23 +23,36 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll-spy for the active link (hero clears it)
+  // Scroll-spy for the active link (hero clears it). Lazy sections mount
+  // shortly after load, so keep watching until they exist.
   useEffect(() => {
-    const sections = LINKS.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
-    const hero = document.getElementById('top');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id === 'top' ? '' : `#${entry.target.id}`);
-          }
-        });
-      },
-      { rootMargin: '-40% 0px -55% 0px' }
-    );
-    sections.forEach((s) => observer.observe(s));
-    if (hero) observer.observe(hero);
-    return () => observer.disconnect();
+    let observer: IntersectionObserver | undefined;
+    const setup = () => {
+      const sections = LINKS.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
+      if (sections.length < LINKS.length) return false;
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id === 'top' ? '' : `#${entry.target.id}`);
+            }
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px' }
+      );
+      sections.forEach((sec) => observer!.observe(sec));
+      const hero = document.getElementById('top');
+      if (hero) observer!.observe(hero);
+      return true;
+    };
+    if (setup()) return () => observer?.disconnect();
+    const retry = window.setInterval(() => {
+      if (setup()) window.clearInterval(retry);
+    }, 300);
+    return () => {
+      window.clearInterval(retry);
+      observer?.disconnect();
+    };
   }, []);
 
   useEffect(() => {
