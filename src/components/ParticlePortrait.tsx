@@ -25,7 +25,8 @@ const COLORS = [
 
 /**
  * The portrait as a field of ink dots (omikhan-style).
- * Desktop: hovering assembles the real photo. Touch: it auto-reveals in a loop.
+ * Desktop: dots shimmer and hovering assembles the real photo.
+ * Mobile: no animation at all — the dots render once, statically.
  */
 const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -41,11 +42,16 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     if (!ctx) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    // Only desktop with a mouse gets the shimmer + hover reveal;
+    // phones and reduced-motion render one static frame.
+    const animate = fine && !reduce;
     const dots: Dot[] = [];
     let raf = 0;
-    let autoTimer = 0;
     let disposed = false;
     let visible = true;
+    let onMove: ((e: PointerEvent) => void) | null = null;
+    const progress = { v: 0, target: 0 };
 
     const img = new Image();
     img.src = profilePic;
@@ -95,65 +101,14 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       }
       for (let h = 1; h <= 5; h++) bounds[h] = Math.max(bounds[h], bounds[h - 1]);
 
-      const resize = () => {
-        const rect = wrap.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.max(1, Math.round(rect.width * dpr));
-        canvas.height = Math.max(1, Math.round(rect.height * dpr));
-      };
-      resize();
-      const ro = new ResizeObserver(resize);
-      ro.observe(wrap);
-      const io = new IntersectionObserver(([entry]) => {
-        visible = entry.isIntersecting;
-      });
-      io.observe(wrap);
-
-      // Desktop: hover reveals. Touch: auto reveal loop.
-      // (Window-level tracking — the hero's text layer sits above the figure,
-      // so element-level pointerenter would never fire.)
-      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-      let onMove: ((e: PointerEvent) => void) | null = null;
-      if (fine) {
-        onMove = (e: PointerEvent) => {
-          const r = wrap.getBoundingClientRect();
-          const inside =
-            e.clientX >= r.left && e.clientX <= r.right &&
-            e.clientY >= r.top && e.clientY <= r.bottom;
-          progress.current.target = inside ? 1 : 0;
-        };
-        window.addEventListener('pointermove', onMove);
-      } else {
-        window.setTimeout(() => {
-          progress.current.target = 1;
-        }, 1600);
-        autoTimer = window.setInterval(() => {
-          progress.current.target = progress.current.target > 0.5 ? 0 : 1;
-        }, 4800);
-      }
-      if (reduce) progress.current.target = 1;
-
-      const t0 = performance.now();
-      const render = (now: number) => {
-        raf = requestAnimationFrame(render);
-        if (!visible || dots.length === 0) return;
-        const p = progress.current;
-        p.v += (p.target - p.v) * 0.055;
-        if (photoRef.current) {
-          photoRef.current.style.opacity = String(p.v);
-          photoRef.current.style.transform = `scale(${1.035 - p.v * 0.035})`;
-        }
-        if (p.v > 0.995) {
-          // Fully revealed — the ink dots are gone
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          return;
-        }
+      const drawFrame = (pV: number, t: number) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (pV > 0.995 || dots.length === 0) return;
         const scale = canvas.height / N;
         const pitch = step * scale;
-        const t = (now - t0) / 1000;
-        const jitterScale = 2.4 * scale * (1 - p.v);
-        const scatterScale = 0.45 * p.v * scale;
+        const t0 = t;
+        const jitterScale = 2.4 * scale * (1 - pV);
+        const scatterScale = 0.45 * pV * scale;
 
         let start = 0;
         for (let hue = 0; hue <= 5; hue++) {
@@ -162,9 +117,9 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
           ctx.beginPath();
           for (let i = start; i < stop; i++) {
             const dot = dots[i];
-            const jx = Math.sin(t * dot.speed + dot.phase) * jitterScale;
-            const jy = Math.cos(t * dot.speed * 0.9 + dot.phase) * jitterScale;
-            const r = pitch * dot.sizeMul * (1 - p.v * 0.92);
+            const jx = Math.sin(t0 * dot.speed + dot.phase) * jitterScale;
+            const jy = Math.cos(t0 * dot.speed * 0.9 + dot.phase) * jitterScale;
+            const r = pitch * dot.sizeMul * (1 - pV * 0.92);
             if (r < 0.08) continue;
             const px = (dot.x + jx + (dot.x - cx) * scatterScale) * scale;
             const py = (dot.y + jy) * scale;
@@ -175,14 +130,64 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
           start = stop;
         }
       };
-      raf = requestAnimationFrame(render);
+
+      const resize = () => {
+        const rect = wrap.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        // Phones: the frame is static, so re-draw it after every size change
+        if (!animate) drawFrame(progress.v, performance.now() / 1000);
+      };
+      resize();
+      const ro = new ResizeObserver(resize);
+      ro.observe(wrap);
+      const io = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+      });
+      io.observe(wrap);
+
+      // Desktop (fine pointer): dots shimmer and hover reveals the photo.
+      if (fine && !reduce) {
+        // Window-level tracking — the hero's text layer sits above the figure,
+        // so element-level pointerenter would never fire.
+        onMove = (e: PointerEvent) => {
+          const r = wrap.getBoundingClientRect();
+          const inside =
+            e.clientX >= r.left && e.clientX <= r.right &&
+            e.clientY >= r.top && e.clientY <= r.bottom;
+          progress.target = inside ? 1 : 0;
+        };
+        window.addEventListener('pointermove', onMove);
+      } else if (reduce) {
+        progress.v = 1;
+        progress.target = 1;
+      }
+
+      if (animate) {
+        const t0 = performance.now();
+        const render = (now: number) => {
+          raf = requestAnimationFrame(render);
+          if (!visible) return;
+          const p = progress;
+          p.v += (p.target - p.v) * 0.055;
+          setPhoto(p.v);
+          drawFrame(p.v, now / 1000);
+        };
+        raf = requestAnimationFrame(render);
+      } else {
+        // Static frame (phones / reduced motion): dots only, photo hidden
+        setPhoto(progress.v);
+        drawFrame(progress.v, 0);
+      }
     };
 
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
-      if (autoTimer) window.clearInterval(autoTimer);
       if (onMove) window.removeEventListener('pointermove', onMove);
+      ro.disconnect();
+      io.disconnect();
     };
   }, []);
 
@@ -191,13 +196,13 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       ref={wrapRef}
       className={`relative aspect-square max-w-full opacity-100 ${className}`}
     >
-      {/* The real photo — revealed over the dots */}
+      {/* The real photo — revealed over the dots on desktop hover */}
       <img
         ref={photoRef}
         src={profilePic}
         alt=""
-        className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
         fetchpriority="high"
+        className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
         draggable={false}
       />
       {/* The ink-dot portrait */}
