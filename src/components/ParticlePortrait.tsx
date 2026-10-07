@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import profilePic from '@/assets/profile.webp';
 
 interface ParticlePortraitProps {
@@ -23,18 +23,29 @@ const COLORS = [
   'rgba(167, 139, 250, 0.95)',  // purple edge
 ];
 
+const isFinePointer = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 /**
- * The portrait as a field of ink dots (omikhan-style).
- * Desktop: dots shimmer and hovering assembles the real photo.
- * Mobile: no animation at all — the dots render once, statically.
+ * The hero figure.
+ * Desktop (fine pointer): an ink-dot field that shimmers and assembles
+ * into the real photo on hover.
+ * Touch devices: the original photo, completely static — no canvas.
  */
 const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
+  const [fine] = useState(isFinePointer);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const photoRef = useRef<HTMLImageElement>(null);
   const progress = useRef({ v: 0, target: 0 });
 
+  const figureClass =
+    'relative aspect-square max-w-full mx-auto lg:mx-0 pointer-events-none';
+
   useEffect(() => {
+    if (!fine) return; // touch devices render the plain photo — nothing to animate
+
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
@@ -42,24 +53,65 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     if (!ctx) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    // Only desktop with a mouse gets the shimmer + hover reveal;
-    // phones and reduced-motion render one static frame.
-    const animate = fine && !reduce;
-    const dots: Dot[] = [];
+    const N = 1080; // natural size of the source cutout
+    const step = 9;
+    const cx = N / 2;
+    let dots: Dot[] = [];
+    let bounds = [0, 0, 0, 0, 0, 0, 0];
     let raf = 0;
     let disposed = false;
     let visible = true;
     let onMove: ((e: PointerEvent) => void) | null = null;
-    const progress = { v: 0, target: 0 };
 
+    const drawFrame = (pV: number, t: number) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (pV > 0.995 || dots.length === 0) return;
+      const scale = canvas.height / N;
+      const pitch = step * scale;
+      const jitterScale = 2.4 * scale * (1 - pV);
+      const scatterScale = 0.45 * pV * scale;
+
+      let start = 0;
+      for (let hue = 0; hue <= 5; hue++) {
+        const stop = bounds[hue + 1];
+        ctx.fillStyle = COLORS[hue];
+        ctx.beginPath();
+        for (let i = start; i < stop; i++) {
+          const dot = dots[i];
+          const jx = Math.sin(t * dot.speed + dot.phase) * jitterScale;
+          const jy = Math.cos(t * dot.speed * 0.9 + dot.phase) * jitterScale;
+          const r = pitch * dot.sizeMul * (1 - pV * 0.92);
+          if (r < 0.08) continue;
+          const px = (dot.x + jx + (dot.x - cx) * scatterScale) * scale;
+          const py = (dot.y + jy) * scale;
+          ctx.moveTo(px + r, py);
+          ctx.arc(px, py, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+        start = stop;
+      }
+    };
+
+    const setPhoto = (o: number) => {
+      if (photoRef.current) {
+        photoRef.current.style.opacity = String(o);
+        photoRef.current.style.transform = `scale(${1.035 - o * 0.035})`;
+      }
+    };
+
+    const resize = () => {
+      const rect = wrap.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(rect.width * dpr));
+      canvas.height = Math.max(1, Math.round(rect.height * dpr));
+      drawFrame(progress.v, performance.now() / 1000);
+    };
+
+    // Sample the cutout into ink dots once the photo decodes
     const img = new Image();
     img.src = profilePic;
     img.onload = () => {
       if (disposed) return;
-
-      // Sample the cutout into ink dots
-      const N = img.naturalWidth;
       const off = document.createElement('canvas');
       off.width = N;
       off.height = N;
@@ -68,8 +120,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       const data = octx.getImageData(0, 0, N, N).data;
       const alphaAt = (x: number, y: number) =>
         x < 0 || y < 0 || x >= N || y >= N ? 0 : data[(y * N + x) * 4 + 3];
-      const step = 9;
-      const cx = N / 2;
+      const all: Dot[] = [];
       for (let y = step; y < N; y += step) {
         for (let x = step; x < N; x += step) {
           const i = (y * N + x) * 4;
@@ -83,7 +134,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
             alphaAt(x + step, y) < 60 ||
             alphaAt(x, y - step) < 60 ||
             alphaAt(x, y + step) < 60;
-          dots.push({
+          all.push({
             x,
             y,
             sizeMul: 0.1 + level * 0.075 + Math.random() * 0.06,
@@ -94,51 +145,14 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         }
       }
       // Group by color for batched drawing
-      dots.sort((a, b) => a.hue - b.hue);
-      const bounds = [0, 0, 0, 0, 0, 0, dots.length];
-      for (let i = 0; i < dots.length; i++) {
-        bounds[dots[i].hue + 1] = i + 1;
+      all.sort((a, b) => a.hue - b.hue);
+      bounds = [0, 0, 0, 0, 0, 0, all.length];
+      for (let i = 0; i < all.length; i++) {
+        bounds[all[i].hue + 1] = i + 1;
       }
       for (let h = 1; h <= 5; h++) bounds[h] = Math.max(bounds[h], bounds[h - 1]);
+      dots = all;
 
-      const drawFrame = (pV: number, t: number) => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (pV > 0.995 || dots.length === 0) return;
-        const scale = canvas.height / N;
-        const pitch = step * scale;
-        const t0 = t;
-        const jitterScale = 2.4 * scale * (1 - pV);
-        const scatterScale = 0.45 * pV * scale;
-
-        let start = 0;
-        for (let hue = 0; hue <= 5; hue++) {
-          const stop = bounds[hue + 1];
-          ctx.fillStyle = COLORS[hue];
-          ctx.beginPath();
-          for (let i = start; i < stop; i++) {
-            const dot = dots[i];
-            const jx = Math.sin(t0 * dot.speed + dot.phase) * jitterScale;
-            const jy = Math.cos(t0 * dot.speed * 0.9 + dot.phase) * jitterScale;
-            const r = pitch * dot.sizeMul * (1 - pV * 0.92);
-            if (r < 0.08) continue;
-            const px = (dot.x + jx + (dot.x - cx) * scatterScale) * scale;
-            const py = (dot.y + jy) * scale;
-            ctx.moveTo(px + r, py);
-            ctx.arc(px, py, r, 0, Math.PI * 2);
-          }
-          ctx.fill();
-          start = stop;
-        }
-      };
-
-      const resize = () => {
-        const rect = wrap.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.max(1, Math.round(rect.width * dpr));
-        canvas.height = Math.max(1, Math.round(rect.height * dpr));
-        // Phones: the frame is static, so re-draw it after every size change
-        if (!animate) drawFrame(progress.v, performance.now() / 1000);
-      };
       resize();
       const ro = new ResizeObserver(resize);
       ro.observe(wrap);
@@ -147,39 +161,37 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       });
       io.observe(wrap);
 
-      // Desktop (fine pointer): dots shimmer and hover reveals the photo.
-      if (fine && !reduce) {
-        // Window-level tracking — the hero's text layer sits above the figure,
-        // so element-level pointerenter would never fire.
-        onMove = (e: PointerEvent) => {
-          const r = wrap.getBoundingClientRect();
-          const inside =
-            e.clientX >= r.left && e.clientX <= r.right &&
-            e.clientY >= r.top && e.clientY <= r.bottom;
-          progress.target = inside ? 1 : 0;
-        };
-        window.addEventListener('pointermove', onMove);
-      } else if (reduce) {
-        progress.v = 1;
-        progress.target = 1;
+      if (reduce) {
+        // Reduced motion: show the assembled photo directly
+        progress.current.v = 1;
+        progress.current.target = 1;
+        setPhoto(1);
+        drawFrame(1, 0);
+        return;
       }
 
-      if (animate) {
-        const t0 = performance.now();
-        const render = (now: number) => {
-          raf = requestAnimationFrame(render);
-          if (!visible) return;
-          const p = progress;
-          p.v += (p.target - p.v) * 0.055;
-          setPhoto(p.v);
-          drawFrame(p.v, now / 1000);
-        };
+      // Desktop: pointer over the figure assembles the photo.
+      // Window-level tracking — the hero's text layer sits above the figure,
+      // so element-level pointerenter would never fire.
+      onMove = (e: PointerEvent) => {
+        const r = wrap.getBoundingClientRect();
+        const inside =
+          e.clientX >= r.left && e.clientX <= r.right &&
+          e.clientY >= r.top && e.clientY <= r.bottom;
+        progress.current.target = inside ? 1 : 0;
+      };
+      window.addEventListener('pointermove', onMove);
+
+      const t0 = performance.now();
+      const render = (now: number) => {
         raf = requestAnimationFrame(render);
-      } else {
-        // Static frame (phones / reduced motion): dots only, photo hidden
-        setPhoto(progress.v);
-        drawFrame(progress.v, 0);
-      }
+        if (!visible) return;
+        const p = progress.current;
+        p.v += (p.target - p.v) * 0.055;
+        setPhoto(p.v);
+        drawFrame(p.v, now / 1000);
+      };
+      raf = requestAnimationFrame(render);
     };
 
     return () => {
@@ -189,14 +201,28 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       ro.disconnect();
       io.disconnect();
     };
-  }, []);
+  }, [fine]);
 
+    // ---- Touch devices: the original photo, completely static ----
+  if (!fine) {
+    return (
+      <div className={`${figureClass} ${className}`}>
+        <img
+          src={profilePic}
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+          className="h-full w-auto object-contain object-bottom"
+          draggable={false}
+        />
+      </div>
+    );
+  }
+
+  // ---- Desktop: the ink-dot field with hover reveal ----
   return (
-    <div
-      ref={wrapRef}
-      className={`relative aspect-square max-w-full opacity-100 ${className}`}
-    >
-      {/* The real photo — revealed over the dots on desktop hover */}
+    <div ref={wrapRef} className={`pointer-events-none ${figureClass} ${className}`}>
+      {/* The real photo — revealed over the dots */}
       <img
         ref={photoRef}
         src={profilePic}
@@ -205,7 +231,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
         draggable={false}
       />
-      {/* The ink-dot portrait */}
+      {/* The ink-dot field */}
       <canvas ref={canvasRef} className="absolute inset-0 z-10 h-full w-full" />
     </div>
   );
