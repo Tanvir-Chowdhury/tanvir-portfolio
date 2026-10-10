@@ -61,6 +61,8 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     let raf = 0;
     let disposed = false;
     let visible = true;
+    let ro: ResizeObserver | undefined;
+    let io: IntersectionObserver | undefined;
     let onMove: ((e: PointerEvent) => void) | null = null;
 
     const drawFrame = (pV: number, t: number) => {
@@ -104,7 +106,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
-      drawFrame(progress.v, performance.now() / 1000);
+      drawFrame(progress.current.v, performance.now() / 1000);
     };
 
     // Sample the cutout into ink dots once the photo decodes
@@ -154,9 +156,9 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       dots = all;
 
       resize();
-      const ro = new ResizeObserver(resize);
+      ro = new ResizeObserver(resize);
       ro.observe(wrap);
-      const io = new IntersectionObserver(([entry]) => {
+      io = new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
       });
       io.observe(wrap);
@@ -182,7 +184,6 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       };
       window.addEventListener('pointermove', onMove);
 
-      const t0 = performance.now();
       const render = (now: number) => {
         raf = requestAnimationFrame(render);
         if (!visible) return;
@@ -198,8 +199,8 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       disposed = true;
       cancelAnimationFrame(raf);
       if (onMove) window.removeEventListener('pointermove', onMove);
-      ro.disconnect();
-      io.disconnect();
+      ro?.disconnect();
+      io?.disconnect();
     };
   }, [fine]);
 
@@ -210,7 +211,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         <img
           src={profilePic}
           alt=""
-          fetchpriority="high"
+          fetchPriority="high"
           decoding="async"
           className="h-full w-auto object-contain object-bottom"
           draggable={false}
@@ -227,7 +228,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         ref={photoRef}
         src={profilePic}
         alt=""
-        fetchpriority="high"
+        fetchPriority="high"
         className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
         draggable={false}
       />

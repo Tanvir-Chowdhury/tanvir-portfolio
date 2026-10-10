@@ -36,7 +36,7 @@ const Index = () => {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const anchor = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
-      if (!anchor) return;
+      if (!anchor || anchor.getAttribute('href')?.startsWith('#/')) return;
       e.preventDefault();
       const id = anchor.getAttribute('href')!.slice(1);
       if (!id) {

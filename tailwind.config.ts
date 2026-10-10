@@ -20,10 +20,10 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Geist", "system-ui", "-apple-system", "sans-serif"],
-        display: ["Archivo", "Geist", "system-ui", "sans-serif"],
+        sans: ["Geist Variable", "system-ui", "-apple-system", "sans-serif"],
+        display: ["Archivo Variable", "Geist Variable", "system-ui", "sans-serif"],
         serif: ["\"Libre Caslon Text\"", "Georgia", "serif"],
-        mono: ["\"Geist Mono\"", "ui-monospace", "monospace"],
+        mono: ["\"Geist Mono Variable\"", "ui-monospace", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",

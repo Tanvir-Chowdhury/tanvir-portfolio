@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
-import * as api from '@/api';
 import { PROFILE, SOCIALS } from '@/data/content';
 
 const SOCIAL_ICONS: Record<string, any> = {
@@ -28,7 +27,6 @@ const SOCIAL_ICONS: Record<string, any> = {
 const Contact = () => {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [sending, setSending] = useState(false);
 
   const copyEmail = async () => {
     try {
@@ -39,23 +37,12 @@ const Contact = () => {
     }
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (sending) return;
-    setSending(true);
-    try {
-      await api.sendContactEmail(form);
-      toast({ title: 'Message sent', description: "It's in my inbox — I'll reply within 24 hours." });
-      setForm({ name: '', email: '', message: '' });
-    } catch {
-      // Backend cold or down — fall back to the visitor's mail app
-      const subject = encodeURIComponent(`Project inquiry from ${form.name || 'your website'}`);
-      const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-      window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`;
-      toast({ title: 'Opening your mail app', description: 'The form backend is waking up — your draft is ready to send.' });
-    } finally {
-      setSending(false);
-    }
+    const subject = encodeURIComponent(`Project inquiry from ${form.name}`);
+    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
+    window.location.href = `mailto:${PROFILE.email}?subject=${subject}&body=${body}`;
+    toast({ title: 'Opening your mail app', description: 'Review your draft and send it from your email app.' });
   };
 
   return (
@@ -189,9 +176,9 @@ const Contact = () => {
               </div>
 
               <div className="flex items-center justify-between border-t border-border px-6 py-4">
-                <span className="text-xs text-muted-foreground">Goes straight to my inbox.</span>
-                <button type="submit" disabled={sending} className="pill-solid h-11 px-6 disabled:opacity-60">
-                  {sending ? 'Sending…' : 'Send'}
+                <span className="text-xs text-muted-foreground">Opens a draft in your email app.</span>
+                <button type="submit" className="pill-solid h-11 px-6 disabled:opacity-60">
+                  Open email draft
                   <Send className="h-4 w-4" />
                 </button>
               </div>

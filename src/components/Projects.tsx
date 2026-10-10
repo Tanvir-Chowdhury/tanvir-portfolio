@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ArrowUpRight, Github } from 'lucide-react';
-import * as api from '@/api';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
-import { PROJECTS, type Project, type ProjectArtKey } from '@/data/content';
+import { PROJECTS, type Project } from '@/data/content';
 import ProjectArt from '@/components/ProjectArt';
 
 /* --- Filters -------------------------------------------------------------- */
@@ -22,50 +21,9 @@ type FilterKey = (typeof FILTERS)[number]['key'];
 /* --- Component ------------------------------------------------------------ */
 
 const Projects = () => {
-  const [projects, setProjects] = useState<Project[]>(PROJECTS);
+  const projects = PROJECTS;
   const [filter, setFilter] = useState<FilterKey>('all');
   const [selected, setSelected] = useState<Project | null>(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await api.getProjects();
-        if (response.data && response.data.length > 0) {
-          const mapped: Project[] = response.data
-            .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
-            .map((p: any) => {
-              const cat = (p.category || '').toLowerCase();
-              const key: Project['category'] = cat.includes('marketing')
-                ? 'marketing'
-                : cat.includes('data')
-                  ? 'data'
-                  : cat.includes('ai') || cat.includes('automation')
-                    ? 'ai'
-                    : 'web';
-              return {
-                title: p.title,
-                category: key,
-                categoryLabel:
-                  key === 'web' ? 'Web Development' : key === 'ai' ? 'AI & Automation' : key === 'marketing' ? 'Marketing' : 'Data & Analytics',
-                type: key === 'web' ? 'Web' : key === 'ai' ? 'AI' : key === 'marketing' ? 'Campaign' : 'Analytics',
-                description: p.description,
-                details: p.details || p.description,
-                technologies: p.technologies || [],
-                demo: p.demo_link || p.link || undefined,
-                github: p.github_link || undefined,
-                art:
-                  PROJECTS.find((fp) => fp.title === p.title)?.art ??
-                  (key === 'ai' ? 'bot' : key === 'data' ? 'chart' : key === 'marketing' ? 'brand' : 'browser'),
-              };
-            });
-          setProjects(mapped);
-        }
-      } catch (error) {
-        console.error('Failed to fetch projects:', error);
-      }
-    };
-    fetchProjects();
-  }, []);
 
   const counts = useMemo(() => {
     const map: Record<string, number> = { all: projects.length };

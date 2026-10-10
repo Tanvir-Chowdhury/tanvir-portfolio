@@ -157,7 +157,7 @@
 
   /* Wide grotesque display type (Archivo expanded) */
   .font-wide {
-    font-family: "Archivo", "Geist", system-ui, sans-serif;
+    font-family: "Archivo Variable", "Geist Variable", system-ui, sans-serif;
     font-stretch: 118%;
     letter-spacing: -0.015em;
   }

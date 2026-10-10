@@ -1,40 +1,9 @@
-import { useEffect, useState } from 'react';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
-import * as api from '@/api';
-import { EXPERIENCE, type ExperienceItem } from '@/data/content';
+import { EXPERIENCE } from '@/data/content';
 
 const Experience = () => {
-  const [items, setItems] = useState<ExperienceItem[]>(EXPERIENCE);
-
-  useEffect(() => {
-    const fetchExperience = async () => {
-      try {
-        const response = await api.getExperience();
-        if (response.data && response.data.length > 0) {
-          const mapped: ExperienceItem[] = response.data
-            .sort((a: any, b: any) => (b.order || 0) - (a.order || 0))
-            .map((item: any) => ({
-              period: item.start_date ? new Date(item.start_date).getFullYear().toString() : '',
-              role: item.position,
-              company: item.company,
-              location: [item.location, item.type].filter(Boolean).join(' · '),
-              line: item.description,
-              achievements: Array.isArray(item.achievements)
-                ? item.achievements
-                : item.achievements
-                  ? item.achievements.split('\n')
-                  : [],
-              current: item.is_current,
-            }));
-          setItems(mapped);
-        }
-      } catch (error) {
-        console.error('Failed to fetch experience:', error);
-      }
-    };
-    fetchExperience();
-  }, []);
+  const items = EXPERIENCE;
 
   return (
     <section id="experience" className="relative px-4 md:px-8 py-24 md:py-32">

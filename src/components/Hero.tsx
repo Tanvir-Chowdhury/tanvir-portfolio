@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import ParticlePortrait from '@/components/ParticlePortrait';
 import { PROFILE } from '@/data/content';
@@ -64,6 +65,7 @@ const Hero = () => {
               See my work
               <ArrowDown className="h-4 w-4" />
             </a>
+            <Link to="/kage" className="pill-outline h-12 px-7 text-base">Explore Kage</Link>
           </div>
         </div>
 
