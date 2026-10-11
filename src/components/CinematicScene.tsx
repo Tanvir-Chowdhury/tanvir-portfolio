@@ -49,15 +49,18 @@ export default function CinematicScene() {
       });
       const sculpture = new THREE.Group();
       scene.add(sculpture);
+      // The final straight segment points along +Z, directly out of the tube.
+      // The whole sculpture is aimed at the camera so the visitor sees its end cap.
       const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-6, -7, -4),
-        new THREE.Vector3(-3.8, -3.5, -1),
-        new THREE.Vector3(0, -1, 2.5),
-        new THREE.Vector3(2.8, 2, 1),
-        new THREE.Vector3(1.5, 5.5, -2.5),
-        new THREE.Vector3(-2.8, 7, -6),
+        new THREE.Vector3(-7, 5, -15),
+        new THREE.Vector3(-5, 1, -11),
+        new THREE.Vector3(-2.8, -2, -8),
+        new THREE.Vector3(-0.6, -1, -5),
+        new THREE.Vector3(0, 0, -3),
+        new THREE.Vector3(0, 0, -1.5),
+        new THREE.Vector3(0, 0, 0),
       ]);
-      const geometry = new THREE.TubeGeometry(curve, 240, 0.075, 16, false);
+      const geometry = new THREE.TubeGeometry(curve, 240, 0.14, 20, false);
       sculpture.add(new THREE.Mesh(geometry, material));
       // Concentric volumes bloom around the same tube, giving its light depth.
       const glowMaterial = new THREE.ShaderMaterial({
@@ -81,6 +84,45 @@ export default function CinematicScene() {
       const auraMaterial = glowMaterial.clone();
       auraMaterial.uniforms.strength.value = 0.035;
       sculpture.add(new THREE.Mesh(glowGeometry, glowMaterial), new THREE.Mesh(auraGeometry, auraMaterial));
+      const capGeometry = new THREE.CircleGeometry(0.14, 40);
+      const capMaterial = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, depthTest: false,
+        blending: THREE.AdditiveBlending,
+        vertexShader: `varying vec2 vUv; void main() { vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        fragmentShader: `varying vec2 vUv; void main() {
+          float radius = length(vUv - 0.5) * 2.0;
+          vec3 color = mix(vec3(1.0, 0.88, 0.64), vec3(0.64, 0.42, 1.0), radius);
+          gl_FragColor = vec4(color, 1.0 - smoothstep(0.2, 1.0, radius));
+        }`,
+      });
+      const cap = new THREE.Mesh(capGeometry, capMaterial);
+      cap.position.z = 0.005;
+      cap.renderOrder = 3;
+      sculpture.add(cap);
+      const rimGeometry = new THREE.RingGeometry(0.14, 0.19, 40);
+      const rimMaterial = new THREE.MeshBasicMaterial({ color: 0xb596ff, transparent: true, opacity: 0.9 });
+      const rim = new THREE.Mesh(rimGeometry, rimMaterial);
+      rim.renderOrder = 4;
+      sculpture.add(rim);
+      const glowCanvas = document.createElement('canvas');
+      glowCanvas.width = glowCanvas.height = 128;
+      const context = glowCanvas.getContext('2d')!;
+      const gradient = context.createRadialGradient(64, 64, 0, 64, 64, 64);
+      gradient.addColorStop(0, '#fff0d5c0');
+      gradient.addColorStop(0.2, '#d8baff90');
+      gradient.addColorStop(0.5, '#a878ff30');
+      gradient.addColorStop(1, '#a878ff00');
+      context.fillStyle = gradient;
+      context.fillRect(0, 0, 128, 128);
+      const tipTexture = new THREE.CanvasTexture(glowCanvas);
+      const tipMaterial = new THREE.SpriteMaterial({ map: tipTexture, transparent: true,
+        depthWrite: false, blending: THREE.AdditiveBlending });
+      const tipGlow = new THREE.Sprite(tipMaterial);
+      tipGlow.position.z = 0.03;
+      tipGlow.renderOrder = 5;
+      tipGlow.scale.setScalar(1.6);
+      sculpture.add(tipGlow);
       let target = 0, progress = 0, raf = 0;
       let pointerX = 0, pointerY = 0, parallaxX = 0, parallaxY = 0;
       let halfWidth = 1;
@@ -96,11 +138,14 @@ export default function CinematicScene() {
         if (Math.abs(target - progress) < 0.00005) progress = target;
         if (Math.abs(pointerX - parallaxX) < 0.001) parallaxX = pointerX;
         if (Math.abs(pointerY - parallaxY) < 0.001) parallaxY = pointerY;
-        // Real translation in Z makes the near surface grow through perspective.
-        sculpture.position.set(halfWidth * (0.58 - progress * 1.16) + parallaxX * 0.35,
-          -0.8 + progress * 1.6 + parallaxY * 0.2, -4 + progress * 8);
-        sculpture.rotation.set(0.12 + progress * 0.25 + parallaxY * 0.06,
-          -0.65 + progress * 1.3 + parallaxX * 0.1, -0.25 + progress * 0.55);
+        // The tip travels from twenty units away to two units from the camera.
+        // Keep its screen position inside the viewport as perspective magnifies it.
+        const approach = 1 - Math.pow(1 - progress, 2);
+        const tipZ = -6 + approach * 18;
+        const distance = 14 - tipZ;
+        sculpture.position.set(halfWidth * distance / 14 * (0.5 - progress) + parallaxX * distance * 0.015,
+          distance * (0.035 + parallaxY * 0.01), tipZ);
+        sculpture.lookAt(camera.position);
         renderer.render(scene, camera);
         mount.dataset.progress = progress.toFixed(4);
         if ((progress !== target || parallaxX !== pointerX || parallaxY !== pointerY) && !document.hidden)
@@ -123,7 +168,7 @@ export default function CinematicScene() {
         renderer.setSize(innerWidth, innerHeight);
         halfWidth = Math.tan(21 * Math.PI / 180) * 14 * camera.aspect;
         // Narrow screens keep the same depth, with a smaller sculpture footprint.
-        sculpture.scale.set(innerWidth < 768 ? 0.58 : 1, 1, 1);
+        sculpture.scale.setScalar(innerWidth < 768 ? 0.8 : 1);
         schedule();
       };
       const visibility = () => {
@@ -154,6 +199,12 @@ export default function CinematicScene() {
         auraGeometry.dispose();
         glowMaterial.dispose();
         auraMaterial.dispose();
+        capGeometry.dispose();
+        capMaterial.dispose();
+        rimGeometry.dispose();
+        rimMaterial.dispose();
+        tipTexture.dispose();
+        tipMaterial.dispose();
         material.dispose();
         renderer.dispose();
         renderer.domElement.remove();

@@ -69,7 +69,8 @@ Kage was a motion reference, not a separate destination. The demo button,
 iframe, route and copied template assets have been removed.
 
 - `CinematicScene.tsx`: a rounded Three.js neon sculpture with volumetric glow,
-  moving from right to left and toward the viewer as the page scrolls on desktop
+  with a luminous end cap aimed at the camera. The tip moves from right to left
+  and approaches from 20 to 2 camera units as the page scrolls on desktop
   and mobile, plus subtle desktop pointer parallax. It sits behind the content.
   Loaded as a separate local bundle, rendered on demand with a
   1.5 pixel ratio cap, and paused in hidden tabs.
