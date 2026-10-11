@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
-// Audit the actual output, including the independently authored Kage document.
+// Audit the deployed portfolio, including lazy-loaded scene and asset bundles.
 const root = path.resolve('dist');
 const base = '/tanvir-portfolio/';
 async function walk(dir) {
@@ -29,12 +29,11 @@ for (const file of files) {
     }
     for (const match of source.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^\s)]+))\s*\)/g)) {
       const url = match[1] ?? match[2] ?? match[3];
-      if (url === "' + c.toDataURL('image/png') + '") continue; // Runtime-generated grain texture.
       await verify(url, file);
     }
   }
   // Vite's generated JS includes lazy chunks and imported binary assets.
-  if (file.endsWith('.js') && !file.includes('/kage/')) {
+  if (file.endsWith('.js')) {
     for (const match of source.matchAll(/["']((?:\/tanvir-portfolio\/|\.\/|assets\/)[^"']+\.(?:js|css|webp|png|jpg|pdf|woff2?))["']/g)) {
       const url = match[1].startsWith('assets/') ? base + match[1] : match[1];
       await verify(url, file);
@@ -42,8 +41,7 @@ for (const file of files) {
     assert(!source.includes('portfolio-backend-s06z'), `Backend dependency in ${file}`);
   }
 }
-assert(files.filter(f => f.endsWith('.webp') && f.includes('/kage/')).length === 14, 'Kage needs all 14 scene images');
-assert(files.some(f => f.endsWith('/kage/secret-pathways-assets/three.min.js')), 'Missing Three.js');
-assert((await readFile(path.join(root, 'kage/secret-pathways-assets/fonts.css'), 'utf8')).includes('data:font/woff2;base64,'), 'Missing embedded Kage fonts');
+assert(!files.some(f => f.includes('/kage/')), 'The standalone Kage demo must not be deployed');
+assert(files.some(f => /three\.module-.*\.js$/.test(f)), 'Missing local Three.js scene runtime');
 assert(files.some(f => f.endsWith('.woff2') && f.includes('/assets/')), 'Missing portfolio fonts');
-console.log(`Pages audit passed: ${files.length} files; ${checked} asset references; Kage images, fonts and Three.js included.`);
+console.log(`Pages audit passed: ${files.length} files; ${checked} asset references; portfolio assets and fonts included.`);

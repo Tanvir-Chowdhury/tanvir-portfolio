@@ -2,6 +2,9 @@ import { useEffect, lazy, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import CinematicScene from '@/components/CinematicScene';
+import ChapterFlow from '@/components/ChapterFlow';
+import StoryBridge from '@/components/StoryBridge';
 
 // Below-fold sections are code-split: the hero paints from the small main
 // bundle, everything else prefetches in the background right after load.
@@ -40,10 +43,10 @@ const Index = () => {
       e.preventDefault();
       const id = anchor.getAttribute('href')!.slice(1);
       if (!id) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
         return;
       }
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById(id)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     };
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
@@ -61,12 +64,15 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="cinematic-portfolio min-h-screen text-foreground">
       <div className="grain" aria-hidden="true" />
+      <CinematicScene />
       <Navbar />
+      <ChapterFlow />
       <main>
         <Hero />
         <About />
+        <StoryBridge />
         <Suspense fallback={<SectionFallback height={1400} />}>
           <Services />
         </Suspense>

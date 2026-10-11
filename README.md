@@ -24,8 +24,8 @@ npm run preview
 ```
 
 `dist/` is the complete publishable site and is ignored by Git. The asset audit
-checks the actual generated HTML, CSS and bundle references and confirms that
-Kage's Three.js runtime, 14 WebP images and embedded fonts are included.
+checks the generated HTML, CSS and bundle references, including the locally
+bundled Three.js runtime, portrait and fonts. It rejects a leftover Kage demo.
 
 For a test without Vite's SPA fallback, serve a parent directory containing
 `dist` under the name `tanvir-portfolio` with any static HTTP server. A Python
@@ -54,49 +54,56 @@ runs from other branches may build but cannot deploy.
 
 ## Routes and content
 
-- `/tanvir-portfolio/` — portfolio.
-- `/tanvir-portfolio/#/kage` — Kage in a full-height iframe with portfolio navigation.
-- `/tanvir-portfolio/kage/` — standalone Kage document, also refreshable.
-- `/tanvir-portfolio/kage/#pathways` — native Kage section link.
-- Unknown hash routes show a 404 view whose home link stays within the repository.
+The portfolio is one continuous page at `/tanvir-portfolio/`. HashRouter handles
+unknown routes with a 404 view whose home link stays inside the repository.
+Section links use native scrolling without overwriting the router hash.
 
-React routes use `HashRouter`: share `#/kage`, not `/kage` as a React route.
-GitHub Pages does not rewrite arbitrary URL paths to `index.html`.
-Portfolio section links scroll in place; they do not replace the router hash.
+Portfolio content lives in `src/data/content.ts`. Contact opens an email draft
+in the visitor's mail app. Legacy API, login and admin files are retained but
+are not imported into the static site. Portfolio fonts are bundled locally
+from Fontsource; their licenses are in `public/licenses/`.
 
-Portfolio content lives in `src/data/content.ts`. It no longer fetches project
-or experience data from the legacy backend. Contact opens an email draft in
-the visitor's mail application; they review and send it there. Legacy API,
-login and admin source files are retained but are not imported into the site.
-Portfolio fonts are bundled from Fontsource with npm; Kage fonts are embedded.
+## Cinematic portfolio
 
-## Kage source and assets
+Kage was a motion reference, not a separate destination. The demo button,
+iframe, route and copied template assets have been removed.
 
-Vendored from the MIT-licensed `@designcodeio/threeui@1.2.0` npm package:
-`lib-dist/assets/landing-pages/kage.html` and `secret-pathways-assets/`.
-Reference: https://threeui.com/landing-pages/kage-landing-page.
-The license is preserved in `public/kage/LICENSE.txt`; the HTML is renamed to
-`public/kage/index.html`. These are source assets, not generated build output.
-All references inside the authored HTML remain document-relative, so Vite can
-copy the directory intact. The iframe uses `BASE_URL + 'kage/'`. No remote
-ThreeUI iframe, runtime CDN or external image storage is needed.
+- `CinematicScene.tsx`: original procedural Three.js aperture, grid and dust,
+  with a camera that advances as the visitor scrolls. Loaded as a separate
+  local bundle, capped at 30 fps and 1.5 pixel ratio, paused in hidden tabs.
+- `ChapterFlow.tsx`: native-scroll progress, chapter navigation, hero departure,
+  and project stack progression; no wheel interception or scroll hijacking.
+- `StoryBridge.tsx`: a pinned spark → craft → impact transition.
+- `Projects.tsx`: three featured stories with a sticky desktop stack, followed
+  by the remaining archive. All 21 projects and category filters remain.
 
-When updating Kage, keep the HTML, `secret-pathways-assets/`, fonts and runtime
-together. Run the build/audit and test both the iframe and standalone document.
-The demo is credited to ThreeUI and is separate from Tanvir's authored work.
+The existing portrait, typography, amber/purple palette and content are kept.
+Below 768px and with reduced motion enabled, the 3D scene is not initialized.
+Mobile uses the static portrait and normal document flow. Reduced motion also
+removes the pinned hero, pinned transition, and project stacking. CSS atmosphere
+and readable content remain available if WebGL cannot initialize.
 
-## Production acceptance checks
+## Production verification
 
-After deployment, repeat these checks at the live URL (a local build alone does
-not prove that repository permissions or Pages settings are correct):
+```sh
+npm run build
+npm run verify:pages
+npx tsc --noEmit -p tsconfig.app.json
+```
 
-- Load the home page and refresh `#/kage` and `kage/` directly.
-- Confirm the browser network panel shows no missing local files and no calls
-  to the old portfolio backend or ThreeUI asset hosts.
-- Scroll the portfolio, use Work/Contact navigation, and open project details.
-- Enter Kage, wait for its loader, scroll its chapters and test its menu.
-- Test mobile widths and return to the portfolio from the iframe route.
-- Check the unknown route `#/missing` and its Return to Home link.
+Check the production output under the repository subpath on a plain static
+server, then verify the deployment at the live URL:
 
-The public Pages URL already existed during setup; these local changes must be
-pushed and successfully deployed before that URL can validate this revision.
+- The home page loads directly and after refresh; there is no Explore Kage link.
+- Desktop: scroll through the pinned hero, the story transition and project stack.
+- About, Work and Contact navigation reaches the correct section; chapter links
+  work with both pointer and keyboard input.
+- All project filters work and project details open with Enter or Space.
+- At narrow widths, all content fits and the mobile menu opens/closes normally.
+- Reduced motion leaves content visible without the 3D animation or pinning.
+- Unknown routes (`#/missing`) recover through Return to Home.
+- No missing local bundles, fonts or images, and no requests to the old backend.
+
+Push changes to `main` and confirm both workflow jobs succeed before treating
+that revision as deployed. The production server is GitHub Pages; the local
+Vite and Python servers are only development/verification tools.

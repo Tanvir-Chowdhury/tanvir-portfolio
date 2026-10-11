@@ -211,7 +211,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         <img
           src={profilePic}
           alt=""
-          fetchPriority="high"
+          {...{ fetchpriority: 'high' }}
           decoding="async"
           className="h-full w-auto object-contain object-bottom"
           draggable={false}
@@ -228,7 +228,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
         ref={photoRef}
         src={profilePic}
         alt=""
-        fetchPriority="high"
+        {...{ fetchpriority: 'high' }}
         className="absolute inset-0 z-0 h-full w-full object-contain object-bottom opacity-0"
         draggable={false}
       />

@@ -35,6 +35,58 @@ const Projects = () => {
 
   const visible = filter === 'all' ? projects : projects.filter((p) => p.category === filter);
 
+  const featured = filter === 'all' ? [projects[0], projects[4], projects[6]] : [];
+  const remaining = visible.filter(project => !featured.includes(project));
+  const renderCard = (project: Project, i: number, featured = false) => (
+    <article
+      onClick={() => setSelected(project)}
+      role="button"
+      tabIndex={0}
+      aria-label={`View ${project.title}`}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(project); } }}
+      key={project.title}
+      style={featured ? { top: `${100 + i * 20}px` } : undefined}
+      className={`${featured ? 'featured-project' : ''} group cursor-pointer overflow-hidden rounded-3xl border border-border bg-card transition-colors duration-500 hover:border-foreground/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent`}
+    >
+      <div className="project-art relative aspect-[16/9] overflow-hidden border-b border-border bg-secondary/40">
+        <span className="absolute left-5 top-4 z-10 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+        <ProjectArt kind={project.art} />
+      </div>
+      <div className="project-story p-6 md:p-7">
+        <div className="mono-label">
+          {project.categoryLabel} · {project.type}
+        </div>
+        <h3 className="mt-3 font-wide text-2xl md:text-[1.7rem] font-extrabold uppercase leading-tight tracking-tight transition-colors group-hover:text-primary">
+          {project.title}
+        </h3>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
+        {project.outcome && (
+          <p className="mt-3 text-sm font-medium text-foreground">
+            <span className="text-accent">→ </span>
+            {project.outcome}
+          </p>
+        )}
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-1.5">
+            {project.technologies.slice(0, 4).map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-accent">
+            Open <ArrowUpRight className="h-3.5 w-3.5" />
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+
   return (
     <section id="work" className="relative px-4 md:px-8 py-24 md:py-32">
       <div className="mx-auto max-w-7xl">
@@ -68,53 +120,21 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* Cards */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {visible.map((project, i) => (
-            <Reveal key={project.title} delay={Math.min(i, 4) * 60} className={i % 2 === 1 ? 'md:translate-y-10' : ''}>
-              <article
-                onClick={() => setSelected(project)}
-                className="group cursor-pointer overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:border-foreground/25 hover:shadow-xl hover:shadow-black/5"
-              >
-                <div className="relative aspect-[16/9] overflow-hidden border-b border-border bg-secondary/40">
-                  <span className="absolute left-5 top-4 z-10 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <ProjectArt kind={project.art} />
-                </div>
-                <div className="p-6 md:p-7">
-                  <div className="mono-label">
-                    {project.categoryLabel} · {project.type}
-                  </div>
-                  <h3 className="mt-3 font-wide text-2xl md:text-[1.7rem] font-extrabold uppercase leading-tight tracking-tight transition-colors group-hover:text-primary">
-                    {project.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
-                  {project.outcome && (
-                    <p className="mt-3 text-sm font-medium text-foreground">
-                      <span className="text-accent">→ </span>
-                      {project.outcome}
-                    </p>
-                  )}
-                  <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.technologies.slice(0, 4).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-accent">
-                      Open <ArrowUpRight className="h-3.5 w-3.5" />
-                    </span>
-                  </div>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+        {featured.length > 0 && (
+          <div className="featured-reel" aria-label="Featured project stories">
+            <div className="mono-label mb-8">Three stories. Real outcomes.</div>
+            {featured.map((project, i) => renderCard(project, i, true))}
+          </div>
+        )}
+        <div className="project-archive">
+          {featured.length > 0 && <p className="mono-label mb-8">More from the archive / {remaining.length} projects</p>}
+          <div className="grid gap-6 md:grid-cols-2">
+            {remaining.map((project, i) => (
+              <Reveal key={project.title} delay={Math.min(i, 4) * 60}>
+                {renderCard(project, i + featured.length)}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
 

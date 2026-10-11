@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import ParticlePortrait from '@/components/ParticlePortrait';
 import { PROFILE } from '@/data/content';
+import profilePic from '@/assets/profile.webp';
 
 const RollWord = ({ word, className }: { word: string; className: string }) => (
   <span className={`inline-flex ${className}`} aria-label={word}>
@@ -22,21 +22,22 @@ const Hero = () => {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden px-4 md:px-8 pt-28 pb-16"
+      className="cinema-hero relative"
     >
+      <div className="cinema-hero-frame relative flex min-h-screen flex-col justify-center overflow-hidden px-4 md:px-8 pt-28 pb-16">
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -top-32 left-1/4 h-96 w-96 rounded-full bg-primary/15 blur-[140px]" />
       </div>
 
       {/* Particle portrait — right side, behind the text layer */}
-      <div className="absolute bottom-0 right-0 z-0 hidden lg:block lg:pr-4 xl:pr-10">
+      <div className="hero-portrait-layer absolute bottom-0 right-0 z-0 hidden lg:block lg:pr-4 xl:pr-10">
         <ParticlePortrait className="h-[74vh] xl:h-[80vh]" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl">
+      <div className="hero-copy-layer relative z-10 mx-auto w-full max-w-7xl">
         <div className="mb-8">
-          <span className="mono-label">{PROFILE.location} · {PROFILE.timezone}</span>
+          <span className="mono-label">00 — Independent by design · {PROFILE.location}</span>
         </div>
 
         {/* Giant name — left */}
@@ -65,20 +66,21 @@ const Hero = () => {
               See my work
               <ArrowDown className="h-4 w-4" />
             </a>
-            <Link to="/kage" className="pill-outline h-12 px-7 text-base">Explore Kage</Link>
           </div>
         </div>
 
         <div className="mt-12 flex items-center gap-3 lg:max-w-[50%]">
-          <span className="mono-label shrink-0">(Scroll)</span>
+          <span className="mono-label shrink-0">(Scroll to enter)</span>
           <span className="h-px flex-1 bg-border" aria-hidden="true" />
           <span className="mono-label shrink-0 whitespace-nowrap">Web · AI · Marketing</span>
         </div>
 
         {/* Particle portrait in the flow on mobile / tablet */}
         <div className="mt-10 flex justify-end lg:hidden">
-          <ParticlePortrait className="h-[52vh] -mr-4" />
+          <img src={profilePic} alt="" className="h-[52vh] max-w-full object-contain object-bottom -mr-4" decoding="async" />
         </div>
+      </div>
+      <div className="hero-departure-label mono-label" aria-hidden="true">Behind the work,<br /><span>the person.</span></div>
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ import { AWARDS, CERTIFICATES, EDUCATION } from '@/data/content';
 /** Compact credibility strip: education, awards, certificates. */
 const Credentials = () => {
   return (
-    <section className="relative px-4 md:px-8 pb-24 md:pb-32">
+    <section id="credentials" className="relative px-4 md:px-8 pb-24 md:pb-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex items-center gap-4">
           <span className="font-mono text-xs tracking-[0.2em] text-accent">(07)</span>

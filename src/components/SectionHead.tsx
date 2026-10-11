@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Reveal from './Reveal';
 
 interface SectionHeadProps {
   num: string;
@@ -11,7 +12,7 @@ interface SectionHeadProps {
 /** Consistent section opener: "(01) — LABEL" eyebrow + giant wide heading. */
 const SectionHead = ({ num, label, title, desc, align = 'left' }: SectionHeadProps) => {
   return (
-    <div className="mb-12 md:mb-16">
+    <Reveal className="section-heading mb-12 md:mb-16">
       <div className="flex items-center gap-4 mb-6">
         <span className="font-mono text-xs tracking-[0.2em] text-accent">({num})</span>
         <span className="h-px w-14 bg-border" aria-hidden="true" />
@@ -27,7 +28,7 @@ const SectionHead = ({ num, label, title, desc, align = 'left' }: SectionHeadPro
           </p>
         )}
       </div>
-    </div>
+    </Reveal>
   );
 };
 
