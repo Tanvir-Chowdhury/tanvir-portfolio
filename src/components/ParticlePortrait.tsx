@@ -53,9 +53,8 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     if (!ctx) return;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const N = 1080; // natural size of the source cutout
+    const N = 900; // Sampling resolution; the source is fitted below, just like object-contain.
     const step = 9;
-    const cx = N / 2;
     let dots: Dot[] = [];
     let bounds = [0, 0, 0, 0, 0, 0, 0];
     let raf = 0;
@@ -68,10 +67,11 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     const drawFrame = (pV: number, t: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (pV > 0.995 || dots.length === 0) return;
-      const scale = canvas.height / N;
+      const scale = Math.min(canvas.width, canvas.height) / N;
+      const offsetX = (canvas.width - N * scale) / 2;
+      const offsetY = canvas.height - N * scale;
       const pitch = step * scale;
-      const jitterScale = 2.4 * scale * (1 - pV);
-      const scatterScale = 0.45 * pV * scale;
+      const jitterScale = 0.7 * (1 - pV);
 
       let start = 0;
       for (let hue = 0; hue <= 5; hue++) {
@@ -84,8 +84,8 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
           const jy = Math.cos(t * dot.speed * 0.9 + dot.phase) * jitterScale;
           const r = pitch * dot.sizeMul * (1 - pV * 0.92);
           if (r < 0.08) continue;
-          const px = (dot.x + jx + (dot.x - cx) * scatterScale) * scale;
-          const py = (dot.y + jy) * scale;
+          const px = offsetX + (dot.x + jx) * scale;
+          const py = offsetY + (dot.y + jy) * scale;
           ctx.moveTo(px + r, py);
           ctx.arc(px, py, r, 0, Math.PI * 2);
         }
@@ -97,12 +97,12 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
     const setPhoto = (o: number) => {
       if (photoRef.current) {
         photoRef.current.style.opacity = String(o);
-        photoRef.current.style.transform = `scale(${1.035 - o * 0.035})`;
       }
     };
 
     const resize = () => {
-      const rect = wrap.getBoundingClientRect();
+      // Use layout dimensions: getBoundingClientRect includes the scroll transform.
+      const rect = { width: wrap.clientWidth, height: wrap.clientHeight };
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
@@ -118,7 +118,9 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
       off.width = N;
       off.height = N;
       const octx = off.getContext('2d')!;
-      octx.drawImage(img, 0, 0);
+      const fit = Math.min(N / img.naturalWidth, N / img.naturalHeight);
+      const width = img.naturalWidth * fit, height = img.naturalHeight * fit;
+      octx.drawImage(img, (N - width) / 2, N - height, width, height);
       const data = octx.getImageData(0, 0, N, N).data;
       const alphaAt = (x: number, y: number) =>
         x < 0 || y < 0 || x >= N || y >= N ? 0 : data[(y * N + x) * 4 + 3];
@@ -140,7 +142,7 @@ const ParticlePortrait = ({ className = '' }: ParticlePortraitProps) => {
             x,
             y,
             sizeMul: 0.1 + level * 0.075 + Math.random() * 0.06,
-            hue: edge ? (x < cx ? 4 : 5) : level,
+            hue: edge ? (x < N / 2 ? 4 : 5) : level,
             phase: Math.random() * Math.PI * 2,
             speed: 0.6 + Math.random() * 1.2,
           });

@@ -80,7 +80,6 @@ const Hero = () => {
           <img src={profilePic} alt="" className="h-[52vh] max-w-full object-contain object-bottom -mr-4" decoding="async" />
         </div>
       </div>
-      <div className="hero-departure-label mono-label" aria-hidden="true">Behind the work,<br /><span>the person.</span></div>
       </div>
     </section>
   );

@@ -45,7 +45,7 @@ const Footer = () => {
   return (
     <footer className="relative overflow-hidden border-t border-border">
       {/* Call-to-action marquee — the whole strip is a link */}
-      <a href="#contact" aria-label="Start a project" className="group block select-none border-b border-border py-8 md:py-11">
+      <a href="#contact" aria-label="Start a project" className="footer-marquee group relative block overflow-hidden select-none border-b border-border py-8 md:py-11">
         <div className="marquee-track items-center">
           {[0, 1, 2, 3].map((row) => (
             <div key={row} className="flex shrink-0 items-center" aria-hidden={row > 0}>
@@ -73,23 +73,23 @@ const Footer = () => {
       </a>
 
       {/* Middle: email + badge */}
-      <div className="mx-auto max-w-7xl px-4 md:px-8 py-14 md:py-20">
-        <div className="flex flex-col gap-12 md:flex-row md:items-center md:justify-between">
+      <div className="footer-content mx-auto max-w-7xl px-4 md:px-8 py-14 md:py-20">
+        <div className="flex flex-col items-center text-center gap-12 md:text-left md:flex-row md:items-center md:justify-between">
           <div className="space-y-5">
             <span className="mono-label block">The fastest way to reach me</span>
             <a
               href={`mailto:${PROFILE.email}`}
-              className="group inline-flex flex-wrap items-center gap-3 font-wide text-xl font-extrabold tracking-tight sm:text-2xl md:text-3xl"
+              className="group inline-flex max-w-full flex-col md:flex-row md:flex-wrap justify-center md:justify-start items-center gap-3 font-wide text-xl font-extrabold tracking-tight sm:text-2xl md:text-3xl"
             >
               <span className="grid h-11 w-11 place-items-center rounded-full bg-accent/15 text-accent transition-transform duration-300 group-hover:-rotate-12 md:h-14 md:w-14">
                 <Mail className="h-5 w-5 md:h-6 md:w-6" />
               </span>
-              <span className="relative break-all">
-                {PROFILE.email}
+              <span className="relative text-base sm:text-xl md:text-3xl break-normal">
+                {PROFILE.email.split('@')[0]}@<wbr />{PROFILE.email.split('@')[1]}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100" />
               </span>
             </a>
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+            <p className="mx-auto md:mx-0 max-w-sm text-sm leading-relaxed text-muted-foreground">
               One message is enough — tell me what you&apos;re building and I&apos;ll reply
               within 24 hours with how I&apos;d approach it.
             </p>
@@ -100,7 +100,7 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center text-center md:text-left gap-3 px-4 py-6 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-8">
           <span>© {new Date().getFullYear()} {PROFILE.fullName} · {PROFILE.location}</span>
           <span className="tabular-nums">Dhaka {time} {PROFILE.timezone}</span>
           <span className="hidden gap-4 md:flex">

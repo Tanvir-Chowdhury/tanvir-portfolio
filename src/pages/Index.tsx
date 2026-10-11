@@ -4,7 +4,6 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import CinematicScene from '@/components/CinematicScene';
 import ChapterFlow from '@/components/ChapterFlow';
-import StoryBridge from '@/components/StoryBridge';
 
 // Below-fold sections are code-split: the hero paints from the small main
 // bundle, everything else prefetches in the background right after load.
@@ -72,7 +71,6 @@ const Index = () => {
       <main>
         <Hero />
         <About />
-        <StoryBridge />
         <Suspense fallback={<SectionFallback height={1400} />}>
           <Services />
         </Suspense>

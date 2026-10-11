@@ -36,13 +36,7 @@ export default function ChapterFlow() {
         const covered = reduced.matches ? 0 : Math.max(0, Math.min(1, 1 - distance / height));
         card.style.setProperty('--covered', String(covered));
       });
-      const bridge = document.querySelector<HTMLElement>('.story-bridge');
-      if (bridge) {
-        const rect = bridge.getBoundingClientRect();
-        const p = Math.max(0, Math.min(1, (height * 0.4 - rect.top) / Math.max(1, rect.height - height * 0.6)));
-        bridge.style.setProperty('--passage', String(p));
-        bridge.dataset.beat = String(Math.min(2, Math.floor(p * 3)));
-      }
+
     };
     const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
     const observer = new ResizeObserver(queue);
