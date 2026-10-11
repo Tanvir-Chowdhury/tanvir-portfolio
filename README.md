@@ -68,12 +68,12 @@ from Fontsource; their licenses are in `public/licenses/`.
 Kage was a motion reference, not a separate destination. The demo button,
 iframe, route and copied template assets have been removed.
 
-- `CinematicScene.tsx`: a rounded Three.js neon sculpture with volumetric glow,
-  with a luminous end cap aimed at the camera. The tip moves from right to left
-  and approaches from 20 to 2 camera units as the page scrolls on desktop
-  and mobile, plus subtle desktop pointer parallax. It sits behind the content.
-  Loaded as a separate local bundle, rendered on demand with a
-  1.5 pixel ratio cap, and paused in hidden tabs.
+- `CinematicScene.tsx`: a continuous Three.js neon energy path with spatial
+  loops, softly deforming curves, traveling light pulses and depth fading.
+  Scroll changes its orientation and perspective within each chapter; desktop
+  pointer movement adds parallax. All lighting stays behind the content.
+  Animation is capped at 30 fps and 1.5 pixel ratio, pauses in hidden tabs,
+  and becomes static with reduced motion enabled.
 - `ChapterFlow.tsx`: native-scroll progress, chapter navigation, hero departure,
   and project stack progression; no wheel interception or scroll hijacking.
 - `Projects.tsx`: three featured stories with a sticky desktop stack, followed
@@ -99,7 +99,7 @@ server, then verify the deployment at the live URL:
 
 - The home page loads directly and after refresh; there is no Explore Kage link.
 - Desktop: scroll through the pinned hero and project stack; the neon sculpture
-  sweeps left and approaches through the entire page on desktop and mobile,
+  flows through spatial loops throughout the page on desktop and mobile,
   including reverse scrolling.
 - About, Work and Contact navigation reaches the correct section; chapter links
   work with both pointer and keyboard input.
