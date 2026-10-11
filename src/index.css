@@ -517,9 +517,9 @@
 .cinema-world canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cinema-world::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #080a1099 0%, transparent 65%), radial-gradient(ellipse at center, transparent 35%, #080a10 100%); }
 .cinema-atmosphere { position: absolute; inset: -15%; background: radial-gradient(ellipse at 72% 35%, #aa731c18, transparent 35%), radial-gradient(ellipse at 42% 70%, #7352cf20, transparent 45%); }
-.cinematic-portfolio main > section:not(.cinema-hero) { background: linear-gradient(180deg, #080a10d9, #080a10f0 45%, #080a10d9); }
-.cinematic-portfolio main > #work { background: linear-gradient(180deg, #10101cdd, #080a10f5); }
-.cinematic-portfolio main > #contact { background: radial-gradient(ellipse at 10% 100%, #94652918, transparent 60%), #080a10e6; }
+.cinematic-portfolio main > section:not(.cinema-hero) { background: linear-gradient(180deg, #080a1066, #080a1099 45%, #080a1066); }
+.cinematic-portfolio main > #work { background: linear-gradient(180deg, #10101c80, #080a1099); }
+.cinematic-portfolio main > #contact { background: radial-gradient(ellipse at 10% 100%, #94652918, transparent 60%), #080a1080; }
 .cinema-hero { --departure: 0; }
 .hero-copy-layer { transform-origin: 25% 45%; }
 .reading-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent))); transform: scaleX(0); transform-origin: left; z-index: 60; pointer-events: none; }
@@ -569,10 +569,10 @@
   .cinematic-portfolio main > section:not(.cinema-hero) { padding-inline: clamp(32px, 5vw, 80px); }
 }
 
-/* One luminous 3D filament; visible through every chapter on every viewport. */
-.neon-thread { position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; opacity: .24; }
-.neon-thread canvas { display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 3px #a48aff80) drop-shadow(0 0 9px #b59af540); }
+/* The neon sculpture lives behind the foreground, never over text or cards. */
+.neon-thread { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: .55; }
+.neon-thread canvas { display: block; width: 100%; height: 100%; filter: drop-shadow(0 0 8px #a48aff90) drop-shadow(0 0 24px #b59af550); }
 @media (max-width: 767px) {
-  .neon-thread { opacity: .2; }
+  .neon-thread { opacity: .45; }
   .footer-content { position: relative; clear: both; }
 }

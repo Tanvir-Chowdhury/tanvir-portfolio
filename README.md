@@ -68,9 +68,10 @@ from Fontsource; their licenses are in `public/licenses/`.
 Kage was a motion reference, not a separate destination. The demo button,
 iframe, route and copied template assets have been removed.
 
-- `CinematicScene.tsx`: one continuous, low-opacity Three.js neon thread,
-  with a camera that follows full-page scroll in either direction on desktop
-  and mobile. Loaded as a separate local bundle, rendered on demand with a
+- `CinematicScene.tsx`: a rounded Three.js neon sculpture with volumetric glow,
+  moving from right to left and toward the viewer as the page scrolls on desktop
+  and mobile, plus subtle desktop pointer parallax. It sits behind the content.
+  Loaded as a separate local bundle, rendered on demand with a
   1.5 pixel ratio cap, and paused in hidden tabs.
 - `ChapterFlow.tsx`: native-scroll progress, chapter navigation, hero departure,
   and project stack progression; no wheel interception or scroll hijacking.
@@ -80,7 +81,7 @@ iframe, route and copied template assets have been removed.
 The existing portrait, typography, amber/purple palette and content are kept.
 The desktop portrait dots and photo share the same image fit and dimensions.
 Mobile uses the static portrait and normal document flow, with a centered footer
-below its scrolling text strip. Reduced motion keeps the neon thread static
+below its scrolling text strip. Reduced motion keeps the neon sculpture static
 and removes hero pinning and project stacking. CSS atmosphere and readable
 content remain available if WebGL cannot initialize.
 
@@ -96,8 +97,9 @@ Check the production output under the repository subpath on a plain static
 server, then verify the deployment at the live URL:
 
 - The home page loads directly and after refresh; there is no Explore Kage link.
-- Desktop: scroll through the pinned hero and project stack; the neon thread
-  follows the entire page on desktop and mobile, including reverse scrolling.
+- Desktop: scroll through the pinned hero and project stack; the neon sculpture
+  sweeps left and approaches through the entire page on desktop and mobile,
+  including reverse scrolling.
 - About, Work and Contact navigation reaches the correct section; chapter links
   work with both pointer and keyboard input.
 - All project filters work and project details open with Enter or Space.
