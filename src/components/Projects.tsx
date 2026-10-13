@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ArrowDown, ArrowUpRight, Github } from 'lucide-react';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
-import { PROJECTS, type Project } from '@/data/content';
+import { PROJECTS, STATS, type Project } from '@/data/content';
 import ProjectArt from '@/components/ProjectArt';
 
 /* --- Filters -------------------------------------------------------------- */
@@ -18,82 +18,46 @@ const FILTERS = [
 
 type FilterKey = (typeof FILTERS)[number]['key'];
 
-/** Archive cards shown before "Show all", so the page stays a story, not a list. */
-const ARCHIVE_PREVIEW = 6;
+/** The three stories told in the spotlight; everything else lives in the index. */
+const SPOTLIGHT = [PROJECTS[0], PROJECTS[4], PROJECTS[6]];
+const ARCHIVE = PROJECTS.filter((project) => !SPOTLIGHT.includes(project));
+
+/** Index rows shown before "Show all", so the section stays one confident screen of work. */
+const INDEX_PREVIEW = 8;
+
+const pad = (n: number) => String(n).padStart(2, '0');
 
 /* --- Component ------------------------------------------------------------ */
 
 const Projects = () => {
-  const projects = PROJECTS;
+  const [active, setActive] = useState(0);
   const [filter, setFilter] = useState<FilterKey>('all');
-  const [selected, setSelected] = useState<Project | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [hovered, setHovered] = useState<Project | null>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   const counts = useMemo(() => {
-    const map: Record<string, number> = { all: projects.length };
-    projects.forEach((p) => {
+    const map: Record<string, number> = { all: ARCHIVE.length };
+    ARCHIVE.forEach((p) => {
       map[p.category] = (map[p.category] || 0) + 1;
     });
     return map;
-  }, [projects]);
+  }, []);
 
-  const visible = filter === 'all' ? projects : projects.filter((p) => p.category === filter);
+  const filtered = filter === 'all' ? ARCHIVE : ARCHIVE.filter((p) => p.category === filter);
+  const rows = showAll ? filtered : filtered.slice(0, INDEX_PREVIEW);
+  const story = SPOTLIGHT[active];
 
-  const featured = filter === 'all' ? [projects[0], projects[4], projects[6]] : [];
-  const remaining = visible.filter(project => !featured.includes(project));
-  const shown = showAll ? remaining : remaining.slice(0, ARCHIVE_PREVIEW);
-  const renderCard = (project: Project, i: number, featured = false) => (
-    <article
-      onClick={() => setSelected(project)}
-      role="button"
-      tabIndex={0}
-      aria-label={`View ${project.title}`}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(project); } }}
-      key={project.title}
-      data-tilt
-      style={featured ? { top: `${100 + i * 20}px` } : undefined}
-      className={`${featured ? 'featured-project' : ''} group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card transition-colors duration-500 hover:border-foreground/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent`}
-    >
-      <div className="project-art relative aspect-[16/9] overflow-hidden border-b border-border bg-secondary/40">
-        <span className="absolute left-5 top-4 z-10 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
-          {String(i + 1).padStart(2, '0')}
-        </span>
-        <div className="tilt-depth absolute inset-0">
-          <ProjectArt kind={project.art} />
-        </div>
-      </div>
-      <div className="project-story p-6 md:p-7">
-        <div className="mono-label">
-          {project.categoryLabel} · {project.type}
-        </div>
-        <h3 className="mt-3 font-wide text-2xl md:text-[1.7rem] font-extrabold uppercase leading-tight tracking-tight transition-colors group-hover:text-primary">
-          {project.title}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{project.description}</p>
-        {project.outcome && (
-          <p className="mt-3 text-sm font-medium text-foreground">
-            <span className="text-accent">→ </span>
-            {project.outcome}
-          </p>
-        )}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-1.5">
-            {project.technologies.slice(0, 4).map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-accent">
-            Open <ArrowUpRight className="h-3.5 w-3.5" />
-          </span>
-        </div>
-      </div>
-    </article>
-  );
+  // The floating preview follows the cursor without re-rendering React.
+  const movePreview = (e: React.PointerEvent) => {
+    const el = previewRef.current;
+    if (!el || e.pointerType !== 'mouse') return;
+    el.style.setProperty('--x', `${e.clientX}px`);
+    el.style.setProperty('--y', `${e.clientY}px`);
+    el.style.setProperty('--lean', `${Math.max(-1, Math.min(1, e.movementX / 12))}`);
+    el.style.setProperty('--flip', e.clientX > innerWidth - 400 ? '1' : '0');
+  };
 
   return (
     <section id="work" className="relative px-4 md:px-8 py-24 md:py-32">
@@ -107,51 +71,173 @@ const Projects = () => {
               Things I&apos;ve <span className="serif-accent normal-case">built.</span>
             </>
           }
-          desc="Real products and campaigns — the problem they solve and what they did. Open a card for the full story."
+          desc="Real products and campaigns: the problem they solve and what they did. Open any project for the full story."
         />
 
-        {/* Filter pills */}
-        <div className="mb-12 flex flex-wrap gap-2.5">
-          {FILTERS.map((f) => (
-            <button
-              key={f.key}
-              onClick={() => { setFilter(f.key); setShowAll(false); }}
-              className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
-                filter === f.key
-                  ? 'bg-foreground text-background'
-                  : 'border border-border bg-card/60 text-foreground/75 hover:border-primary/40 hover:text-primary'
-              }`}
-            >
-              {f.label}
-              <sup className="ml-1.5 font-mono text-[10px] opacity-70">{counts[f.key] || 0}</sup>
-            </button>
-          ))}
-        </div>
+        {/* Spotlight: three stories, one stage */}
+        <Reveal>
+          <div className="spotlight grid gap-5 lg:grid-cols-[0.85fr_1.4fr]">
+            <div className="flex flex-col justify-between gap-8">
+            <ol className="flex flex-col gap-2" aria-label="Featured projects">
+              {SPOTLIGHT.map((project, i) => (
+                <li key={project.title}>
+                  <button
+                    onClick={() => setActive(i)}
+                    aria-current={active === i ? 'true' : undefined}
+                    className="spotlight-tab group w-full rounded-2xl p-5 text-left"
+                  >
+                    <div className="flex items-baseline gap-4">
+                      <span className="font-mono text-xs text-accent">{pad(i + 1)}</span>
+                      <div className="min-w-0 flex-1">
+                        <div className="mono-label">{project.categoryLabel}</div>
+                        <div className="mt-1.5 font-wide text-lg font-extrabold uppercase leading-tight tracking-tight">
+                          {project.title}
+                        </div>
+                        <div className="spotlight-outcome text-sm text-muted-foreground">
+                          <span className="text-accent">→ </span>{project.outcome}
+                        </div>
+                      </div>
+                    </div>
+                    {active === i && (
+                      <span
+                        className="spotlight-progress"
+                        onAnimationEnd={() => setActive((active + 1) % SPOTLIGHT.length)}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ol>
 
-        {featured.length > 0 && (
-          <div className="featured-reel" aria-label="Featured project stories">
-            <div className="mono-label mb-8">Three stories. Real outcomes.</div>
-            {featured.map((project, i) => renderCard(project, i, true))}
+            <div className="spotlight-cta hidden rounded-2xl p-6 lg:block">
+              <div className="grid grid-cols-3 gap-4">
+                {[[`${PROJECTS.length}`, 'Projects'], ['4', 'Disciplines'], [`${STATS[0].value}${STATS[0].suffix}`, 'Clients']].map(([value, label]) => (
+                  <div key={label}>
+                    <div className="font-wide text-2xl font-extrabold text-gradient-gold">{value}</div>
+                    <div className="mono-label mt-1">{label}</div>
+                  </div>
+                ))}
+              </div>
+              <a href="#contact" className="pill-outline mt-6 h-11 w-full px-5 text-sm">
+                Have something like this in mind? <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+            </div>
+
+            <article
+              data-tilt
+              key={story.title}
+              onClick={() => setSelected(story)}
+              className="spotlight-stage group relative cursor-pointer overflow-hidden rounded-3xl"
+            >
+              <div className="project-art relative aspect-[16/9] overflow-hidden border-b border-border/70">
+                <div className="tilt-depth absolute inset-0">
+                  <ProjectArt kind={story.art} />
+                </div>
+                <span className="absolute left-5 top-4 z-10 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
+                  {pad(active + 1)} / {pad(SPOTLIGHT.length)}
+                </span>
+              </div>
+              <div className="spotlight-copy p-6 md:p-8">
+                <div className="mono-label">{story.categoryLabel} · {story.type}</div>
+                <h3 className="mt-3 font-wide text-2xl font-extrabold uppercase leading-tight tracking-tight md:text-3xl">
+                  {story.title}
+                </h3>
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">{story.description}</p>
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {story.technologies.slice(0, 5).map((tech) => (
+                      <span key={tech} className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="pill-solid h-10 px-5 text-sm">
+                    Read the story <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </article>
           </div>
-        )}
-        <div className="project-archive">
-          {featured.length > 0 && <p className="mono-label mb-8">More from the archive / {remaining.length} projects</p>}
-          <div className="grid gap-6 md:grid-cols-2">
-            {shown.map((project, i) => (
-              <Reveal key={project.title} delay={Math.min(i, 4) * 60}>
-                {renderCard(project, i + featured.length)}
-              </Reveal>
+        </Reveal>
+
+        {/* Index: the rest of the archive as an editorial list */}
+        <div className="mt-20 md:mt-24">
+          <div className="mb-6 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <p className="mono-label">The archive / {ARCHIVE.length} more projects</p>
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => { setFilter(f.key); setShowAll(false); }}
+                  className={`rounded-full px-4 py-2 text-xs font-medium transition-all duration-300 ${
+                    filter === f.key
+                      ? 'bg-foreground text-background'
+                      : 'border border-border bg-card/60 text-foreground/75 hover:border-primary/40 hover:text-primary'
+                  }`}
+                >
+                  {f.label}
+                  <sup className="ml-1 font-mono text-[9px] opacity-70">{counts[f.key] || 0}</sup>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <ul
+            className="project-index border-t border-border/70"
+            onPointerMove={movePreview}
+            onPointerLeave={() => setHovered(null)}
+          >
+            {rows.map((project, i) => (
+              <li key={project.title}>
+                <button
+                  onClick={() => setSelected(project)}
+                  onPointerEnter={(e) => e.pointerType === 'mouse' && setHovered(project)}
+                  className="index-row group grid w-full grid-cols-[2.25rem_1fr_auto] items-center gap-4 border-b border-border/70 py-5 text-left md:grid-cols-[3rem_1.4fr_1fr_1fr_auto] md:py-6"
+                >
+                  <span className="font-mono text-xs text-muted-foreground">{pad(i + 1)}</span>
+                  <span className="min-w-0">
+                    <span className="index-title block font-wide text-base font-extrabold uppercase tracking-tight md:text-xl">
+                      {project.title}
+                    </span>
+                    <span className="mt-1 block text-xs text-muted-foreground md:hidden">{project.categoryLabel}</span>
+                  </span>
+                  <span className="hidden text-sm text-muted-foreground md:block">{project.type}</span>
+                  <span className="hidden font-mono text-[10px] uppercase tracking-wide text-muted-foreground md:block">
+                    {project.technologies.slice(0, 2).join(' · ')}
+                  </span>
+                  <span className="index-arrow grid h-9 w-9 place-items-center rounded-full border border-border">
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </button>
+              </li>
             ))}
-          </div>
-          {remaining.length > shown.length && (
-            <div className="mt-12 flex justify-center">
+          </ul>
+
+          {filtered.length > rows.length && (
+            <div className="mt-10 flex justify-center">
               <button onClick={() => setShowAll(true)} className="pill-outline h-12 px-7">
-                Show all {remaining.length} projects
+                Show all {filtered.length} projects
                 <ArrowDown className="h-4 w-4" />
               </button>
             </div>
           )}
         </div>
+      </div>
+
+      {/* Cursor-following preview for the index (desktop pointers only) */}
+      <div ref={previewRef} className={`index-preview ${hovered ? 'is-on' : ''}`} aria-hidden="true">
+        {hovered && (
+          <div className="index-preview-card overflow-hidden rounded-2xl">
+            <div className="relative aspect-[16/10] overflow-hidden">
+              <ProjectArt kind={hovered.art} />
+            </div>
+            <div className="border-t border-border/70 px-4 py-3 text-xs text-foreground/85">
+              <span className="text-accent">→ </span>{hovered.outcome}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Detail dialog */}

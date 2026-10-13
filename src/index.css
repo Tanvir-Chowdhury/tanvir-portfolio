@@ -556,18 +556,6 @@
   .reading-progress { display: none; }
 }
 
-.featured-reel { padding-bottom: 8vh; }
-.featured-project { --covered: 0; margin-bottom: 28px; }
-.featured-project .project-story h3 { font-size: clamp(1.6rem, 2.7vw, 2.65rem); }
-.project-archive { position: relative; padding-top: 40px; }
-@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-  .featured-project { position: sticky; display: grid; grid-template-columns: 1.15fr 1fr; min-height: 450px; margin-bottom: 20vh; box-shadow: 0 -20px 65px #080a10a0; transform: scale(calc(1 - var(--covered) * .045)); transform-origin: center top; filter: brightness(calc(1 - var(--covered) * .3)); }
-  .featured-project .project-art { aspect-ratio: auto; min-height: 450px; border-bottom: 0; border-right: 1px solid hsl(var(--border)); }
-  .featured-project .project-story { display: flex; flex-direction: column; justify-content: center; padding: 36px; }
-  .featured-project .project-story > .mono-label { font-size: 9px; }
-  .featured-project .project-story > p { font-size: 14px; }
-  .featured-project:last-child { margin-bottom: 0; }
-}
 @media (min-width: 1024px) {
   .cinematic-portfolio main > section:not(.cinema-hero) { padding-inline: clamp(32px, 5vw, 80px); }
 }
@@ -595,20 +583,15 @@
   .cinema-hero h1 > span:last-child { transform: translate3d(calc(var(--px) * -6px), calc(var(--py) * -3px), 0); }
 }
 @media (min-width: 768px) { .tilt-depth { transform: scale(1.2); } }
-@media (min-width: 1024px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-  /* The sticky stack keeps its scroll scale; the tilt composes with it and stays gentle. */
-  .featured-project[data-tilt] { --tilt: 3deg; transform: perspective(1600px) rotateX(calc(var(--ty) * var(--tilt) * -1)) rotateY(calc(var(--tx) * var(--tilt))) scale(calc(1 - var(--covered) * .045)); }
-  .featured-project .tilt-depth { scale: 1.4; }
-}
 
 /* Services: premium pillars with a travelling light border, and the signature offer. */
 @property --pillar-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
 @keyframes pillar-orbit { to { --pillar-angle: 360deg; } }
 .text-gradient-gold { background: linear-gradient(100deg, hsl(var(--accent)), #ffd98a 55%, hsl(var(--accent))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .trap-answer { background: linear-gradient(135deg, hsl(var(--accent) / .16), hsl(var(--primary) / .12)); border: 1px solid hsl(var(--accent) / .45); box-shadow: 0 0 40px -12px hsl(var(--accent) / .45); }
-.service-pillar, .sprint-card { isolation: isolate; background: linear-gradient(165deg, hsl(var(--card)) 0%, hsl(var(--card) / .72) 100%); border: 1px solid hsl(var(--border)); }
-.service-pillar::before, .sprint-card::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--pillar-angle), transparent 0 55%, hsl(var(--accent)) 72%, hsl(var(--primary)) 86%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .35; transition: opacity .5s; animation: pillar-orbit 7s linear infinite; }
-.service-pillar:hover::before, .sprint-card:hover::before { opacity: 1; }
+.service-pillar, .sprint-card, .spotlight-stage { isolation: isolate; background: linear-gradient(165deg, hsl(var(--card)) 0%, hsl(var(--card) / .72) 100%); border: 1px solid hsl(var(--border)); }
+.service-pillar::before, .sprint-card::before, .spotlight-stage::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--pillar-angle), transparent 0 55%, hsl(var(--accent)) 72%, hsl(var(--primary)) 86%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .35; transition: opacity .5s; animation: pillar-orbit 7s linear infinite; }
+.service-pillar:hover::before, .sprint-card:hover::before, .spotlight-stage:hover::before { opacity: 1; }
 .service-numeral { position: absolute; right: 18px; bottom: 0; z-index: -1; font-size: 7.5rem; line-height: 1; opacity: .16; transition: opacity .5s, transform .7s var(--ease-premium); }
 .service-pillar:hover .service-numeral { opacity: .32; transform: translateY(-6px); }
 .sprint-card { background: radial-gradient(ellipse at 0% 0%, hsl(var(--accent) / .12), transparent 55%), radial-gradient(ellipse at 100% 100%, hsl(var(--primary) / .14), transparent 55%), hsl(var(--card) / .9); }
@@ -617,5 +600,43 @@
 .sprint-dot { background: hsl(var(--background)); border: 1px solid hsl(var(--accent) / .6); color: hsl(var(--accent)); box-shadow: 0 0 18px -4px hsl(var(--accent) / .6); }
 .sprint-step:last-child .sprint-dot { background: hsl(var(--accent)); color: hsl(var(--background)); }
 @media (prefers-reduced-motion: reduce) {
-  .service-pillar::before, .sprint-card::before { animation: none; }
+  .service-pillar::before, .sprint-card::before, .spotlight-stage::before { animation: none; }
 }
+
+/* Work: a spotlight stage for three stories, and an editorial index for the rest. */
+.spotlight-tab { position: relative; overflow: hidden; border: 1px solid transparent; transition: background .4s, border-color .4s, box-shadow .4s; }
+.spotlight-tab:hover { background: hsl(var(--card) / .45); }
+.spotlight-tab .font-wide { color: hsl(var(--foreground) / .5); transition: color .4s; }
+.spotlight-tab[aria-current] { background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--card) / .55)); border-color: hsl(var(--accent) / .35); box-shadow: 0 0 45px -20px hsl(var(--accent) / .6); }
+.spotlight-tab[aria-current] .font-wide { color: hsl(var(--foreground)); }
+.spotlight-outcome { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .6s var(--ease-premium), opacity .5s, margin .6s var(--ease-premium); }
+.spotlight-tab[aria-current] .spotlight-outcome { max-height: 5rem; opacity: 1; margin-top: .6rem; }
+.spotlight-progress { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, hsl(var(--accent)), hsl(var(--primary))); transform-origin: left; animation: spotlight-run 7s linear forwards; }
+.spotlight:hover .spotlight-progress, .spotlight:focus-within .spotlight-progress { animation-play-state: paused; }
+@keyframes spotlight-run { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.spotlight-stage { animation: stage-in .8s var(--ease-premium); }
+.spotlight-stage .project-art { background: radial-gradient(ellipse at 30% 20%, hsl(var(--primary) / .14), transparent 60%), radial-gradient(ellipse at 80% 90%, hsl(var(--accent) / .1), transparent 55%), hsl(var(--secondary) / .4); }
+.spotlight-stage[data-tilt] { --tilt: 3.5deg; }
+@keyframes stage-in { from { opacity: 0; filter: blur(10px); } }
+@media (min-width: 768px) { .spotlight-stage .tilt-depth { transform: scale(1.45); } }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .spotlight-stage[data-tilt] .tilt-depth { transform: translate3d(calc(var(--tx) * -14px), calc(var(--ty) * -14px), 0) scale(1.45); }
+}
+
+.index-row { position: relative; isolation: isolate; transition: color .3s; }
+.index-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, hsl(var(--accent) / .09), hsl(var(--primary) / .05) 55%, transparent); transform: scaleY(0); transform-origin: bottom; transition: transform .5s var(--ease-premium); }
+.index-row:hover::before, .index-row:focus-visible::before { transform: scaleY(1); }
+.index-title { transition: transform .5s var(--ease-premium), color .3s; }
+.index-row:hover .index-title, .index-row:focus-visible .index-title { transform: translateX(10px); color: hsl(var(--accent)); }
+.index-arrow { transition: background .3s, color .3s, border-color .3s, transform .5s var(--ease-premium); }
+.index-row:hover .index-arrow, .index-row:focus-visible .index-arrow { background: hsl(var(--accent)); border-color: hsl(var(--accent)); color: hsl(var(--background)); transform: rotate(45deg); }
+
+.index-preview { position: fixed; left: 0; top: 0; z-index: 45; width: 340px; pointer-events: none; --x: -400px; --y: -400px; --lean: 0; --flip: 0; transform: translate3d(var(--x), var(--y), 0); transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
+.index-preview-card { background: hsl(var(--card)); border: 1px solid hsl(var(--accent) / .3); box-shadow: 0 30px 70px -20px #000, 0 0 50px -20px hsl(var(--primary) / .5); opacity: 0; transform: translate(calc(28px - var(--flip) * (100% + 56px)), -50%) perspective(900px) rotateY(calc(var(--lean) * -14deg)) rotateZ(calc(var(--lean) * 3deg)) scale(.85); transition: opacity .3s, transform .45s var(--ease-premium); }
+.index-preview.is-on .index-preview-card { opacity: 1; transform: translate(calc(28px - var(--flip) * (100% + 56px)), -50%) perspective(900px) rotateY(calc(var(--lean) * -14deg)) rotateZ(calc(var(--lean) * 3deg)) scale(1); }
+@media (hover: none), (pointer: coarse), (max-width: 767px) { .index-preview { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .spotlight-progress { display: none; }
+  .spotlight-stage { animation: none; }
+}
+.spotlight-cta { border: 1px dashed hsl(var(--border)); background: hsl(var(--background) / .35); }

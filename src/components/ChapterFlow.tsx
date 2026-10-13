@@ -29,14 +29,6 @@ export default function ChapterFlow() {
       setActive(previous => previous === next ? previous : next);
       const max = document.documentElement.scrollHeight - height;
       if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
-      const cards = [...document.querySelectorAll<HTMLElement>('.featured-project')];
-      cards.forEach((card, i) => {
-        const next = cards[i + 1];
-        const distance = next ? next.getBoundingClientRect().top - (100 + i * 20) : height;
-        const covered = reduced.matches ? 0 : Math.max(0, Math.min(1, 1 - distance / height));
-        card.style.setProperty('--covered', String(covered));
-      });
-
     };
     const queue = () => { if (!raf) raf = requestAnimationFrame(update); };
     const observer = new ResizeObserver(queue);
