@@ -600,3 +600,22 @@
   .featured-project[data-tilt] { --tilt: 3deg; transform: perspective(1600px) rotateX(calc(var(--ty) * var(--tilt) * -1)) rotateY(calc(var(--tx) * var(--tilt))) scale(calc(1 - var(--covered) * .045)); }
   .featured-project .tilt-depth { scale: 1.4; }
 }
+
+/* Services: premium pillars with a travelling light border, and the signature offer. */
+@property --pillar-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@keyframes pillar-orbit { to { --pillar-angle: 360deg; } }
+.text-gradient-gold { background: linear-gradient(100deg, hsl(var(--accent)), #ffd98a 55%, hsl(var(--accent))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.trap-answer { background: linear-gradient(135deg, hsl(var(--accent) / .16), hsl(var(--primary) / .12)); border: 1px solid hsl(var(--accent) / .45); box-shadow: 0 0 40px -12px hsl(var(--accent) / .45); }
+.service-pillar, .sprint-card { isolation: isolate; background: linear-gradient(165deg, hsl(var(--card)) 0%, hsl(var(--card) / .72) 100%); border: 1px solid hsl(var(--border)); }
+.service-pillar::before, .sprint-card::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--pillar-angle), transparent 0 55%, hsl(var(--accent)) 72%, hsl(var(--primary)) 86%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .35; transition: opacity .5s; animation: pillar-orbit 7s linear infinite; }
+.service-pillar:hover::before, .sprint-card:hover::before { opacity: 1; }
+.service-numeral { position: absolute; right: 18px; bottom: 0; z-index: -1; font-size: 7.5rem; line-height: 1; opacity: .16; transition: opacity .5s, transform .7s var(--ease-premium); }
+.service-pillar:hover .service-numeral { opacity: .32; transform: translateY(-6px); }
+.sprint-card { background: radial-gradient(ellipse at 0% 0%, hsl(var(--accent) / .12), transparent 55%), radial-gradient(ellipse at 100% 100%, hsl(var(--primary) / .14), transparent 55%), hsl(var(--card) / .9); }
+.sprint-card[data-tilt] { --tilt: 2.5deg; }
+.sprint-step:not(:last-child)::before { content: ''; position: absolute; left: 17.5px; top: 36px; bottom: 0; width: 1px; background: linear-gradient(hsl(var(--accent) / .7), hsl(var(--primary) / .5)); }
+.sprint-dot { background: hsl(var(--background)); border: 1px solid hsl(var(--accent) / .6); color: hsl(var(--accent)); box-shadow: 0 0 18px -4px hsl(var(--accent) / .6); }
+.sprint-step:last-child .sprint-dot { background: hsl(var(--accent)); color: hsl(var(--background)); }
+@media (prefers-reduced-motion: reduce) {
+  .service-pillar::before, .sprint-card::before { animation: none; }
+}

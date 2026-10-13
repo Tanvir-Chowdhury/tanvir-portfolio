@@ -44,43 +44,67 @@ export const MARQUEE_ITEMS = [
   "Chatbots",
 ];
 
+/* Services, written from the LinkedIn positioning: one interim growth partner,
+   three pillars, one signature offer. */
+
+export const EXECUTION_TRAP = [
+  { who: "Big agencies", pain: "Too slow, and $50k+ before anything ships." },
+  { who: "Cheap freelancers", pain: "Buggy code, messy design, gone after delivery." },
+  { who: "Doing it yourself", pain: "20+ hours a week of manual work instead of strategy." },
+];
+
 export interface Service {
   id: string;
+  role: string;
   title: string;
   description: string;
-  goodFor: string[];
+  deliverables: string[];
+  proof: { value: string; label: string };
 }
 
 export const SERVICES: Service[] = [
   {
-    id: "web",
-    title: "Web Development",
+    id: "tech",
+    role: "The Asset",
+    title: "Custom Tech",
     description:
-      "Fast, modern websites and web apps — from landing pages to full platforms and online stores. Built to look great, load fast, and turn visitors into customers.",
-    goodFor: ["Landing pages & portfolios", "Online stores", "Web apps & dashboards", "WordPress sites"],
+      "High-performance web apps and websites that load instantly and hold up to investor due diligence. No buggy MVPs.",
+    deliverables: ["SaaS MVPs & web apps", "Conversion-led websites", "Dashboards & internal tools", "Auth, payments & onboarding"],
+    proof: { value: "2.1% → 5.3%", label: "Homepage conversion after a structural rebuild" },
   },
   {
-    id: "ai",
-    title: "AI & Automation",
+    id: "brand",
+    role: "The Trust",
+    title: "Premium Branding",
     description:
-      "Chatbots, AI assistants and workflow automations that answer your customers and handle repetitive work — around the clock, without hiring.",
-    goodFor: ["Customer-support bots", "Assistants trained on your data", "Scrapers & internal tools", "Content generation"],
+      "A visual identity and message that make your agency or startup look like the market leader from day one.",
+    deliverables: ["Brand identity systems", "Positioning & messaging", "Website & social presence", "Marketing strategy"],
+    proof: { value: "3x", label: "Conversions on the same traffic after a rebrand" },
   },
   {
-    id: "marketing",
-    title: "Marketing & Growth",
+    id: "automation",
+    role: "The Speed",
+    title: "AI Automation",
     description:
-      "Campaigns, content and branding grounded in real data. From social media to a full brand identity — designed to grow reach and revenue.",
-    goodFor: ["Social media campaigns", "Brand identity", "Content engines", "Ad performance analysis"],
-  },
-  {
-    id: "data",
-    title: "Data & Analytics",
-    description:
-      "Dashboards and analysis that show what's actually working — so your next decision is a fact, not a guess.",
-    goodFor: ["Performance dashboards", "Competitor research", "Data visualizations", "Reporting automations"],
+      "Smart n8n and AI workflows that replace manual busywork in onboarding, reporting and lead generation.",
+    deliverables: ["n8n workflow automation", "AI agents & chatbots", "Lead-gen & follow-up systems", "Automated reporting"],
+    proof: { value: "500+ hrs", label: "Saved for founders on manual work" },
   },
 ];
+
+export const MVP_SPRINT = {
+  name: "SaaS MVP Sprint",
+  pitch: "From an idea in your head to your first paying customer.",
+  timeline: "6–8 weeks",
+  price: "Under $8k",
+  versus: "Agencies quote $50k+ and six months.",
+  steps: [
+    { when: "Week 1–2", title: "Map the core", result: "A focused roadmap" },
+    { when: "Week 3–4", title: "Build the MVP", result: "A working product" },
+    { when: "Week 5", title: "Launch to early users", result: "Real feedback" },
+    { when: "Week 6", title: "First paying customer", result: "Revenue & validation" },
+  ],
+};
 
 export type ProjectArtKey =
   | 'schedule' | 'shield' | 'space' | 'telegram' | 'stream' | 'shorts'
