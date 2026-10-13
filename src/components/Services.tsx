@@ -22,7 +22,7 @@ const Services = () => {
         <div className="grid gap-5 md:grid-cols-2">
           {SERVICES.map((service, i) => (
             <Reveal key={service.id} delay={i * 70}>
-              <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-7 md:p-9 transition-all duration-500 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
+              <article data-tilt className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card p-7 md:p-9 transition-all duration-500 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5">
                 {/* Hover glow */}
                 <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-primary/10 blur-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 

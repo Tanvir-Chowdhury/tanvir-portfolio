@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ArrowUpRight, Github } from 'lucide-react';
+import { ArrowDown, ArrowUpRight, Github } from 'lucide-react';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
 import { PROJECTS, type Project } from '@/data/content';
@@ -18,12 +18,16 @@ const FILTERS = [
 
 type FilterKey = (typeof FILTERS)[number]['key'];
 
+/** Archive cards shown before "Show all", so the page stays a story, not a list. */
+const ARCHIVE_PREVIEW = 6;
+
 /* --- Component ------------------------------------------------------------ */
 
 const Projects = () => {
   const projects = PROJECTS;
   const [filter, setFilter] = useState<FilterKey>('all');
   const [selected, setSelected] = useState<Project | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const counts = useMemo(() => {
     const map: Record<string, number> = { all: projects.length };
@@ -37,6 +41,7 @@ const Projects = () => {
 
   const featured = filter === 'all' ? [projects[0], projects[4], projects[6]] : [];
   const remaining = visible.filter(project => !featured.includes(project));
+  const shown = showAll ? remaining : remaining.slice(0, ARCHIVE_PREVIEW);
   const renderCard = (project: Project, i: number, featured = false) => (
     <article
       onClick={() => setSelected(project)}
@@ -45,14 +50,17 @@ const Projects = () => {
       aria-label={`View ${project.title}`}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelected(project); } }}
       key={project.title}
+      data-tilt
       style={featured ? { top: `${100 + i * 20}px` } : undefined}
-      className={`${featured ? 'featured-project' : ''} group cursor-pointer overflow-hidden rounded-3xl border border-border bg-card transition-colors duration-500 hover:border-foreground/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent`}
+      className={`${featured ? 'featured-project' : ''} group relative cursor-pointer overflow-hidden rounded-3xl border border-border bg-card transition-colors duration-500 hover:border-foreground/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent`}
     >
       <div className="project-art relative aspect-[16/9] overflow-hidden border-b border-border bg-secondary/40">
         <span className="absolute left-5 top-4 z-10 font-mono text-[10px] tracking-[0.2em] text-muted-foreground">
           {String(i + 1).padStart(2, '0')}
         </span>
-        <ProjectArt kind={project.art} />
+        <div className="tilt-depth absolute inset-0">
+          <ProjectArt kind={project.art} />
+        </div>
       </div>
       <div className="project-story p-6 md:p-7">
         <div className="mono-label">
@@ -107,7 +115,7 @@ const Projects = () => {
           {FILTERS.map((f) => (
             <button
               key={f.key}
-              onClick={() => setFilter(f.key)}
+              onClick={() => { setFilter(f.key); setShowAll(false); }}
               className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
                 filter === f.key
                   ? 'bg-foreground text-background'
@@ -129,12 +137,20 @@ const Projects = () => {
         <div className="project-archive">
           {featured.length > 0 && <p className="mono-label mb-8">More from the archive / {remaining.length} projects</p>}
           <div className="grid gap-6 md:grid-cols-2">
-            {remaining.map((project, i) => (
+            {shown.map((project, i) => (
               <Reveal key={project.title} delay={Math.min(i, 4) * 60}>
                 {renderCard(project, i + featured.length)}
               </Reveal>
             ))}
           </div>
+          {remaining.length > shown.length && (
+            <div className="mt-12 flex justify-center">
+              <button onClick={() => setShowAll(true)} className="pill-outline h-12 px-7">
+                Show all {remaining.length} projects
+                <ArrowDown className="h-4 w-4" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

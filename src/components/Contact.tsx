@@ -11,12 +11,13 @@ import {
   Mail,
   MessageCircle,
   Send,
+  type LucideIcon,
 } from 'lucide-react';
 import SectionHead from '@/components/SectionHead';
 import Reveal from '@/components/Reveal';
 import { PROFILE, SOCIALS } from '@/data/content';
 
-const SOCIAL_ICONS: Record<string, any> = {
+const SOCIAL_ICONS: Record<string, LucideIcon> = {
   GitHub: Github,
   LinkedIn: Linkedin,
   Facebook: Facebook,

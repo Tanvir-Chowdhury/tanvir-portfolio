@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import ParticlePortrait from '@/components/ParticlePortrait';
-import { PROFILE } from '@/data/content';
+import { PROFILE, STATS } from '@/data/content';
 import profilePic from '@/assets/profile.webp';
 
 const RollWord = ({ word, className }: { word: string; className: string }) => (
@@ -67,6 +67,14 @@ const Hero = () => {
               <ArrowDown className="h-4 w-4" />
             </a>
           </div>
+          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            {['Replies within 24h', `${STATS[0].value}${STATS[0].suffix} clients`, `${STATS[2].value}${STATS[2].suffix} projects shipped`].map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_hsl(var(--accent))]" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-12 flex items-center gap-3 lg:max-w-[50%]">

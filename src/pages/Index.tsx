@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import About from '@/components/About';
 import CinematicScene from '@/components/CinematicScene';
 import ChapterFlow from '@/components/ChapterFlow';
+import { useTilt3D } from '@/hooks/use-tilt';
 
 // Below-fold sections are code-split: the hero paints from the small main
 // bundle, everything else prefetches in the background right after load.
@@ -33,6 +34,8 @@ const SectionFallback = ({ height }: { height: number }) => (
 );
 
 const Index = () => {
+  useTilt3D();
+
   // The app routes through HashRouter, so in-page anchors must scroll manually
   // instead of letting the browser rewrite location.hash.
   useEffect(() => {
