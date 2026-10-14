@@ -19,7 +19,17 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]['key'];
 
 /** Highlight reel for the 3D stage, mixed across disciplines; the rest live in the index. */
-const HIGHLIGHTS = [0, 4, 6, 1, 7, 2, 12].map((i) => PROJECTS[i]);
+const HIGHLIGHT_TITLES = [
+  'LucentEdit',
+  'NSU Class Schedule Manager',
+  'StreamFlex',
+  '500K Organic Reach Campaign',
+  'WebShieldAI',
+  'Brand Identity Studio',
+  'NASA Space Apps — AI Research Assistant',
+  'DataLens — Paris Olympics 2024',
+];
+const HIGHLIGHTS = HIGHLIGHT_TITLES.map((title) => PROJECTS.find((p) => p.title === title)!);
 const ARCHIVE = PROJECTS.filter((project) => !HIGHLIGHTS.includes(project));
 
 /** Index rows shown before "Show all". */
@@ -385,7 +395,7 @@ const Projects = () => {
                 <div className="mt-8 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row">
                   {selected.demo && selected.demo !== '#' ? (
                     <a href={selected.demo} target="_blank" rel="noopener noreferrer" className="pill-solid flex-1 h-12">
-                      Live demo
+                      {selected.demo.includes('/releases') ? 'Download' : 'Live demo'}
                       <ArrowUpRight className="h-4 w-4" />
                     </a>
                   ) : (

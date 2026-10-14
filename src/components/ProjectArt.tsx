@@ -520,6 +520,73 @@ const Art = ({ kind }: { kind: ProjectArtKey }) => {
         </div>
       );
 
+    /* LucentEdit — an editor window: tools, a canvas being drawn on, layers and an MCP agent */
+    case 'lucent':
+      return (
+        <div className="flex h-full w-full items-center justify-center p-6">
+          <div className="art-float flex w-72 overflow-hidden rounded-xl border border-foreground/15 bg-card/90">
+            <div className="flex w-6 flex-col items-center gap-1.5 border-r border-foreground/10 py-2">
+              {[...Array(6)].map((_, i) => (
+                <span key={i} className={`h-2.5 w-2.5 rounded-sm ${i === 2 ? 'bg-accent' : 'bg-foreground/15'}`} />
+              ))}
+            </div>
+            <div className="relative grid flex-1 place-items-center bg-background/60 p-3">
+              <div className="relative h-20 w-28 rounded-md bg-gradient-to-br from-primary/50 to-accent/40">
+                <span className="art-pulse-soft absolute left-3 top-3 h-7 w-7 rounded-full bg-accent/80" />
+                <span className="absolute bottom-3 right-3 h-5 w-12 rounded-sm border border-foreground/40" />
+              </div>
+              <Chip className="absolute bottom-1.5 left-1.5 bg-primary/25 text-primary">MCP · agent</Chip>
+            </div>
+            <div className="w-20 space-y-1.5 border-l border-foreground/10 p-2">
+              <div className="font-mono text-[7px] uppercase tracking-wider text-muted-foreground">Layers</div>
+              {['Text', 'Shape', 'Photo'].map((layer, i) => (
+                <div key={layer} className={`rounded px-1.5 py-1 font-mono text-[7px] ${i === 0 ? 'bg-accent/25 text-accent' : 'bg-foreground/8 text-muted-foreground'}`}>
+                  {layer}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+
+    /* BD Phone Guard — a messy number normalised into a clean one */
+    case 'phoneguard':
+      return (
+        <div className="flex h-full w-full items-center justify-center gap-4 p-8">
+          <div className="rounded-lg border border-destructive/40 bg-card/90 px-3 py-2 font-mono text-[10px] text-muted-foreground line-through decoration-destructive/60">
+            ০১৭১২-৩৪৫ ৬৭৮
+          </div>
+          <span className="art-blink text-accent">→</span>
+          <div className="art-float rounded-lg border border-green-500/50 bg-card/90 px-3 py-2">
+            <div className="font-mono text-[11px] text-foreground">01712-345678</div>
+            <div className="mt-1 flex items-center gap-1 font-mono text-[7px] uppercase tracking-wider text-green-500">
+              <Dot className="bg-green-500" /> valid · COD ready
+            </div>
+          </div>
+        </div>
+      );
+
+    /* AI C++ Telegram Bot — a C++ question answered with code */
+    case 'cppbot':
+      return (
+        <div className="flex h-full w-full items-center justify-center p-8">
+          <div className="w-52 space-y-2">
+            <div className="ml-auto w-32 rounded-lg rounded-br-sm bg-foreground/10 px-2.5 py-1.5 font-mono text-[8px] text-foreground/80">
+              how do pointers work?
+            </div>
+            <div className="art-float w-44 rounded-lg rounded-bl-sm border border-primary/30 bg-card/90 p-2.5">
+              <Chip className="bg-primary/20 text-primary">C++ bot</Chip>
+              <div className="mt-2 font-mono text-[8px] leading-relaxed text-muted-foreground">
+                <span className="text-accent">int</span>* p = &amp;x;
+                <br />
+                *p = <span className="text-accent">42</span>;
+              </div>
+              <div className="art-typing mt-1.5 h-1.5 rounded-full bg-foreground/20" style={{ maxWidth: '80%' }} />
+            </div>
+          </div>
+        </div>
+      );
+
     /* Fallback */
     default:
       return (

@@ -46,6 +46,7 @@ const Experience = () => {
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className="font-medium text-primary">{work.company}</span>
                     <span className="mono-label">{work.location}</span>
+                    {work.dates && <span className="mono-label !text-accent/80">{work.dates}</span>}
                   </div>
                   <p className="mt-2.5 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-[15px]">
                     {work.line}

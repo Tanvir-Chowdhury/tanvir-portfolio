@@ -110,7 +110,7 @@ export type ProjectArtKey =
   | 'schedule' | 'shield' | 'space' | 'telegram' | 'stream' | 'shorts'
   | 'reach' | 'brand' | 'ads' | 'rival' | 'caption' | 'scraper'
   | 'olympics' | 'sow' | 'connect' | 'rag' | 'neural' | 'live'
-  | 'fruit' | 'sale' | 'duo'
+  | 'fruit' | 'sale' | 'duo' | 'lucent' | 'phoneguard' | 'cppbot'
   | 'browser' | 'phone' | 'chart' | 'bot' | 'card'; // fallbacks
 
 export interface Project {
@@ -128,6 +128,21 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
+  {
+    title: "LucentEdit",
+    category: "ai",
+    categoryLabel: "AI & Automation",
+    type: "Open-source desktop app",
+    description:
+      "Photoshop and Illustrator cost a subscription and gigabytes of disk. LucentEdit is a free, 4 MB alternative for pixels and vectors, with a built-in MCP server so AI agents like Claude and Cursor can design alongside you.",
+    outcome: "Free Photoshop + Illustrator alternative AI agents can drive",
+    details:
+      "Layers, smart objects, masks, pen paths, 50+ filters, 19 adjustment layers, content-aware fill, PSD import/export and Photoshop's shortcuts, in a native Tauri shell (about 2 MB on Linux). A local MCP server lets any agent create documents, draw, apply filters, preview and export while you watch. MIT licensed, released for macOS, Windows and Linux.",
+    technologies: ["Tauri", "Rust", "TypeScript", "Canvas 2D", "MCP"],
+    demo: "https://github.com/Tanvir-Chowdhury/LucentEdit/releases/latest",
+    github: "https://github.com/Tanvir-Chowdhury/LucentEdit",
+    art: 'lucent',
+  },
   {
     title: "NSU Class Schedule Manager",
     category: "ai",
@@ -180,9 +195,8 @@ export const PROJECTS: Project[] = [
       "Admission students had questions at 2am and no one to ask. This bot solves doubts 24/7 in Telegram — text or a photo of the question, it explains step by step.",
     outcome: "Live 24/7 assistant for admission candidates",
     details:
-      "Covers Math, English, Analytical Ability and General Knowledge. Students mention the bot in groups or send images of questions and get student-friendly, step-by-step explanations. Deployed live on Vercel for Phoenix Education.",
+      "Covers Math, English, Analytical Ability and General Knowledge. Students mention the bot in groups or send images of questions and get student-friendly, step-by-step explanations. Built for Phoenix Education and deployed on Vercel.",
     technologies: ["Python", "Telegram Bot API", "Vercel"],
-    demo: "https://phoenix-telegram-bot-2-0-btt1.vercel.app",
     github: "https://github.com/Tanvir-Chowdhury/Phoenix_Telegram_bot_2.0",
     art: 'telegram',
   },
@@ -299,10 +313,10 @@ export const PROJECTS: Project[] = [
     type: "Data visualization",
     description:
       "Olympic data turned into charts anyone can explore — with accounts, so each visitor keeps their own view of the games.",
-    outcome: "C++ + Matplotplusplus visual analysis app",
+    outcome: "Custom C++ database engine with a Qt6 analysis dashboard",
     details:
-      "Lightweight visualization platform where users register, log in, and explore visual insights about the Paris Olympics 2024. Matplotplusplus generates the charts and graphs.",
-    technologies: ["C++", "Matplotplusplus"],
+      "A C++ application over the Paris 2024 dataset: a custom database engine built on linked lists and hash maps with CSV persistence and graph algorithms, a Qt6 GUI for tables, search and charts, and a terminal UI with role-based login for admins and users. Matplot++ draws the medal and gender analyses.",
+    technologies: ["C++", "Qt6", "Matplot++", "Data structures"],
     github: "https://github.com/Tanvir-Chowdhury/DataLens",
     art: 'olympics',
   },
@@ -416,9 +430,38 @@ export const PROJECTS: Project[] = [
     details:
       "Static websites focused on accessibility and ease of navigation: a community page for gamers and a product-based flower shop layout.",
     technologies: ["HTML", "CSS"],
-    demo: "https://tanvir-chowdhury.github.io/fruit-burst/",
+    demo: "https://tanvir-chowdhury.github.io/gamer-zone/",
+    github: "https://github.com/Tanvir-Chowdhury/gamer-zone",
     art: 'duo',
   },
+  {
+    title: "BD Phone Guard",
+    category: "web",
+    categoryLabel: "Web Development",
+    type: "WordPress plugin",
+    description:
+      "Cash-on-delivery stores lose orders to badly typed phone numbers. This plugin turns every way Bangladeshi customers type a number, Bangla digits included, into one clean number couriers and SMS tools can use.",
+    outcome: "Clean, valid numbers at WooCommerce checkout",
+    details:
+      "Validates and normalizes 11-digit Bangladeshi mobile numbers across every operator prefix, rejects junk like repeated digits, and shows errors in Bangla or English. Hooks into WooCommerce checkout and My Account, adds a shortcode with a live client-side hint, and exposes a PHP API and filters. No external services, built for the WordPress.org directory.",
+    technologies: ["PHP", "WordPress", "WooCommerce", "JavaScript"],
+    github: "https://github.com/Tanvir-Chowdhury/BDPhoneGueard",
+    art: 'phoneguard',
+  },
+  {
+    title: "AI C++ Telegram Bot",
+    category: "ai",
+    categoryLabel: "AI & Automation",
+    type: "Telegram bot",
+    description:
+      "Learning C++ means a lot of questions at odd hours. This Telegram bot answers them on the spot, powered by the OpenAI API.",
+    outcome: "Instant C++ answers inside Telegram",
+    details:
+      "A Python Telegram bot that sends C++ questions to the OpenAI API and replies with clear explanations and code, built to make learning easier for fellow C++ programmers.",
+    technologies: ["Python", "OpenAI API", "Telegram Bot API"],
+    github: "https://github.com/Tanvir-Chowdhury/cpp_tele_bot",
+    art: 'cppbot',
+  }
 ];
 
 export interface SkillGroup {
@@ -492,6 +535,8 @@ export interface ExperienceItem {
   role: string;
   company: string;
   location: string;
+  /** Exact range as listed on LinkedIn. */
+  dates?: string;
   line: string;
   achievements?: string[];
   current?: boolean;
@@ -499,35 +544,39 @@ export interface ExperienceItem {
 
 export const EXPERIENCE: ExperienceItem[] = [
   {
-    period: "2026 —",
+    period: "2026",
+    dates: "Jun 2026 – Present",
     role: "Marketing Growth & Automation Specialist",
     company: "Automata One",
-    location: "Dhaka · Hybrid",
-    line: "Building the automation behind a marketing team: ad analyzer, competitor tracker, post scraper — plus leading full marketing for Phoenix Education.",
-    achievements: ["Ad analyzer tool", "Competitor analyzer", "Post scraper", "Leading Phoenix Education marketing"],
+    location: "Dhaka · Hybrid · Full-time",
+    line: "Building the automation behind a marketing team — ad analyzer, competitor tracker and post scraper — and driving social media and marketing strategy.",
+    achievements: ["Ad analyzer tool", "Competitor analyzer", "Post scraper", "Social media & marketing strategy"],
     current: true,
   },
   {
     period: "2025",
+    dates: "Oct 2025 – Dec 2025",
     role: "Sub-Team Lead, Marketing",
     company: "Phoenix Education",
-    location: "Dhaka · Part-time",
+    location: "Dhaka · On-site · Part-time",
     line: "Led a sub-team inside the marketing department — planning, management and delivery.",
     achievements: ["Team management", "Team leadership"],
   },
   {
     period: "2025",
+    dates: "Feb 2025 – Oct 2025",
     role: "Junior Executive, PR & Marketing",
     company: "Phoenix Education",
-    location: "Dhaka · Part-time",
+    location: "Dhaka · On-site · Part-time",
     line: "Rebuilt the official website from scratch, created 150+ posts and 50+ posters, and grew page followers by 25%+ with reach in the millions.",
     achievements: ["Website redesign", "150+ posts, 50+ posters", "25%+ follower growth", "Millions in reach"],
   },
   {
     period: "2024",
+    dates: "Dec 2024 – Feb 2025",
     role: "Social Media Content Writer",
     company: "Phoenix Education",
-    location: "Dhaka · Part-time",
+    location: "Dhaka · On-site · Part-time",
     line: "Wrote and produced the brand's social media content.",
     achievements: ["Social media marketing", "Branding"],
   },
@@ -542,33 +591,38 @@ export const EXPERIENCE: ExperienceItem[] = [
   },
   {
     period: "2023",
+    dates: "May 2023 – Feb 2024",
     role: "Founder",
     company: "Your Gadgets",
-    location: "Remote · Full-time",
-    line: "Built and ran an e-commerce store on self-taught marketing — a 3x return on investment.",
-    achievements: ["3x ROI"],
+    location: "Dhaka · Remote · Self-employed",
+    line: "Launched a dropshipping gadget store end to end — website, Facebook and Instagram — and grew it on self-taught marketing to a 3x return on investment.",
+    achievements: ["3x ROI", "E-commerce website", "Social media management"],
   },
   {
     period: "2023",
+    dates: "Sep 2023 – Dec 2023",
     role: "Web Developer",
     company: "Phoenix Admission Care",
     location: "Remote · Part-time",
-    line: "Built a dynamic WordPress website with custom CSS for an education business.",
-    achievements: ["WordPress + custom CSS site"],
+    line: "Built the WordPress website with custom CSS and integrated a learning management system and WooCommerce.",
+    achievements: ["WordPress + custom CSS", "LMS integration", "WooCommerce"],
   },
   {
     period: "2022",
+    dates: "Mar 2022",
     role: "Typist",
     company: "ROOTs Edu",
-    location: "Remote · Part-time",
+    location: "Dhaka · Remote · Part-time",
     line: "Turned lecture slides into clean, print-ready book chapters — math and figures included.",
   },
   {
     period: "2021",
-    role: "Campus Ambassador Intern",
+    dates: "Aug 2021 – Oct 2021",
+    role: "Official Campus Ambassador Intern",
     company: "International MUN",
-    location: "Remote · Part-time",
-    line: "Promoted IMUN on campus and joined online conferences.",
+    location: "Remote · Internship",
+    line: "Worked with the marketing team to bring students into IMUN, and joined its online conferences.",
+    achievements: ["Networking", "Outreach"],
   },
   {
     period: "2019",
